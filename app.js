@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var helmet = require('helmet');
+var helmet = require('helmet'); // セキュリティ対策　：　X-Powered-By　ヘッダの除去
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
