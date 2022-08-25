@@ -6,7 +6,7 @@ var logger = require('morgan');
 const helmet = require('helmet'); // セキュリティ対策　：　X-Powered-By　ヘッダの除去
 const session = require('express-session');
 const passport = require('passport');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv'); //環境変数を追加するために
 
 dotenv.config();
 const env = process.env;
