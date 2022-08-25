@@ -3,7 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var helmet = require('helmet'); // セキュリティ対策　：　X-Powered-By　ヘッダの除去
+const helmet = require('helmet'); // セキュリティ対策　：　X-Powered-By　ヘッダの除去
+const session = require('express-session');
+const passport = require('passport');
+const dotenv = require('dotenv');
+
+dotenv.config();
+const env = process.env;
+console.log(env.GITHUB_CLIENT_ID);
+console.log(env.GITHUB_CLIENT_SECRET);
+const GitHubStrategy = require('passport-github2').Strategy;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
