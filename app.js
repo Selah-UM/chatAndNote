@@ -8,11 +8,31 @@ const session = require('express-session');
 const passport = require('passport');
 const dotenv = require('dotenv'); //環境変数を追加するために
 
+//GitHub認証関連
 dotenv.config();
 const env = process.env;
-console.log(env.GITHUB_CLIENT_ID);
-console.log(env.GITHUB_CLIENT_SECRET);
+// console.log(env.GITHUB_CLIENT_ID);
+// console.log(env.GITHUB_CLIENT_SECRET);
 const GitHubStrategy = require('passport-github2').Strategy;
+const GITHUB_CLIENT_ID = env.GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = env.GITHUB_CLIENT_SECRET;
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
+passport.use(new GitHubStrategy({
+  clientID     : GITHUB_CLIENT_ID,
+  clientSecret : GITHUB_CLIENT_SECRET,
+  callbackURL  : 'http://localhost:8000/auth/github/callback'
+},function (accessToken, refreshToken, profile, done){
+  process.nextTick(() => {
+    return done(null, profile);
+  });
+}));
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -29,6 +49,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret            : env.SESSION_SECRET,
+  resave            : false,
+  saveUninitialized : false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
