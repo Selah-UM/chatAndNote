@@ -62,8 +62,8 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-// app.use('/login', loginRouter);
-// app.use('/logout', logoutRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 app.get('/auth/github',
   passport.authenticate('github',{ scope: ['user:email'] }),
