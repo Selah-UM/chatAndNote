@@ -4,8 +4,7 @@ const app = require('../app');
 const passportStub = require('passport-stub');
 // const app = require('../app');
 
-
-describe('index', () => {
+describe('index', () => { 
     beforeAll(() => {
         passportStub.install(app);
         passportStub.login({ username: 'testuser' });
