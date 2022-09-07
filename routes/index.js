@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
     console.log("user = " + req.user.username);
     res.render('index', { user: req.user });
   }else{
-    res.render('index', { title: 'Express' });
+    res.render('index');
   }
 });
 
