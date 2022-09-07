@@ -18,3 +18,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: chat_and_note
+    volumes:
+      - chat-and-note-data:/var/lib/postgresql/data
+volumes:
+  chat-and-note-data:
+    external: true
