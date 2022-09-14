@@ -8,6 +8,14 @@ const session = require('express-session');
 const passport = require('passport');
 const dotenv = require('dotenv'); //環境変数を追加するために
 
+// モデルの読み込み
+const User = require('./models/user');
+const Room = require('./models/room');
+User.sync().then(async () => {
+  Room.belongsTo(User, {foreignKey: 'createdBy'});
+  Room.sync();
+});
+
 //GitHub認証関連
 dotenv.config();
 const env = process.env;

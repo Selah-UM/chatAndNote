@@ -4,7 +4,7 @@ const {sequelize, DataTypes} = require('./sequelize-loader');
 const User = sequelize.define(
   'users',
   {
-    userId: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false

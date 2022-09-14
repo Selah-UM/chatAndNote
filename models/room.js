@@ -4,9 +4,13 @@ const {sequelize, DataTypes} = require('./sequelize-loader');
 const Room = sequelize.define(
   'rooms',
   {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      allowNull: false
+    },
     roomId: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
       allowNull: false
     },
     roomName: {
@@ -21,8 +25,8 @@ const Room = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    updatedAt: {
-      type: DataTypes.DATE,
+    isActive: {
+      type: DataTypes.BOOLEAN,
       allowNull: false
     }
   },
@@ -31,10 +35,10 @@ const Room = sequelize.define(
     timestamps: false,
     indexes: [
       {
-        fields: ['createdBy']
+        fields: ['roomId', 'createdBy']
       }
     ]
   }
 );
 
-module.exports = room;
+module.exports = Room;
