@@ -28,6 +28,10 @@ const Room = sequelize.define(
     isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    isPermanent: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   },
   {
