@@ -37,8 +37,12 @@ passport.use(new GitHubStrategy({
   clientSecret : GITHUB_CLIENT_SECRET,
   callbackURL  : 'http://localhost:8000/auth/github/callback'
 },function (accessToken, refreshToken, profile, done){
-  process.nextTick(() => {
-    return done(null, profile);
+  process.nextTick(async function () {
+    await User.upsert({
+      id: profile.id,
+      username: profile.username
+    });
+    done(null, profile);
   });
 }));
 
