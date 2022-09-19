@@ -4,10 +4,17 @@ block content
     form(method="post", action="/chatRooms")
         div
             h5 roomId 
-            input(type="text" name="roomId")
+        //- -  let roomId = getUsableRoomId();
+        -  let roomId = getRandomInt();
+            h3 #{roomId}
+            //- button(onclick='')
+            input(type="hidden" name="roomId" value=roomId)
         div
             h5 roomName 
             input(type="text" name="roomName")
+        div
+            h5 passcode  
+            input(type="text" name="passcode")
         div
             label
                 input(type="checkbox" name="permanent") 

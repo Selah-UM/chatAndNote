@@ -25,6 +25,10 @@ const Room = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
     isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: false
