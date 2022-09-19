@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    form(method="post", action="/chatRooms")
+        div
+            h5 roomId 
+            input(type="text" name="roomId")
+        div
+            h5 roomName 
+            input(type="text" name="roomName")
+        div
+            label
+                input(type="radio") 
+                span.label このroomIdを保存する
+            h5 候補日程 (改行して複数入力してください)
+            textarea(name="candidates")
+        button(type="submit") start this chat room
