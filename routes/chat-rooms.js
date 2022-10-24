@@ -3,9 +3,20 @@ const express = require('express');
 const router = express.Router();
 const authenticationEnsurer = require('./authentication-ensurer');
 const { v4: uuidv4 } = require('uuid');
-const Rooms = require('../models/room');
 const Room = require('../models/room');
 
+router.get('/', authenticationEnsurer, async (req, res, next) => {
+    const rooms = await Room.findAll({
+      where: {
+        createdBy: req.user.id
+      },
+      order: [['updatedAt', 'DESC']]
+    });
+    res.render('rooms', {
+      user: req.user,
+      rooms: rooms
+    });
+});
 router.get('/new', authenticationEnsurer, (req, res, next) => {
     res.render('new', {
         user: req.user,
@@ -14,6 +25,8 @@ router.get('/new', authenticationEnsurer, (req, res, next) => {
     });
 });
 router.post('/', authenticationEnsurer, async (req, res, next) => {
+    // document.getElementById("sendBtn").disabled = true;
+
     const id = uuidv4();
     const updatedAt = new Date();
     let isPermanent = false;

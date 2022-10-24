@@ -5,6 +5,9 @@ block content
   if user 
     a(href="/logout") logout  
     p #{user.username} でログイン中
-    a(href="chatRooms/new") 新しいチャットルームを作成
+    div 
+      a(href="chatRooms/new") 新しいチャットルームを作成
+    div
+      a(href="chatRooms/") チャットルーム一覧
   else 
     a(href="/login") login 

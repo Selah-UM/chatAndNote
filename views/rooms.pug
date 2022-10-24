@@ -1,0 +1,16 @@
+extends layout
+
+block content
+
+    a(href="/logout") logout  
+    p #{user.username} でログイン中
+
+    div
+        a(href="/chatRooms/new") 新しいチャットルームを作成
+    - var hasRoom = rooms.length > 0
+    if hasRoom 
+        div 
+            each room in rooms 
+                div
+                    a(href=`/chatRooms/${room.id}`) #{room.roomName}
+    
