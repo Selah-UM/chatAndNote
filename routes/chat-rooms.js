@@ -4,6 +4,7 @@ const router = express.Router();
 const authenticationEnsurer = require('./authentication-ensurer');
 const { v4: uuidv4 } = require('uuid');
 const Room = require('../models/room');
+const User = require('../models/user');
 
 router.get('/', authenticationEnsurer, async (req, res, next) => {
     const rooms = await Room.findAll({
@@ -24,6 +25,26 @@ router.get('/new', authenticationEnsurer, (req, res, next) => {
         // getUsableRoomId
     });
 });
+router.get('/:id', authenticationEnsurer, async (req, res, next) => {
+    const room = await Room.findOne({
+      where: {
+        id: req.params.id
+      },
+      order: [['updatedAt', 'DESC']]
+    });
+    if (room) {
+        res.render('room', {
+          user: req.user,
+          room: room,
+          users: [req.user]
+        });
+      } else {
+        const err = new Error('指定された予定は見つかりません');
+        err.status = 404;
+        next(err);
+      }
+});
+
 router.post('/', authenticationEnsurer, async (req, res, next) => {
     // document.getElementById("sendBtn").disabled = true;
 
