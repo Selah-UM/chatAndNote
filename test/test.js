@@ -2,7 +2,8 @@
 const request = require('supertest');
 const app = require('../app');
 const passportStub = require('passport-stub');
-// const app = require('../app');
+const User = require('../models/user');
+const Room = require('../models/room');
 
 describe('index', () => { 
     beforeAll(() => {
@@ -63,5 +64,43 @@ describe('logout', () => {
             .get('/logout')
             .expect('Location', '/')
             .expect(302)
+    });
+});
+
+describe('/chatRooms', () => {
+    let id = '';
+    beforeAll(() => {
+        passportStub.install(app);
+        passportStub.login({ id: 0, username: 'testuser' });
+    });
+  
+    afterAll(async () => {
+        passportStub.logout();
+        passportStub.uninstall();
+    
+        // テストで作成したデータを削除
+        const r = await Room.findByPk(id)
+        await r.destroy()
+    });
+  
+    test('チャットルームが作成でき、表示される', async () => {
+        await User.upsert({ id: 0, username: 'testuser' });
+        const res = await request(app)
+            .post('/chatRooms')
+            .send({
+                roomId: '00000000',
+                roomName: 'chat room 1',
+                passcode: 'passcode1',
+                isPermanent: false
+            })
+            .expect('Location', /chatRooms/)
+            .expect(302)
+  
+        const createdChatRoomPath = res.headers.location;
+        id = createdChatRoomPath.split('/chatRooms/')[1];
+        await request(app)
+            .get(createdChatRoomPath)
+            .expect(/chat room 1/)
+            .expect(200)
     });
 });

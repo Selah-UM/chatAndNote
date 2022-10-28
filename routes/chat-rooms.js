@@ -39,7 +39,7 @@ router.get('/:id', authenticationEnsurer, async (req, res, next) => {
           users: [req.user]
         });
       } else {
-        const err = new Error('指定された予定は見つかりません');
+        const err = new Error('指定されたチャットルームは見つかりません');
         err.status = 404;
         next(err);
       }
@@ -64,7 +64,7 @@ router.post('/', authenticationEnsurer, async (req, res, next) => {
       isActive: true,
       isPermanent: isPermanent
     });
-    res.redirect('../');
+    res.redirect('/chatRooms');
 });
 
 async function getUsableRoomId(){
