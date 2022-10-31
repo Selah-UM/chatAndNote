@@ -8,6 +8,28 @@ const User = require('../models/user');
 const dotenv = require('dotenv');
 dotenv.config();
 const env = process.env;
+const { initializeApp } = require('firebase/app');
+const { getAnalytics } = require('firebase/analytics');
+
+// import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+// const firebaseConfig = env.FIREBASE_CONFIG;
+const firebaseConfig = {
+  apiKey: "AIzaSyATXy5h6R5jFoy1gEppzBXABhwfxfCOEYc",
+  authDomain: "chatandnote.firebaseapp.com",
+  databaseURL: "https://chatandnote-default-rtdb.firebaseio.com/",
+  projectId: "chatandnote",
+  storageBucket: "chatandnote.appspot.com",
+  messagingSenderId: "1076201869761",
+  appId: "1:1076201869761:web:b4b81fec24525fead7df40",
+  measurementId: "G-CFWX5TT79V"
+};
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+// firebase.initializeApp(firebaseConfig);
+// firebase.analytics();
+
+const db = firebase.database();
 
 router.get('/', authenticationEnsurer, async (req, res, next) => {
     const rooms = await Room.findAll({
@@ -87,11 +109,6 @@ function getRandomInt() {
 
 module.exports = router;
 
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 
-const firebaseConfig = env.FIREBASE_CONFIG;
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const r =  db.ref("A-key").push();
+r.set("key-a");
