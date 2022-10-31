@@ -36,7 +36,7 @@ router.get('/:id', authenticationEnsurer, async (req, res, next) => {
         res.render('room', {
           user: req.user,
           room: room,
-          users: [req.user]
+          users: [req.user] //今はひとつだけってこと
         });
       } else {
         const err = new Error('指定されたチャットルームは見つかりません');
