@@ -64,7 +64,7 @@ router.post('/', authenticationEnsurer, async (req, res, next) => {
       isActive: true,
       isPermanent: isPermanent
     });
-    res.redirect('/chatRooms');
+    res.redirect('/chatRooms/' + room.id);
 });
 
 async function getUsableRoomId(){
