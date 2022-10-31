@@ -5,6 +5,9 @@ const authenticationEnsurer = require('./authentication-ensurer');
 const { v4: uuidv4 } = require('uuid');
 const Room = require('../models/room');
 const User = require('../models/user');
+const dotenv = require('dotenv');
+dotenv.config();
+const env = process.env;
 
 router.get('/', authenticationEnsurer, async (req, res, next) => {
     const rooms = await Room.findAll({
@@ -83,3 +86,12 @@ function getRandomInt() {
 }  
 
 module.exports = router;
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = env.FIREBASE_CONFIG;
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
