@@ -1,4 +1,11 @@
+'use strict';
 console.log("room.js");
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 // const dotenv = require('dotenv');
 // dotenv.config();
@@ -15,3 +22,5 @@ console.log("room.js");
 
 // firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
+
+// const db = firebase.database();

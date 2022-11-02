@@ -15,6 +15,7 @@
     "firebase": "^9.13.0",
     "helmet": "5.0.2",
     "http-errors": "~1.6.2",
+    "jquery": "3.6.0",
     "morgan": "~1.9.0",
     "passport": "0.6.0",
     "passport-github2": "0.1.12",
@@ -25,8 +26,13 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
+    "@babel/core": "7.17.5",
+    "@babel/preset-env": "7.16.11",
+    "babel-loader": "8.2.3",
     "jest": "27.5.1",
     "passport-stub": "1.1.1",
-    "supertest": "6.2.2"
+    "supertest": "6.2.2",
+    "webpack": "5.69.1",
+    "webpack-cli": "4.9.2"
   }
 }
