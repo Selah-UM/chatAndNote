@@ -8023,6 +8023,16 @@ __webpack_require__.r(__webpack_exports__);
 console.log("room.js");
 
 
+var firebaseConfig = {
+  apiKey: "AIzaSyATXy5h6R5jFoy1gEppzBXABhwfxfCOEYc",
+  authDomain: "chatandnote.firebaseapp.com",
+  databaseURL: "https://chatandnote-default-rtdb.firebaseio.com/",
+  projectId: "chatandnote",
+  storageBucket: "chatandnote.appspot.com",
+  messagingSenderId: "1076201869761",
+  appId: "1:1076201869761:web:b4b81fec24525fead7df40",
+  measurementId: "G-CFWX5TT79V"
+};
 var app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp)(firebaseConfig);
 var analytics = (0,firebase_analytics__WEBPACK_IMPORTED_MODULE_1__.getAnalytics)(app);
 
