@@ -4,10 +4,12 @@ const webpack = require('webpack')
 module.exports = {
   context: __dirname + '/js',
   mode: 'none',
-  entry: './index.js',
+  entry: {
+    index: './index.js',
+    room:  './room.js'},
   output: {
     path: path.join(__dirname, 'public', 'javascripts'),
-    filename: 'bundle.js'
+    filename: '[name].bundle.js'
   },
   target: 'node',
   module: {
