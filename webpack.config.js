@@ -11,10 +11,6 @@ module.exports = {
     path: path.join(__dirname, 'public', 'javascripts'),
     filename: '[name].bundle.js'
   },
-  target: 'node',
-  resolve: {
-    modules: ['node_modules']
-  },
   module: {
     rules: [
       {

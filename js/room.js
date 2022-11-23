@@ -2,19 +2,7 @@
 console.log("room.js");
 
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-
-// import { admin } from 'firebase-admin';
-// import { firebase } from 'firebase';
-// import  serviceAccount  from '../chatandnote-firebase-adminsdk-ng4pe-427f00ca05.json';
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://chatandnote-default-rtdb.firebaseio.com"
-// });
-
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+import { getDatabase, ref, set } from "firebase/database";
 
 // import dotenv from 'dotenv';
 // dotenv.config();
@@ -33,13 +21,18 @@ const firebaseConfig = {
   measurementId: "G-CFWX5TT79V"
 }
 const app = initializeApp(firebaseConfig);
-const db = firebase.database();
+const db = getDatabase();
+
+// firebase.initializeApp(firebaseConfig);
+// const db = firebase.database();
 
 // const analytics = getAnalytics(app);
 // const db = admin.database();
-
-const r =  db.ref("A-key").push();
-r.set("val-a");
+set(ref(db,"A-key"), {
+  val: "a"
+});
+// const r =  db.ref("A-key").push();
+// r.set("val-a");
 
 // firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
