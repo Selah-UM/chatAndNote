@@ -2,6 +2,7 @@ doctype html
 html
   head
     title= title
+    meta(http-equiv='Content-Security-Policy' content="connect-src 'self' https://chatandnote-default-rtdb.firebaseio.com/")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content

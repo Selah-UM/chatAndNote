@@ -2,6 +2,7 @@
 console.log("room.js");
 
 import { initializeApp } from "firebase/app";
+// import { getDatabase, } from "firebase/database";
 import { getDatabase, ref, set } from "firebase/database";
 
 // import dotenv from 'dotenv';
