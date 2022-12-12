@@ -4,6 +4,8 @@ block content
   div 
     a(href="/chatRooms") チャットルーム一覧
   div 
-    h4 #{room.roomName}
-  script(src="/javascripts/room.bundle.js")
+    h4.roomName #{room.roomName}  
+  //- script(src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js")
+  //- script(src="https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js")
+  script(type="module" src="/javascripts/room.bundle.js")
   //- script(src="/js/room.js")

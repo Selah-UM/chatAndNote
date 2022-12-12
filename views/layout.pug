@@ -2,7 +2,8 @@ doctype html
 html
   head
     title= title
-    meta(http-equiv='Content-Security-Policy' content="connect-src 'self' https://chatandnote-default-rtdb.firebaseio.com/")
+    //- meta(http-equiv='Content-Security-Policy' content="default-src 'self'  https://*.firebaseio.com https://chatandnote-default-rtdb.firebaseio.com/ https://www.gstatic.com; object-src 'self'")
+    //- meta(http-equiv='Content-Security-Policy' content="default-src 'self' data: https://chatandnote-default-rtdb.firebaseio.com/ https://www.gstatic.com; object-src 'self'")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
