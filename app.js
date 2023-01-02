@@ -54,28 +54,7 @@ const chatRoomsRouter = require('./routes/chat-rooms');
 
 var app = express();
 // app.use(helmet());
-app.use(
-  helmet({
-    crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: {
-      directives: {
-        // defaultSrc: ["'self'", "https://chatandnote-default-rtdb.firebaseio.com/"],
-        defaultSrc: ["'self' 'unsafe-eval'", "data: gap: https://www.gstatic.com/ https://chatandnote-default-rtdb.firebaseio.com/"],
-        // defaultSrc: ["'self'"],
-        connectSrc: ["'self'"],
-        frameSrc: ["'self'"],
-        // scriptSrc: ["'self'", "https://chatandnote-default-rtdb.firebaseio.com/"],
-        // scriptSrc: ["'self' 'unsafe-eval'", "data: gap: https://www.gstatic.com/ https://chatandnote-default-rtdb.firebaseio.com/"],
-        // scriptSrc: ["'unsafe-eval'", "https://ssl.gstatic.com/"],
-        scriptSrc: ["'self'"],
-        scriptSrcElem: ["'self'"],
-        // scriptSrcElem: ["'self'", "https://ssl.gstatic.com/" ],
-        // scriptSrcElem: ["'self'", "https://ssl.gstatic.com/ https://chatandnote-default-rtdb.firebaseio.com/"],
-        objectSrc: ["'none'"],
-      }
-    }
-  })
-);
+app.use(helmet({ contentSecurityPolicy: false }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
