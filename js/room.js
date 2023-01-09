@@ -1,7 +1,5 @@
 'use strict';
 console.log("room.js");
-const dotenv = require('dotenv'); //環境変数を追加するために
-const env = process.env;
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
