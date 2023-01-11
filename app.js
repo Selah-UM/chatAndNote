@@ -54,7 +54,10 @@ const chatRoomsRouter = require('./routes/chat-rooms');
 
 var app = express();
 // app.use(helmet());
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

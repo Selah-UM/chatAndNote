@@ -1,6 +1,8 @@
 'use strict';
 console.log("room.js");
 
+import $ from 'jquery';
+
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set } from "firebase/database";
@@ -22,4 +24,11 @@ const db = getDatabase();
 
 set(ref(db,"A-key"), {
   val: "a"
+});
+
+// $('#inputMes').val("200");//値セット
+$("#sendMes").on( 'click', ()=>{
+  // 値を取得
+  var mes = $('#inputMes').val();
+  console.log(mes);
 });
