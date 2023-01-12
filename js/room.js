@@ -22,13 +22,17 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getDatabase();
 
-set(ref(db,"A-key"), {
-  val: "a"
-});
-
 // $('#inputMes').val("200");//値セット
-$("#sendMes").on( 'click', ()=>{
+const sendMesBtn = $("#sendMes");
+const inputMesArea = $('#inputMes');
+sendMesBtn.on( 'click', ()=>{
   // 値を取得
-  var mes = $('#inputMes').val();
+  var mes = inputMesArea.val();
   console.log(mes);
+  const id = sendMesBtn.data('id');
+  console.log(id);
+
+  set(ref(db, id), {
+    val: ""
+  });
 });

@@ -31634,15 +31634,19 @@ var firebaseConfig = {
 var app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_1__.initializeApp)(firebaseConfig);
 var analytics = (0,firebase_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalytics)(app);
 var db = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.getDatabase)();
-(0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.set)((0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, "A-key"), {
-  val: "a"
-});
 
 // $('#inputMes').val("200");//値セット
-jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sendMes").on('click', function () {
+var sendMesBtn = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sendMes");
+var inputMesArea = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputMes');
+sendMesBtn.on('click', function () {
   // 値を取得
-  var mes = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputMes').val();
+  var mes = inputMesArea.val();
   console.log(mes);
+  var id = sendMesBtn.data('id');
+  console.log(id);
+  (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.set)((0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, id), {
+    val: new Map("key", "val")
+  });
 });
 })();
 

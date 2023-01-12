@@ -7,6 +7,8 @@ block content
     h4.roomName #{room.roomName}  
   div 
     textarea#inputMes(name="inputMes", cols="30", rows="3")
-    button#sendMes 送信 
+    button#sendMes(
+      data-id=room.id 
+    ) 送信 
   script(src="/javascripts/room.bundle.js")
   //- script(src="/javascripts/room.js")
