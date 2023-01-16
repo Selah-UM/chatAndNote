@@ -1,9 +1,11 @@
 extends layout
 
 block content
+  div(style="display: none;", hiddden): p#id #{room.id}
+  //- #id(style="display: none;", hiddden): #{room.id}
   div 
     a(href="/chatRooms") チャットルーム一覧
-  div 
+  div
     h4.roomName #{room.roomName}  
   div 
     textarea#inputMes(name="inputMes", cols="30", rows="3")

@@ -31616,6 +31616,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var firebase_database__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
 
 
+function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
 console.log("room.js");
 
 
@@ -31634,20 +31635,48 @@ var firebaseConfig = {
 var app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_1__.initializeApp)(firebaseConfig);
 var analytics = (0,firebase_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalytics)(app);
 var db = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.getDatabase)();
+var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#id').text();
+console.log(id);
+var currentRoomRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, id);
 
 // $('#inputMes').val("200");//値セット
-var sendMesBtn = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sendMes");
+var sendMesBtn = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sendMes');
 var inputMesArea = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputMes');
 sendMesBtn.on('click', function () {
-  // 値を取得
   var mes = inputMesArea.val();
-  console.log(mes);
-  var id = sendMesBtn.data('id');
-  console.log(id);
-  (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.set)((0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, id), {
-    val: new Map("key", "val")
+  // console.log(mes);
+
+  //初コメ時のroomDB作成
+  if (!id) {
+    sendMesBtn.data('id'), _readOnlyError("id");
+    // console.log(id);
+    currentRoomRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, id);
+  }
+  (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.push)(currentRoomRef, {
+    val: mes
   });
 });
+(0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildAdded)(currentRoomRef, function (data) {
+  console.log("onChiledAdded");
+  // console.log(postElement);  これはなんだったんか謎
+  console.log(data.key);
+  console.log(data.val());
+  // console.log(data.val().text);
+  // console.log(data.val().mes);
+  // console.log(data.val().author);
+});
+
+(0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildChanged)(currentRoomRef, function (data) {
+  console.log("onChiledChanged");
+  console.log(postElement);
+  console.log(data.key);
+  console.log(data.val().text);
+  console.log(data.val().author);
+});
+
+// set(ref(db, id), {
+//   val: mes
+// });
 })();
 
 /******/ })()

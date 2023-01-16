@@ -37,6 +37,7 @@ passport.use(new GitHubStrategy({
   clientSecret : GITHUB_CLIENT_SECRET,
   callbackURL  : 'http://localhost:8000/auth/github/callback'
   // callbackURL  : 'https://chatandnote.firebaseapp.com/__/auth/handler'
+  // successRedirect:'/auth/github/callback'
 },function (accessToken, refreshToken, profile, done){
   process.nextTick(async function () {
     await User.upsert({
