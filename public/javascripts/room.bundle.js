@@ -31616,7 +31616,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var firebase_database__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
 
 
-function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
 console.log("room.js");
 
 
@@ -31636,47 +31635,73 @@ var app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_1__.initializeApp)(firebaseCo
 var analytics = (0,firebase_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalytics)(app);
 var db = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.getDatabase)();
 var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#id').text();
-console.log(id);
+// console.log(id);
 var currentRoomRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, id);
-
-// $('#inputMes').val("200");//値セット
 var sendMesBtn = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sendMes');
 var inputMesArea = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputMes');
 sendMesBtn.on('click', function () {
   var mes = inputMesArea.val();
   // console.log(mes);
+  var time = new Date().toJSON();
 
   //初コメ時のroomDB作成
-  if (!id) {
-    sendMesBtn.data('id'), _readOnlyError("id");
-    // console.log(id);
+  if (!currentRoomRef) {
     currentRoomRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, id);
   }
+
+  //データ送信
   (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.push)(currentRoomRef, {
-    val: mes
+    mes: mes,
+    time: time
   });
 });
 (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildAdded)(currentRoomRef, function (data) {
   console.log("onChiledAdded");
   // console.log(postElement);  これはなんだったんか謎
-  console.log(data.key);
-  console.log(data.val());
-  // console.log(data.val().text);
-  // console.log(data.val().mes);
-  // console.log(data.val().author);
+  var key = data.key;
+  console.log(key);
+  var val = data.val();
+  var mes = val.mes;
+  console.log(mes);
+  var time = formatDate(val.time);
+  console.log(time);
 });
-
 (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildChanged)(currentRoomRef, function (data) {
   console.log("onChiledChanged");
-  console.log(postElement);
+  // console.log(postElement);  これはなんだったんか謎
   console.log(data.key);
-  console.log(data.val().text);
-  console.log(data.val().author);
+  console.log(data.val());
+  var mes = data.val().mes;
+  console.log(mes);
 });
+function formatDate(t) {
+  // console.log("formatDate");
 
-// set(ref(db, id), {
-//   val: mes
-// });
+  var result = "時間が正確に表示できませんでした";
+  var d = new Date(t);
+  if (Number.isNaN(d.getTime())) {
+    var year = t.year + 1900;
+    var month = t.month + 1;
+    var date = t.date;
+    var hours = t.hours;
+    var minutes = t.minutes;
+    result = "".concat(year, "\u5E74").concat(month, "\u6708").concat(date, "\u65E5 ").concat(hours, ":").concat(minutes);
+  } else {
+    var _year = d.getFullYear();
+    var _month = d.getMonth() + 1;
+    var _date = d.getDate();
+    var _hours = d.getHours();
+    var _minutes = d.getMinutes();
+    result = "".concat(_year, "\u5E74").concat(_month, "\u6708").concat(_date, "\u65E5 ").concat(_hours, ":").concat(_minutes);
+  }
+  return result;
+}
+
+//選択代入
+// const mes = data.val().mes ? data.val().mes : "no mes"
+
+//ボタンに埋め込んだ情報とるやつ
+// id = sendMesBtn.data('id');
 })();
 
 /******/ })()
