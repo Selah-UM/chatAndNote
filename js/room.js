@@ -17,39 +17,29 @@ const firebaseConfig = {
     appId: "1:1076201869761:web:b4b81fec24525fead7df40",
     measurementId: "G-CFWX5TT79V"
 }
-
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getDatabase();
 
 //このチャットルームのDB指定
-// const id = $('#id').text();
 const dataDiv = $('#data');
 const id = dataDiv.data('id');
-// console.log(id);
 let currentRoomRef = ref(db, id);
 
 //usersのマップ作製
-// const users = $('#users').text();
 const users = dataDiv.data('users');
-const userMap = new Map(); // key: userId, value: User
+const userMap = new Map(); // key: userId, value: username
 users.forEach((a) => {
   userMap.set(a.id, a.username);
 });
 console.log(userMap);
 
+//メッセージの送信
 const sendMesBtn = $('#sendMes');
 const inputMesArea = $('#inputMes');
 sendMesBtn.on( 'click', ()=>{
   const mes = inputMesArea.val();
-  // console.log(mes);
   const user = sendMesBtn.data('user');
-  const users = sendMesBtn.data('users');
-  const userMap = new Map(); // key: userId, value: User
-users.forEach((a) => {
-  userMap.set(a.id, a.username);
-});
-  console.log(userMap);
   const time = new Date().toJSON();
   
   //初コメ時のroomDB作成
@@ -65,11 +55,12 @@ users.forEach((a) => {
   });
 });
 
+//メッセージデータの受信リスナ
 onChildAdded(currentRoomRef, (data) => {
   console.log("onChiledAdded");
   // console.log(postElement);  これはなんだったんか謎
   const key = data.key
-  console.log(key);
+  // console.log(key);
   const val = data.val();
   const mes = val.mes;
   console.log(mes);
@@ -85,6 +76,11 @@ onChildChanged(currentRoomRef, (data) => {
   console.log(mes);
 });
 
+/**
+ * 日付時間表示を見やすく整える。
+ * @param {json} t 
+ * @returns {string}
+ */
 function formatDate(t){
   // console.log("formatDate");
 
