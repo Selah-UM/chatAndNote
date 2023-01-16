@@ -22,15 +22,34 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getDatabase();
 
-const id = $('#id').text();
+//このチャットルームのDB指定
+// const id = $('#id').text();
+const dataDiv = $('#data');
+const id = dataDiv.data('id');
 // console.log(id);
 let currentRoomRef = ref(db, id);
+
+//usersのマップ作製
+// const users = $('#users').text();
+const users = dataDiv.data('users');
+const userMap = new Map(); // key: userId, value: User
+users.forEach((a) => {
+  userMap.set(a.id, a.username);
+});
+console.log(userMap);
 
 const sendMesBtn = $('#sendMes');
 const inputMesArea = $('#inputMes');
 sendMesBtn.on( 'click', ()=>{
   const mes = inputMesArea.val();
   // console.log(mes);
+  const user = sendMesBtn.data('user');
+  const users = sendMesBtn.data('users');
+  const userMap = new Map(); // key: userId, value: User
+users.forEach((a) => {
+  userMap.set(a.id, a.username);
+});
+  console.log(userMap);
   const time = new Date().toJSON();
   
   //初コメ時のroomDB作成
@@ -41,8 +60,9 @@ sendMesBtn.on( 'click', ()=>{
   //データ送信
   push(currentRoomRef, {
     mes : mes,
+    user: user,
     time: time
-  })
+  });
 });
 
 onChildAdded(currentRoomRef, (data) => {

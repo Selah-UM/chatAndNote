@@ -1,8 +1,12 @@
 extends layout
 
 block content
-  div(style="display: none;", hiddden): p#id #{room.id}
-  //- #id(style="display: none;", hiddden): #{room.id}
+  #data(style="display: none;", hiddden
+    data-id=room.id
+    data-users=users)
+  //- div(style="display: none;", hiddden)
+  //-   p#id #{room.id}
+  //-   p#users #{users}
   div 
     a(href="/chatRooms") チャットルーム一覧
   div
@@ -10,7 +14,7 @@ block content
   div 
     textarea#inputMes(name="inputMes", cols="30", rows="3")
     button#sendMes(
-      data-id=room.id 
+      data-user=user.id 
     ) 送信 
   script(src="/javascripts/room.bundle.js")
   //- script(src="/javascripts/room.js")

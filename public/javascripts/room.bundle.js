@@ -31634,14 +31634,34 @@ var firebaseConfig = {
 var app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_1__.initializeApp)(firebaseConfig);
 var analytics = (0,firebase_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalytics)(app);
 var db = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.getDatabase)();
-var id = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#id').text();
+
+//このチャットルームのDB指定
+// const id = $('#id').text();
+var dataDiv = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#data');
+var id = dataDiv.data('id');
 // console.log(id);
 var currentRoomRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, id);
+
+//usersのマップ作製
+// const users = $('#users').text();
+var users = dataDiv.data('users');
+var userMap = new Map(); // key: userId, value: User
+users.forEach(function (a) {
+  userMap.set(a.id, a.username);
+});
+console.log(userMap);
 var sendMesBtn = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sendMes');
 var inputMesArea = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputMes');
 sendMesBtn.on('click', function () {
   var mes = inputMesArea.val();
   // console.log(mes);
+  var user = sendMesBtn.data('user');
+  var users = sendMesBtn.data('users');
+  var userMap = new Map(); // key: userId, value: User
+  users.forEach(function (a) {
+    userMap.set(a.id, a.username);
+  });
+  console.log(userMap);
   var time = new Date().toJSON();
 
   //初コメ時のroomDB作成
@@ -31652,6 +31672,7 @@ sendMesBtn.on('click', function () {
   //データ送信
   (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.push)(currentRoomRef, {
     mes: mes,
+    user: user,
     time: time
   });
 });
