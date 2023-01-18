@@ -31657,7 +31657,7 @@ sendMesBtn.on('click', function () {
   if (!trimedMes) {
     return;
   }
-  var user = sendMesBtn.data('user');
+  var uid = sendMesBtn.data('uid');
   var time = new Date().toJSON();
 
   //初コメ時のroomDB作成
@@ -31668,7 +31668,7 @@ sendMesBtn.on('click', function () {
   //データ送信
   (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.push)(currentRoomRef, {
     mes: mes,
-    user: user,
+    uid: uid,
     time: time
   });
 });
@@ -31676,23 +31676,30 @@ sendMesBtn.on('click', function () {
 //メッセージデータの受信リスナ
 (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildAdded)(currentRoomRef, function (data) {
   console.log("onChiledAdded");
-  // console.log(postElement);  これはなんだったんか謎
+  getMes(data);
+});
+(0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildChanged)(currentRoomRef, function (data) {
+  console.log("onChiledChanged");
+  getMes(data);
+});
+
+/**
+ * データを受け取り、表示に適するよう処理する
+ * @param {Object} data //firebaseから渡ってくるデータ 
+ */
+function getMes(data) {
   var key = data.key;
   // console.log(key);
   var val = data.val();
   var mes = val.mes;
   console.log(mes);
+  var uid = val.uid;
+  console.log(uid);
+  var username = userMap.get(uid);
+  console.log(username);
   var time = formatDate(val.time);
   console.log(time);
-});
-(0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildChanged)(currentRoomRef, function (data) {
-  console.log("onChiledChanged");
-  // console.log(postElement);  これはなんだったんか謎
-  console.log(data.key);
-  console.log(data.val());
-  var mes = data.val().mes;
-  console.log(mes);
-});
+}
 
 /**
  * 入力されたメッセージをトリムして、必要であればヒントをplaceholderへ

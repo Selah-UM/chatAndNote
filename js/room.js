@@ -41,7 +41,7 @@ sendMesBtn.on( 'click', ()=>{
   const mes = inputMesArea.val();
   const trimedMes = trimMes(mes);
   if(!trimedMes){return;}
-  const user = sendMesBtn.data('user');
+  const uid = sendMesBtn.data('uid');
   const time = new Date().toJSON();
   
   //初コメ時のroomDB作成
@@ -52,7 +52,7 @@ sendMesBtn.on( 'click', ()=>{
   //データ送信
   push(currentRoomRef, {
     mes : mes,
-    user: user,
+    uid : uid,
     time: time
   });
 });
@@ -60,23 +60,30 @@ sendMesBtn.on( 'click', ()=>{
 //メッセージデータの受信リスナ
 onChildAdded(currentRoomRef, (data) => {
   console.log("onChiledAdded");
-  // console.log(postElement);  これはなんだったんか謎
+  getMes(data);
+});
+onChildChanged(currentRoomRef, (data) => {
+  console.log("onChiledChanged");
+  getMes(data);
+});
+
+/**
+ * データを受け取り、表示に適するよう処理する
+ * @param {Object} data //firebaseから渡ってくるデータ 
+ */
+function getMes(data){
   const key = data.key
   // console.log(key);
   const val = data.val();
   const mes = val.mes;
   console.log(mes);
+  const uid = val.uid;
+  console.log(uid);
+  const username = userMap.get(uid);
+  console.log(username);
   const time = formatDate(val.time);
   console.log(time);
-});
-onChildChanged(currentRoomRef, (data) => {
-  console.log("onChiledChanged");
-  // console.log(postElement);  これはなんだったんか謎
-  console.log(data.key);
-  console.log(data.val());
-  const mes = data.val().mes;
-  console.log(mes);
-});
+}
 
 /**
  * 入力されたメッセージをトリムして、必要であればヒントをplaceholderへ
