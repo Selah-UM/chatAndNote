@@ -36,9 +36,9 @@ console.log(userMap);
 
 //メッセージの送信
 const sendMesBtn = $('#sendMes');
-const inputMesArea = $('#inputMes');
+const inputMesTextArea = $('#inputMes');
 sendMesBtn.on( 'click', ()=>{
-  const mes = inputMesArea.val();
+  const mes = inputMesTextArea.val();
   const trimedMes = trimMes(mes);
   if(!trimedMes){return;}
   const uid = sendMesBtn.data('uid');
@@ -60,7 +60,11 @@ sendMesBtn.on( 'click', ()=>{
 //メッセージデータの受信リスナ
 onChildAdded(currentRoomRef, (data) => {
   console.log("onChiledAdded");
-  getMes(data);
+  return new Promise((resolve,reject) => {
+    resolve(getMes(data));
+  }).then((mesData) => {
+    makeMesCard(mesData);
+  });
 });
 onChildChanged(currentRoomRef, (data) => {
   console.log("onChiledChanged");
@@ -70,19 +74,49 @@ onChildChanged(currentRoomRef, (data) => {
 /**
  * データを受け取り、表示に適するよう処理する
  * @param {Object} data //firebaseから渡ってくるデータ 
+ * @returns {Object}
  */
 function getMes(data){
+  // console.log("getMes");
   const key = data.key
-  // console.log(key);
   const val = data.val();
   const mes = val.mes;
-  console.log(mes);
   const uid = val.uid;
-  console.log(uid);
   const username = userMap.get(uid);
-  console.log(username);
   const time = formatDate(val.time);
-  console.log(time);
+  return{
+    key      : key,
+    mes      : mes,
+    username : username,
+    time     : time
+  }
+}
+
+const mesCardsArea = $('#MesCardsArea');
+const mesArea = document.getElementById('mesCardsArea');
+/**
+ * メッセージを画面に表示させる
+ * @param {Object} mesData //getMes関数で整えられたメッセージデータ
+ */
+function makeMesCard(mesData){
+  console.log("makeMesCard");
+  // console.log(mesData);
+  const mes = mesData.mes;
+  const username = mesData.username;
+  const time = mesData.time;
+
+  console.log(mesArea);
+  const mesCard = document.createElement('div');
+  mesCard.className = 'card';
+  mesArea.appendChild(mesCard);
+
+  // $('<div>', { class:'card'}).appnedTo(mesCardsArea);
+  // const mesCard = $('<div>', {class:'card'});
+  // $('<div>', {id:'mesCard', class:'card'});
+
+  $('#MesCardsArea').append("<div class='card><?div>");
+  // $("body").append(ELement1, ELement2, ELement3);
+  // $('<div>', { id:'hoge', class:'fuga', text:'piyo' }).appnedTo('#');
 }
 
 /**
@@ -92,21 +126,21 @@ function getMes(data){
  */
 function trimMes(mes){
   if(mes == ""){
-    inputMesArea.val("");
+    inputMesTextArea.val("");
     // inputMesArea.placeholder = "こちらにメッセージをどうぞ";
-    inputMesArea.attr('placeholder', "こちらにメッセージをどうぞ");
+    inputMesTextArea.attr('placeholder', "こちらにメッセージをどうぞ");
     return false;
   }
   const trimedMes = mes.trim();
   if(trimedMes == ""){
-    inputMesArea.val("");
-    inputMesArea.attr('placeholder', "空白や改行だけでの送信は受け付けておりません");
+    inputMesTextArea.val("");
+    inputMesTextArea.attr('placeholder', "空白や改行だけでの送信は受け付けておりません");
     // inputMesArea.placeholder = "空白や改行だけでの送信は受け付けておりません"
     return false;
   }
-  inputMesArea.val("");
-  inputMesArea.placeholder = "";
-  inputMesArea.removeAttr('placeholder');
+  inputMesTextArea.val("");
+  inputMesTextArea.placeholder = "";
+  inputMesTextArea.removeAttr('placeholder');
     return trimedMes;
 }
 

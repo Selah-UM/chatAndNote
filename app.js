@@ -32,21 +32,21 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
-passport.use(new GitHubStrategy({
-  clientID     : GITHUB_CLIENT_ID,
-  clientSecret : GITHUB_CLIENT_SECRET,
-  callbackURL  : 'http://localhost:8000/auth/github/callback'
-  // callbackURL  : 'https://chatandnote.firebaseapp.com/__/auth/handler'
-  // successRedirect:'/auth/github/callback'
-},function (accessToken, refreshToken, profile, done){
-  process.nextTick(async function () {
-    await User.upsert({
-      id: profile.id,
-      username: profile.username
-    });
-    done(null, profile);
-  });
-}));
+// passport.use(new GitHubStrategy({
+//   clientID     : GITHUB_CLIENT_ID,
+//   clientSecret : GITHUB_CLIENT_SECRET,
+//   callbackURL  : 'http://localhost:8000/auth/github/callback'
+//   // callbackURL  : 'https://chatandnote.firebaseapp.com/__/auth/handler'
+//   // successRedirect:'/auth/github/callback'
+// },function (accessToken, refreshToken, profile, done){
+//   process.nextTick(async function () {
+//     await User.upsert({
+//       id: profile.id,
+//       username: profile.username
+//     });
+//     done(null, profile);
+//   });
+// }));
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');

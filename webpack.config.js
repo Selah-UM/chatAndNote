@@ -6,7 +6,9 @@ module.exports = {
   mode: 'none',
   entry: {
     index: './index.js',
-    room:  './room.js'},
+    room:  './room.js',
+    login:  './login.js',
+  },
   output: {
     path: path.join(__dirname, 'public', 'javascripts'),
     filename: '[name].bundle.js'
