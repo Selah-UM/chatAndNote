@@ -39,6 +39,8 @@ const sendMesBtn = $('#sendMes');
 const inputMesArea = $('#inputMes');
 sendMesBtn.on( 'click', ()=>{
   const mes = inputMesArea.val();
+  const trimedMes = trimMes(mes);
+  if(!trimedMes){return;}
   const user = sendMesBtn.data('user');
   const time = new Date().toJSON();
   
@@ -77,9 +79,34 @@ onChildChanged(currentRoomRef, (data) => {
 });
 
 /**
- * 日付時間表示を見やすく整える。
- * @param {json} t 
- * @returns {string}
+ * 入力されたメッセージをトリムして、必要であればヒントをplaceholderへ
+ * @param {String} mes 取得したメッセージデータ
+ * @returns { Boolean | String} トリム済みメッセージまたはfalse
+ */
+function trimMes(mes){
+  if(mes == ""){
+    inputMesArea.val("");
+    // inputMesArea.placeholder = "こちらにメッセージをどうぞ";
+    inputMesArea.attr('placeholder', "こちらにメッセージをどうぞ");
+    return false;
+  }
+  const trimedMes = mes.trim();
+  if(trimedMes == ""){
+    inputMesArea.val("");
+    inputMesArea.attr('placeholder', "空白や改行だけでの送信は受け付けておりません");
+    // inputMesArea.placeholder = "空白や改行だけでの送信は受け付けておりません"
+    return false;
+  }
+  inputMesArea.val("");
+  inputMesArea.placeholder = "";
+  inputMesArea.removeAttr('placeholder');
+    return trimedMes;
+}
+
+/**
+ * 日時表示を見やすく整える。
+ * @param {JSON} t DBにある日時情報
+ * @returns {String} フォーマットされた日時表示
  */
 function formatDate(t){
   // console.log("formatDate");

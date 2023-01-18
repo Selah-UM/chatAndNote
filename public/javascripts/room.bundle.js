@@ -31636,32 +31636,28 @@ var analytics = (0,firebase_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalytics)
 var db = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.getDatabase)();
 
 //このチャットルームのDB指定
-// const id = $('#id').text();
 var dataDiv = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#data');
 var id = dataDiv.data('id');
-// console.log(id);
 var currentRoomRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(db, id);
 
 //usersのマップ作製
-// const users = $('#users').text();
 var users = dataDiv.data('users');
-var userMap = new Map(); // key: userId, value: User
+var userMap = new Map(); // key: userId, value: username
 users.forEach(function (a) {
   userMap.set(a.id, a.username);
 });
 console.log(userMap);
+
+//メッセージの送信
 var sendMesBtn = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sendMes');
 var inputMesArea = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputMes');
 sendMesBtn.on('click', function () {
   var mes = inputMesArea.val();
-  // console.log(mes);
+  var trimedMes = trimMes(mes);
+  if (!trimedMes) {
+    return;
+  }
   var user = sendMesBtn.data('user');
-  var users = sendMesBtn.data('users');
-  var userMap = new Map(); // key: userId, value: User
-  users.forEach(function (a) {
-    userMap.set(a.id, a.username);
-  });
-  console.log(userMap);
   var time = new Date().toJSON();
 
   //初コメ時のroomDB作成
@@ -31676,11 +31672,13 @@ sendMesBtn.on('click', function () {
     time: time
   });
 });
+
+//メッセージデータの受信リスナ
 (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildAdded)(currentRoomRef, function (data) {
   console.log("onChiledAdded");
   // console.log(postElement);  これはなんだったんか謎
   var key = data.key;
-  console.log(key);
+  // console.log(key);
   var val = data.val();
   var mes = val.mes;
   console.log(mes);
@@ -31695,6 +31693,37 @@ sendMesBtn.on('click', function () {
   var mes = data.val().mes;
   console.log(mes);
 });
+
+/**
+ * 入力されたメッセージをトリムして、必要であればヒントをplaceholderへ
+ * @param {String} mes 取得したメッセージデータ
+ * @returns { Boolean | String} トリム済みメッセージまたはfalse
+ */
+function trimMes(mes) {
+  if (mes == "") {
+    inputMesArea.val("");
+    // inputMesArea.placeholder = "こちらにメッセージをどうぞ";
+    inputMesArea.attr('placeholder', "こちらにメッセージをどうぞ");
+    return false;
+  }
+  var trimedMes = mes.trim();
+  if (trimedMes == "") {
+    inputMesArea.val("");
+    inputMesArea.attr('placeholder', "空白や改行だけでの送信は受け付けておりません");
+    // inputMesArea.placeholder = "空白や改行だけでの送信は受け付けておりません"
+    return false;
+  }
+  inputMesArea.val("");
+  inputMesArea.placeholder = "";
+  inputMesArea.removeAttr('placeholder');
+  return trimedMes;
+}
+
+/**
+ * 日時表示を見やすく整える。
+ * @param {JSON} t DBにある日時情報
+ * @returns {String} フォーマットされた日時表示
+ */
 function formatDate(t) {
   // console.log("formatDate");
 
