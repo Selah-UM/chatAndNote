@@ -16793,29 +16793,27 @@ var app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp)(firebaseCo
 var provider = new firebase_auth__WEBPACK_IMPORTED_MODULE_2__.GithubAuthProvider();
 var auth = (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getAuth)();
 (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.signInWithRedirect)(auth, provider);
+(0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getRedirectResult)(auth).then(function (result) {
+  var credential = firebase_auth__WEBPACK_IMPORTED_MODULE_2__.GithubAuthProvider.credentialFromResult(result);
+  if (credential) {
+    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+    var token = credential.accessToken;
+    // ...
+  }
 
-// getRedirectResult(auth)
-//   .then((result) => {
-//     const credential = GithubAuthProvider.credentialFromResult(result);
-//     if (credential) {
-//       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-//       const token = credential.accessToken;
-//       // ...
-//     }
-
-//     // The signed-in user info.
-//     const user = result.user;
-//     console.log(user);
-//   }).catch((error) => {
-//     // Handle Errors here.
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     // The email of the user's account used.
-//     const email = error.customData.email;
-//     // The AuthCredential type that was used.
-//     const credential = GithubAuthProvider.credentialFromError(error);
-//     // ...
-//   });
+  // The signed-in user info.
+  var user = result.user;
+  console.log(user);
+})["catch"](function (error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.customData.email;
+  // The AuthCredential type that was used.
+  var credential = firebase_auth__WEBPACK_IMPORTED_MODULE_2__.GithubAuthProvider.credentialFromError(error);
+  // ...
+});
 
 // // signInWithPopup(auth, provider)
 // //   .then((result) => {
