@@ -16791,9 +16791,7 @@ var firebaseConfig = {
 };
 var app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp)(firebaseConfig);
 var provider = new firebase_auth__WEBPACK_IMPORTED_MODULE_2__.GithubAuthProvider();
-
-// const auth = getAuth();
-
+var auth = (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getAuth)();
 (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.signInWithRedirect)(auth, provider);
 (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getRedirectResult)(auth).then(function (result) {
   var credential = firebase_auth__WEBPACK_IMPORTED_MODULE_2__.GithubAuthProvider.credentialFromResult(result);
@@ -16838,18 +16836,18 @@ var provider = new firebase_auth__WEBPACK_IMPORTED_MODULE_2__.GithubAuthProvider
 // //     // ...
 // //   });
 
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     // User is signed in, see docs for a list of available properties
-//     // https://firebase.google.com/docs/reference/js/firebase.User
-//     const uid = user.uid;
-//     console.logI(uid);
-//     // ...
-//   } else {
-//     // User is signed out
-//     // ...
-//   }
-// });
+(0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.onAuthStateChanged)(auth, function (user) {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    var uid = user.uid;
+    console.logI(uid);
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 })();
 
 /******/ })()

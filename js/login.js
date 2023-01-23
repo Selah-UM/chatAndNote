@@ -75,7 +75,7 @@ const app = initializeApp(firebaseConfig);
 
 const provider = new GithubAuthProvider();
 
-// const auth = getAuth();
+const auth = getAuth();
 
 signInWithRedirect(auth, provider);
 
@@ -124,15 +124,15 @@ getRedirectResult(auth)
 // //     // ...
 // //   });
 
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     // User is signed in, see docs for a list of available properties
-//     // https://firebase.google.com/docs/reference/js/firebase.User
-//     const uid = user.uid;
-//     console.logI(uid);
-//     // ...
-//   } else {
-//     // User is signed out
-//     // ...
-//   }
-// });
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    console.logI(uid);
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
