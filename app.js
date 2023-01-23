@@ -4,8 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const helmet = require('helmet'); // セキュリティ対策　：　X-Powered-By　ヘッダの除去
-const session = require('express-session');
-const passport = require('passport');
+// const session = require('express-session');
+// const passport = require('passport');
 const dotenv = require('dotenv'); //環境変数を追加するために
 
 // モデルの読み込み
@@ -17,20 +17,20 @@ User.sync().then(async () => {
 });
 
 //GitHub認証関連
-dotenv.config();
-const env = process.env;
+// dotenv.config();
+// const env = process.env;
 // console.log(env.GITHUB_CLIENT_ID);
 // console.log(env.GITHUB_CLIENT_SECRET);
-const GitHubStrategy = require('passport-github2').Strategy;
+// const GitHubStrategy = require('passport-github2').Strategy;
 // const GITHUB_CLIENT_ID = env.GITHUB_CLIENT_ID;
 // const GITHUB_CLIENT_SECRET = env.GITHUB_CLIENT_SECRET;
 
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
+// passport.serializeUser((user, done) => {
+//   done(null, user);
+// });
+// passport.deserializeUser((obj, done) => {
+//   done(null, obj);
+// });
 
 // passport.use(new GitHubStrategy({
 //   clientID     : GITHUB_CLIENT_ID,
@@ -71,13 +71,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-  secret            : env.SESSION_SECRET,
-  resave            : false,
-  saveUninitialized : false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(session({
+//   secret            : env.SESSION_SECRET,
+//   resave            : false,
+//   saveUninitialized : false
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -85,16 +85,16 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/chatRooms', chatRoomsRouter);
 
-app.get('/auth/github',
-  passport.authenticate('github',{ scope: ['user:email'] }),
-  function(req, res){
-    console.log("認証実行時に必要なログはここに");
-});
-app.get('/auth/github/callback',
-  passport.authenticate('github',{ failureRedirect: '/login' }), //認証に失敗したときのリダイレクト
-  function(req, res){
-    res.redirect('/');//認証に成功したときのリダイレクト
-});
+// app.get('/auth/github',
+//   passport.authenticate('github',{ scope: ['user:email'] }),
+//   function(req, res){
+//     console.log("認証実行時に必要なログはここに");
+// });
+// app.get('/auth/github/callback',
+//   passport.authenticate('github',{ failureRedirect: '/login' }), //認証に失敗したときのリダイレクト
+//   function(req, res){
+//     res.redirect('/');//認証に成功したときのリダイレクト
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
