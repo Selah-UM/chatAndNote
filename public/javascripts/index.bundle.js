@@ -16719,7 +16719,10 @@ console.log("index.js");
 
 // import { initializeFBApp } from "/public/javascripts/firebase.bundle.js";
 // initializeFBApp();
-
+// const User = require('../models/user');
+// if(User){
+//     console.log("we can use User");
+// }
 
 
 
@@ -16739,7 +16742,7 @@ var auth = (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getAuth)();
 (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.onAuthStateChanged)(auth, function (user) {
   if (user) {
     var uid = user.uid;
-    console.log("log in!" + uid);
+    console.log("log in!" + user);
   } else {
     console.log("log out!");
   }

@@ -3,7 +3,10 @@ console.log("index.js");
 
 // import { initializeFBApp } from "/public/javascripts/firebase.bundle.js";
 // initializeFBApp();
-
+// const User = require('../models/user');
+// if(User){
+//     console.log("we can use User");
+// }
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth,  onAuthStateChanged } from "firebase/auth";
@@ -26,7 +29,7 @@ const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid;
-        console.log("log in!" + uid);
+        console.log("log in!" + user);
     } else {
         console.log("log out!");
     }
