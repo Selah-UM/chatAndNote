@@ -36,7 +36,7 @@ let uiConfig = {
       },
   },
   // signInFlow: 'popup',
-  signInSuccessUrl: '/index',
+  signInSuccessUrl: '/',
   signInOptions: [
     firebase.auth.GithubAuthProvider.PROVIDER_ID
   ],

@@ -18681,7 +18681,7 @@ var uiConfig = {
     }
   },
   // signInFlow: 'popup',
-  signInSuccessUrl: '/index',
+  signInSuccessUrl: '/',
   signInOptions: [firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__["default"].auth.GithubAuthProvider.PROVIDER_ID]
 };
 var ui = new firebaseui.auth.AuthUI(firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__["default"].auth());
