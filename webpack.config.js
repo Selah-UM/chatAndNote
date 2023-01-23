@@ -8,6 +8,7 @@ module.exports = {
     index: './index.js',
     room:  './room.js',
     login:  './login.js',
+    // firebase: './firebase.js'
   },
   output: {
     path: path.join(__dirname, 'public', 'javascripts'),
