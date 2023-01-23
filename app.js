@@ -22,8 +22,8 @@ const env = process.env;
 // console.log(env.GITHUB_CLIENT_ID);
 // console.log(env.GITHUB_CLIENT_SECRET);
 const GitHubStrategy = require('passport-github2').Strategy;
-const GITHUB_CLIENT_ID = env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = env.GITHUB_CLIENT_SECRET;
+// const GITHUB_CLIENT_ID = env.GITHUB_CLIENT_ID;
+// const GITHUB_CLIENT_SECRET = env.GITHUB_CLIENT_SECRET;
 
 passport.serializeUser((user, done) => {
   done(null, user);
