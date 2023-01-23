@@ -7,20 +7,20 @@ import "firebase/compat/auth";
 var firebaseui = require('firebaseui');
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC1cL-sLI_5tTvHh7_wX1vFCgm3NIHh_QI",
-  authDomain: "nonchansecondapp.firebaseapp.com",
-  databaseURL: "https://nonchansecondapp.firebaseio.com",
-  projectId: "nonchansecondapp",
-  storageBucket: "nonchansecondapp.appspot.com",
-  messagingSenderId: "236461473194",
-  appId: "1:236461473194:web:e0ec1a6fd3b7a37eea3fd3",
-  measurementId: "G-W5PMDCS135"
-};
+  apiKey: "AIzaSyATXy5h6R5jFoy1gEppzBXABhwfxfCOEYc",
+    authDomain: "chatandnote.firebaseapp.com",
+    databaseURL: "https://chatandnote-default-rtdb.firebaseio.com/",
+    projectId: "chatandnote",
+    storageBucket: "chatandnote.appspot.com",
+    messagingSenderId: "1076201869761",
+    appId: "1:1076201869761:web:b4b81fec24525fead7df40",
+    measurementId: "G-CFWX5TT79V"
+}
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 // Initialize the FirebaseUI Widget using Firebase.
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
+// var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 let uiConfig = {
   callbacks: {
