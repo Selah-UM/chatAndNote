@@ -7,9 +7,26 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _firebase_app_compat__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */   "FirebaseError": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.FirebaseError),
+/* harmony export */   "SDK_VERSION": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.SDK_VERSION),
+/* harmony export */   "_DEFAULT_ENTRY_NAME": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._DEFAULT_ENTRY_NAME),
+/* harmony export */   "_addComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addComponent),
+/* harmony export */   "_addOrOverwriteComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addOrOverwriteComponent),
+/* harmony export */   "_apps": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._apps),
+/* harmony export */   "_clearComponents": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._clearComponents),
+/* harmony export */   "_components": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._components),
+/* harmony export */   "_getProvider": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider),
+/* harmony export */   "_registerComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent),
+/* harmony export */   "_removeServiceInstance": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._removeServiceInstance),
+/* harmony export */   "deleteApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.deleteApp),
+/* harmony export */   "getApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApp),
+/* harmony export */   "getApps": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApps),
+/* harmony export */   "initializeApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp),
+/* harmony export */   "onLog": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.onLog),
+/* harmony export */   "registerVersion": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion),
+/* harmony export */   "setLogLevel": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.setLogLevel)
 /* harmony export */ });
-/* harmony import */ var _firebase_app_compat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 
 
 
@@ -32,7 +49,7 @@ var version = "9.15.0";
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-_firebase_app_compat__WEBPACK_IMPORTED_MODULE_0__["default"].registerVersion(name, version, 'app-compat');
+(0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version, 'app');
 //# sourceMappingURL=index.esm.js.map
 
 
@@ -42,12 +59,29 @@ _firebase_app_compat__WEBPACK_IMPORTED_MODULE_0__["default"].registerVersion(nam
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ firebase)
+/* harmony export */   "FirebaseError": () => (/* reexport safe */ _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError),
+/* harmony export */   "SDK_VERSION": () => (/* binding */ SDK_VERSION),
+/* harmony export */   "_DEFAULT_ENTRY_NAME": () => (/* binding */ DEFAULT_ENTRY_NAME),
+/* harmony export */   "_addComponent": () => (/* binding */ _addComponent),
+/* harmony export */   "_addOrOverwriteComponent": () => (/* binding */ _addOrOverwriteComponent),
+/* harmony export */   "_apps": () => (/* binding */ _apps),
+/* harmony export */   "_clearComponents": () => (/* binding */ _clearComponents),
+/* harmony export */   "_components": () => (/* binding */ _components),
+/* harmony export */   "_getProvider": () => (/* binding */ _getProvider),
+/* harmony export */   "_registerComponent": () => (/* binding */ _registerComponent),
+/* harmony export */   "_removeServiceInstance": () => (/* binding */ _removeServiceInstance),
+/* harmony export */   "deleteApp": () => (/* binding */ deleteApp),
+/* harmony export */   "getApp": () => (/* binding */ getApp),
+/* harmony export */   "getApps": () => (/* binding */ getApps),
+/* harmony export */   "initializeApp": () => (/* binding */ initializeApp),
+/* harmony export */   "onLog": () => (/* binding */ onLog),
+/* harmony export */   "registerVersion": () => (/* binding */ registerVersion),
+/* harmony export */   "setLogLevel": () => (/* binding */ setLogLevel)
 /* harmony export */ });
-/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var idb__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 
 
 
@@ -56,7 +90,130 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * @license
- * Copyright 2020 Google LLC
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class PlatformLoggerServiceImpl {
+    constructor(container) {
+        this.container = container;
+    }
+    // In initial implementation, this will be called by installations on
+    // auth token refresh, and installations will send this string.
+    getPlatformInfoString() {
+        const providers = this.container.getProviders();
+        // Loop through providers and get library/version pairs from any that are
+        // version components.
+        return providers
+            .map(provider => {
+            if (isVersionServiceProvider(provider)) {
+                const service = provider.getImmediate();
+                return `${service.library}/${service.version}`;
+            }
+            else {
+                return null;
+            }
+        })
+            .filter(logString => logString)
+            .join(' ');
+    }
+}
+/**
+ *
+ * @param provider check if this provider provides a VersionService
+ *
+ * NOTE: Using Provider<'app-version'> is a hack to indicate that the provider
+ * provides VersionService. The provider is not necessarily a 'app-version'
+ * provider.
+ */
+function isVersionServiceProvider(provider) {
+    const component = provider.getComponent();
+    return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* ComponentType.VERSION */;
+}
+
+const name$o = "@firebase/app";
+const version$1 = "0.9.0";
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Logger('@firebase/app');
+
+const name$n = "@firebase/app-compat";
+
+const name$m = "@firebase/analytics-compat";
+
+const name$l = "@firebase/analytics";
+
+const name$k = "@firebase/app-check-compat";
+
+const name$j = "@firebase/app-check";
+
+const name$i = "@firebase/auth";
+
+const name$h = "@firebase/auth-compat";
+
+const name$g = "@firebase/database";
+
+const name$f = "@firebase/database-compat";
+
+const name$e = "@firebase/functions";
+
+const name$d = "@firebase/functions-compat";
+
+const name$c = "@firebase/installations";
+
+const name$b = "@firebase/installations-compat";
+
+const name$a = "@firebase/messaging";
+
+const name$9 = "@firebase/messaging-compat";
+
+const name$8 = "@firebase/performance";
+
+const name$7 = "@firebase/performance-compat";
+
+const name$6 = "@firebase/remote-config";
+
+const name$5 = "@firebase/remote-config-compat";
+
+const name$4 = "@firebase/storage";
+
+const name$3 = "@firebase/storage-compat";
+
+const name$2 = "@firebase/firestore";
+
+const name$1 = "@firebase/firestore-compat";
+
+const name = "firebase";
+const version = "9.15.0";
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,109 +228,144 @@ __webpack_require__.r(__webpack_exports__);
  * limitations under the License.
  */
 /**
- * Global context object for a collection of services using
- * a shared authentication state.
+ * The default app name
  *
- * marked as internal because it references internal types exported from @firebase/app
  * @internal
  */
-class FirebaseAppImpl {
-    constructor(_delegate, firebase) {
-        this._delegate = _delegate;
-        this.firebase = firebase;
-        // add itself to container
-        (0,_firebase_app__WEBPACK_IMPORTED_MODULE_2__._addComponent)(_delegate, new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component('app-compat', () => this, "PUBLIC" /* ComponentType.PUBLIC */));
-        this.container = _delegate.container;
+const DEFAULT_ENTRY_NAME = '[DEFAULT]';
+const PLATFORM_LOG_STRING = {
+    [name$o]: 'fire-core',
+    [name$n]: 'fire-core-compat',
+    [name$l]: 'fire-analytics',
+    [name$m]: 'fire-analytics-compat',
+    [name$j]: 'fire-app-check',
+    [name$k]: 'fire-app-check-compat',
+    [name$i]: 'fire-auth',
+    [name$h]: 'fire-auth-compat',
+    [name$g]: 'fire-rtdb',
+    [name$f]: 'fire-rtdb-compat',
+    [name$e]: 'fire-fn',
+    [name$d]: 'fire-fn-compat',
+    [name$c]: 'fire-iid',
+    [name$b]: 'fire-iid-compat',
+    [name$a]: 'fire-fcm',
+    [name$9]: 'fire-fcm-compat',
+    [name$8]: 'fire-perf',
+    [name$7]: 'fire-perf-compat',
+    [name$6]: 'fire-rc',
+    [name$5]: 'fire-rc-compat',
+    [name$4]: 'fire-gcs',
+    [name$3]: 'fire-gcs-compat',
+    [name$2]: 'fire-fst',
+    [name$1]: 'fire-fst-compat',
+    'fire-js': 'fire-js',
+    [name]: 'fire-js-all'
+};
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * @internal
+ */
+const _apps = new Map();
+/**
+ * Registered components.
+ *
+ * @internal
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const _components = new Map();
+/**
+ * @param component - the component being added to this app's container
+ *
+ * @internal
+ */
+function _addComponent(app, component) {
+    try {
+        app.container.addComponent(component);
     }
-    get automaticDataCollectionEnabled() {
-        return this._delegate.automaticDataCollectionEnabled;
-    }
-    set automaticDataCollectionEnabled(val) {
-        this._delegate.automaticDataCollectionEnabled = val;
-    }
-    get name() {
-        return this._delegate.name;
-    }
-    get options() {
-        return this._delegate.options;
-    }
-    delete() {
-        return new Promise(resolve => {
-            this._delegate.checkDestroyed();
-            resolve();
-        }).then(() => {
-            this.firebase.INTERNAL.removeApp(this.name);
-            return (0,_firebase_app__WEBPACK_IMPORTED_MODULE_2__.deleteApp)(this._delegate);
-        });
-    }
-    /**
-     * Return a service instance associated with this app (creating it
-     * on demand), identified by the passed instanceIdentifier.
-     *
-     * NOTE: Currently storage and functions are the only ones that are leveraging this
-     * functionality. They invoke it by calling:
-     *
-     * ```javascript
-     * firebase.app().storage('STORAGE BUCKET ID')
-     * ```
-     *
-     * The service name is passed to this already
-     * @internal
-     */
-    _getService(name, instanceIdentifier = _firebase_app__WEBPACK_IMPORTED_MODULE_2__._DEFAULT_ENTRY_NAME) {
-        var _a;
-        this._delegate.checkDestroyed();
-        // Initialize instance if InstatiationMode is `EXPLICIT`.
-        const provider = this._delegate.container.getProvider(name);
-        if (!provider.isInitialized() &&
-            ((_a = provider.getComponent()) === null || _a === void 0 ? void 0 : _a.instantiationMode) === "EXPLICIT" /* InstantiationMode.EXPLICIT */) {
-            provider.initialize();
-        }
-        // getImmediate will always succeed because _getService is only called for registered components.
-        return provider.getImmediate({
-            identifier: instanceIdentifier
-        });
-    }
-    /**
-     * Remove a service instance from the cache, so we will create a new instance for this service
-     * when people try to get it again.
-     *
-     * NOTE: currently only firestore uses this functionality to support firestore shutdown.
-     *
-     * @param name The service name
-     * @param instanceIdentifier instance identifier in case multiple instances are allowed
-     * @internal
-     */
-    _removeServiceInstance(name, instanceIdentifier = _firebase_app__WEBPACK_IMPORTED_MODULE_2__._DEFAULT_ENTRY_NAME) {
-        this._delegate.container
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .getProvider(name)
-            .clearInstance(instanceIdentifier);
-    }
-    /**
-     * @param component the component being added to this app's container
-     * @internal
-     */
-    _addComponent(component) {
-        (0,_firebase_app__WEBPACK_IMPORTED_MODULE_2__._addComponent)(this._delegate, component);
-    }
-    _addOrOverwriteComponent(component) {
-        (0,_firebase_app__WEBPACK_IMPORTED_MODULE_2__._addOrOverwriteComponent)(this._delegate, component);
-    }
-    toJSON() {
-        return {
-            name: this.name,
-            automaticDataCollectionEnabled: this.automaticDataCollectionEnabled,
-            options: this.options
-        };
+    catch (e) {
+        logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
     }
 }
-// TODO: investigate why the following needs to be commented out
-// Prevent dead-code elimination of these methods w/o invalid property
-// copying.
-// (FirebaseAppImpl.prototype.name && FirebaseAppImpl.prototype.options) ||
-//   FirebaseAppImpl.prototype.delete ||
-//   console.log('dc');
+/**
+ *
+ * @internal
+ */
+function _addOrOverwriteComponent(app, component) {
+    app.container.addOrOverwriteComponent(component);
+}
+/**
+ *
+ * @param component - the component to register
+ * @returns whether or not the component is registered successfully
+ *
+ * @internal
+ */
+function _registerComponent(component) {
+    const componentName = component.name;
+    if (_components.has(componentName)) {
+        logger.debug(`There were multiple attempts to register component ${componentName}.`);
+        return false;
+    }
+    _components.set(componentName, component);
+    // add the component to existing app instances
+    for (const app of _apps.values()) {
+        _addComponent(app, component);
+    }
+    return true;
+}
+/**
+ *
+ * @param app - FirebaseApp instance
+ * @param name - service name
+ *
+ * @returns the provider for the service with the matching name
+ *
+ * @internal
+ */
+function _getProvider(app, name) {
+    const heartbeatController = app.container
+        .getProvider('heartbeat')
+        .getImmediate({ optional: true });
+    if (heartbeatController) {
+        void heartbeatController.triggerHeartbeat();
+    }
+    return app.container.getProvider(name);
+}
+/**
+ *
+ * @param app - FirebaseApp instance
+ * @param name - service name
+ * @param instanceIdentifier - service instance identifier in case the service supports multiple instances
+ *
+ * @internal
+ */
+function _removeServiceInstance(app, name, instanceIdentifier = DEFAULT_ENTRY_NAME) {
+    _getProvider(app, name).clearInstance(instanceIdentifier);
+}
+/**
+ * Test only
+ *
+ * @internal
+ */
+function _clearComponents() {
+    _components.clear();
+}
 
 /**
  * @license
@@ -194,10 +386,86 @@ class FirebaseAppImpl {
 const ERRORS = {
     ["no-app" /* AppError.NO_APP */]: "No Firebase App '{$appName}' has been created - " +
         'call Firebase App.initializeApp()',
+    ["bad-app-name" /* AppError.BAD_APP_NAME */]: "Illegal App name: '{$appName}",
+    ["duplicate-app" /* AppError.DUPLICATE_APP */]: "Firebase App named '{$appName}' already exists with different options or config",
+    ["app-deleted" /* AppError.APP_DELETED */]: "Firebase App named '{$appName}' already deleted",
+    ["no-options" /* AppError.NO_OPTIONS */]: 'Need to provide options, when not being deployed to hosting via source.',
     ["invalid-app-argument" /* AppError.INVALID_APP_ARGUMENT */]: 'firebase.{$appName}() takes either no argument or a ' +
-        'Firebase App instance.'
+        'Firebase App instance.',
+    ["invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */]: 'First argument to `onLog` must be null or a function.',
+    ["idb-open" /* AppError.IDB_OPEN */]: 'Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-get" /* AppError.IDB_GET */]: 'Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-set" /* AppError.IDB_WRITE */]: 'Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-delete" /* AppError.IDB_DELETE */]: 'Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.'
 };
-const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_0__.ErrorFactory('app-compat', 'Firebase', ERRORS);
+const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.ErrorFactory('app', 'Firebase', ERRORS);
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class FirebaseAppImpl {
+    constructor(options, config, container) {
+        this._isDeleted = false;
+        this._options = Object.assign({}, options);
+        this._config = Object.assign({}, config);
+        this._name = config.name;
+        this._automaticDataCollectionEnabled =
+            config.automaticDataCollectionEnabled;
+        this._container = container;
+        this.container.addComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('app', () => this, "PUBLIC" /* ComponentType.PUBLIC */));
+    }
+    get automaticDataCollectionEnabled() {
+        this.checkDestroyed();
+        return this._automaticDataCollectionEnabled;
+    }
+    set automaticDataCollectionEnabled(val) {
+        this.checkDestroyed();
+        this._automaticDataCollectionEnabled = val;
+    }
+    get name() {
+        this.checkDestroyed();
+        return this._name;
+    }
+    get options() {
+        this.checkDestroyed();
+        return this._options;
+    }
+    get config() {
+        this.checkDestroyed();
+        return this._config;
+    }
+    get container() {
+        return this._container;
+    }
+    get isDeleted() {
+        return this._isDeleted;
+    }
+    set isDeleted(val) {
+        this._isDeleted = val;
+    }
+    /**
+     * This function will throw an Error if the App has already been deleted -
+     * use before performing API actions on the App.
+     */
+    checkDestroyed() {
+        if (this.isDeleted) {
+            throw ERROR_FACTORY.create("app-deleted" /* AppError.APP_DELETED */, { appName: this._name });
+        }
+    }
+}
 
 /**
  * @license
@@ -216,151 +484,271 @@ const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_0__.ErrorFacto
  * limitations under the License.
  */
 /**
- * Because auth can't share code with other components, we attach the utility functions
- * in an internal namespace to share code.
- * This function return a firebase namespace object without
- * any utility functions, so it can be shared between the regular firebaseNamespace and
- * the lite version.
+ * The current SDK version.
+ *
+ * @public
  */
-function createFirebaseNamespaceCore(firebaseAppImpl) {
-    const apps = {};
-    // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // const components = new Map<string, Component<any>>();
-    // A namespace is a plain JavaScript Object.
-    const namespace = {
-        // Hack to prevent Babel from modifying the object returned
-        // as the firebase namespace.
-        // @ts-ignore
-        __esModule: true,
-        initializeApp: initializeAppCompat,
-        // @ts-ignore
-        app,
-        registerVersion: _firebase_app__WEBPACK_IMPORTED_MODULE_2__.registerVersion,
-        setLogLevel: _firebase_app__WEBPACK_IMPORTED_MODULE_2__.setLogLevel,
-        onLog: _firebase_app__WEBPACK_IMPORTED_MODULE_2__.onLog,
-        // @ts-ignore
-        apps: null,
-        SDK_VERSION: _firebase_app__WEBPACK_IMPORTED_MODULE_2__.SDK_VERSION,
-        INTERNAL: {
-            registerComponent: registerComponentCompat,
-            removeApp,
-            useAsService,
-            modularAPIs: _firebase_app__WEBPACK_IMPORTED_MODULE_2__
+const SDK_VERSION = version;
+function initializeApp(_options, rawConfig = {}) {
+    let options = _options;
+    if (typeof rawConfig !== 'object') {
+        const name = rawConfig;
+        rawConfig = { name };
+    }
+    const config = Object.assign({ name: DEFAULT_ENTRY_NAME, automaticDataCollectionEnabled: false }, rawConfig);
+    const name = config.name;
+    if (typeof name !== 'string' || !name) {
+        throw ERROR_FACTORY.create("bad-app-name" /* AppError.BAD_APP_NAME */, {
+            appName: String(name)
+        });
+    }
+    options || (options = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getDefaultAppConfig)());
+    if (!options) {
+        throw ERROR_FACTORY.create("no-options" /* AppError.NO_OPTIONS */);
+    }
+    const existingApp = _apps.get(name);
+    if (existingApp) {
+        // return the existing app if options and config deep equal the ones in the existing app.
+        if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(options, existingApp.options) &&
+            (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(config, existingApp.config)) {
+            return existingApp;
         }
-    };
-    // Inject a circular default export to allow Babel users who were previously
-    // using:
-    //
-    //   import firebase from 'firebase';
-    //   which becomes: var firebase = require('firebase').default;
-    //
-    // instead of
-    //
-    //   import * as firebase from 'firebase';
-    //   which becomes: var firebase = require('firebase');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    namespace['default'] = namespace;
-    // firebase.apps is a read-only getter.
-    Object.defineProperty(namespace, 'apps', {
-        get: getApps
-    });
-    /**
-     * Called by App.delete() - but before any services associated with the App
-     * are deleted.
-     */
-    function removeApp(name) {
-        delete apps[name];
-    }
-    /**
-     * Get the App object for a given name (or DEFAULT).
-     */
-    function app(name) {
-        name = name || _firebase_app__WEBPACK_IMPORTED_MODULE_2__._DEFAULT_ENTRY_NAME;
-        if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_0__.contains)(apps, name)) {
-            throw ERROR_FACTORY.create("no-app" /* AppError.NO_APP */, { appName: name });
+        else {
+            throw ERROR_FACTORY.create("duplicate-app" /* AppError.DUPLICATE_APP */, { appName: name });
         }
-        return apps[name];
     }
-    // @ts-ignore
-    app['App'] = firebaseAppImpl;
-    /**
-     * Create a new App instance (name must be unique).
-     *
-     * This function is idempotent. It can be called more than once and return the same instance using the same options and config.
-     */
-    function initializeAppCompat(options, rawConfig = {}) {
-        const app = _firebase_app__WEBPACK_IMPORTED_MODULE_2__.initializeApp(options, rawConfig);
-        if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_0__.contains)(apps, app.name)) {
-            return apps[app.name];
+    const container = new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.ComponentContainer(name);
+    for (const component of _components.values()) {
+        container.addComponent(component);
+    }
+    const newApp = new FirebaseAppImpl(options, config, container);
+    _apps.set(name, newApp);
+    return newApp;
+}
+/**
+ * Retrieves a {@link @firebase/app#FirebaseApp} instance.
+ *
+ * When called with no arguments, the default app is returned. When an app name
+ * is provided, the app corresponding to that name is returned.
+ *
+ * An exception is thrown if the app being retrieved has not yet been
+ * initialized.
+ *
+ * @example
+ * ```javascript
+ * // Return the default app
+ * const app = getApp();
+ * ```
+ *
+ * @example
+ * ```javascript
+ * // Return a named app
+ * const otherApp = getApp("otherApp");
+ * ```
+ *
+ * @param name - Optional name of the app to return. If no name is
+ *   provided, the default is `"[DEFAULT]"`.
+ *
+ * @returns The app corresponding to the provided app name.
+ *   If no app name is provided, the default app is returned.
+ *
+ * @public
+ */
+function getApp(name = DEFAULT_ENTRY_NAME) {
+    const app = _apps.get(name);
+    if (!app && name === DEFAULT_ENTRY_NAME) {
+        return initializeApp();
+    }
+    if (!app) {
+        throw ERROR_FACTORY.create("no-app" /* AppError.NO_APP */, { appName: name });
+    }
+    return app;
+}
+/**
+ * A (read-only) array of all initialized apps.
+ * @public
+ */
+function getApps() {
+    return Array.from(_apps.values());
+}
+/**
+ * Renders this app unusable and frees the resources of all associated
+ * services.
+ *
+ * @example
+ * ```javascript
+ * deleteApp(app)
+ *   .then(function() {
+ *     console.log("App deleted successfully");
+ *   })
+ *   .catch(function(error) {
+ *     console.log("Error deleting app:", error);
+ *   });
+ * ```
+ *
+ * @public
+ */
+async function deleteApp(app) {
+    const name = app.name;
+    if (_apps.has(name)) {
+        _apps.delete(name);
+        await Promise.all(app.container
+            .getProviders()
+            .map(provider => provider.delete()));
+        app.isDeleted = true;
+    }
+}
+/**
+ * Registers a library's name and version for platform logging purposes.
+ * @param library - Name of 1p or 3p library (e.g. firestore, angularfire)
+ * @param version - Current version of that library.
+ * @param variant - Bundle variant, e.g., node, rn, etc.
+ *
+ * @public
+ */
+function registerVersion(libraryKeyOrName, version, variant) {
+    var _a;
+    // TODO: We can use this check to whitelist strings when/if we set up
+    // a good whitelist system.
+    let library = (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) !== null && _a !== void 0 ? _a : libraryKeyOrName;
+    if (variant) {
+        library += `-${variant}`;
+    }
+    const libraryMismatch = library.match(/\s|\//);
+    const versionMismatch = version.match(/\s|\//);
+    if (libraryMismatch || versionMismatch) {
+        const warning = [
+            `Unable to register library "${library}" with version "${version}":`
+        ];
+        if (libraryMismatch) {
+            warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`);
         }
-        const appCompat = new firebaseAppImpl(app, namespace);
-        apps[app.name] = appCompat;
-        return appCompat;
+        if (libraryMismatch && versionMismatch) {
+            warning.push('and');
+        }
+        if (versionMismatch) {
+            warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`);
+        }
+        logger.warn(warning.join(' '));
+        return;
     }
-    /*
-     * Return an array of all the non-deleted FirebaseApps.
-     */
-    function getApps() {
-        // Make a copy so caller cannot mutate the apps list.
-        return Object.keys(apps).map(name => apps[name]);
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component(`${library}-version`, () => ({ library, version }), "VERSION" /* ComponentType.VERSION */));
+}
+/**
+ * Sets log handler for all Firebase SDKs.
+ * @param logCallback - An optional custom log handler that executes user code whenever
+ * the Firebase SDK makes a logging call.
+ *
+ * @public
+ */
+function onLog(logCallback, options) {
+    if (logCallback !== null && typeof logCallback !== 'function') {
+        throw ERROR_FACTORY.create("invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */);
     }
-    function registerComponentCompat(component) {
-        const componentName = component.name;
-        const componentNameWithoutCompat = componentName.replace('-compat', '');
-        if (_firebase_app__WEBPACK_IMPORTED_MODULE_2__._registerComponent(component) &&
-            component.type === "PUBLIC" /* ComponentType.PUBLIC */) {
-            // create service namespace for public components
-            // The Service namespace is an accessor function ...
-            const serviceNamespace = (appArg = app()) => {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                if (typeof appArg[componentNameWithoutCompat] !== 'function') {
-                    // Invalid argument.
-                    // This happens in the following case: firebase.storage('gs:/')
-                    throw ERROR_FACTORY.create("invalid-app-argument" /* AppError.INVALID_APP_ARGUMENT */, {
-                        appName: componentName
-                    });
+    (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setUserLogHandler)(logCallback, options);
+}
+/**
+ * Sets log level for all Firebase SDKs.
+ *
+ * All of the log types above the current log level are captured (i.e. if
+ * you set the log level to `info`, errors are logged, but `debug` and
+ * `verbose` logs are not).
+ *
+ * @public
+ */
+function setLogLevel(logLevel) {
+    (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setLogLevel)(logLevel);
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const DB_NAME = 'firebase-heartbeat-database';
+const DB_VERSION = 1;
+const STORE_NAME = 'firebase-heartbeat-store';
+let dbPromise = null;
+function getDbPromise() {
+    if (!dbPromise) {
+        dbPromise = (0,idb__WEBPACK_IMPORTED_MODULE_3__.openDB)(DB_NAME, DB_VERSION, {
+            upgrade: (db, oldVersion) => {
+                // We don't use 'break' in this switch statement, the fall-through
+                // behavior is what we want, because if there are multiple versions between
+                // the old version and the current version, we want ALL the migrations
+                // that correspond to those versions to run, not only the last one.
+                // eslint-disable-next-line default-case
+                switch (oldVersion) {
+                    case 0:
+                        db.createObjectStore(STORE_NAME);
                 }
-                // Forward service instance lookup to the FirebaseApp.
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                return appArg[componentNameWithoutCompat]();
-            };
-            // ... and a container for service-level properties.
-            if (component.serviceProps !== undefined) {
-                (0,_firebase_util__WEBPACK_IMPORTED_MODULE_0__.deepExtend)(serviceNamespace, component.serviceProps);
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            namespace[componentNameWithoutCompat] = serviceNamespace;
-            // Patch the FirebaseAppImpl prototype
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            firebaseAppImpl.prototype[componentNameWithoutCompat] =
-                // TODO: The eslint disable can be removed and the 'ignoreRestArgs'
-                // option added to the no-explicit-any rule when ESlint releases it.
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                function (...args) {
-                    const serviceFxn = this._getService.bind(this, componentName);
-                    return serviceFxn.apply(this, component.multipleInstances ? args : []);
-                };
-        }
-        return component.type === "PUBLIC" /* ComponentType.PUBLIC */
-            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                namespace[componentNameWithoutCompat]
-            : null;
+        }).catch(e => {
+            throw ERROR_FACTORY.create("idb-open" /* AppError.IDB_OPEN */, {
+                originalErrorMessage: e.message
+            });
+        });
     }
-    // Map the requested service to a registered service name
-    // (used to map auth to serverAuth service when needed).
-    function useAsService(app, name) {
-        if (name === 'serverAuth') {
-            return null;
-        }
-        const useService = name;
-        return useService;
+    return dbPromise;
+}
+async function readHeartbeatsFromIndexedDB(app) {
+    try {
+        const db = await getDbPromise();
+        return db
+            .transaction(STORE_NAME)
+            .objectStore(STORE_NAME)
+            .get(computeKey(app));
     }
-    return namespace;
+    catch (e) {
+        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) {
+            logger.warn(e.message);
+        }
+        else {
+            const idbGetError = ERROR_FACTORY.create("idb-get" /* AppError.IDB_GET */, {
+                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
+            });
+            logger.warn(idbGetError.message);
+        }
+    }
+}
+async function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
+    try {
+        const db = await getDbPromise();
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const objectStore = tx.objectStore(STORE_NAME);
+        await objectStore.put(heartbeatObject, computeKey(app));
+        return tx.done;
+    }
+    catch (e) {
+        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) {
+            logger.warn(e.message);
+        }
+        else {
+            const idbGetError = ERROR_FACTORY.create("idb-set" /* AppError.IDB_WRITE */, {
+                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
+            });
+            logger.warn(idbGetError.message);
+        }
+    }
+}
+function computeKey(app) {
+    return `${app.name}!${app.options.appId}`;
 }
 
 /**
  * @license
- * Copyright 2019 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -374,52 +762,221 @@ function createFirebaseNamespaceCore(firebaseAppImpl) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Return a firebase namespace object.
- *
- * In production, this will be called exactly once and the result
- * assigned to the 'firebase' global.  It may be called multiple times
- * in unit tests.
- */
-function createFirebaseNamespace() {
-    const namespace = createFirebaseNamespaceCore(FirebaseAppImpl);
-    namespace.INTERNAL = Object.assign(Object.assign({}, namespace.INTERNAL), { createFirebaseNamespace,
-        extendNamespace,
-        createSubscribe: _firebase_util__WEBPACK_IMPORTED_MODULE_0__.createSubscribe,
-        ErrorFactory: _firebase_util__WEBPACK_IMPORTED_MODULE_0__.ErrorFactory,
-        deepExtend: _firebase_util__WEBPACK_IMPORTED_MODULE_0__.deepExtend });
+const MAX_HEADER_BYTES = 1024;
+// 30 days
+const STORED_HEARTBEAT_RETENTION_MAX_MILLIS = 30 * 24 * 60 * 60 * 1000;
+class HeartbeatServiceImpl {
+    constructor(container) {
+        this.container = container;
+        /**
+         * In-memory cache for heartbeats, used by getHeartbeatsHeader() to generate
+         * the header string.
+         * Stores one record per date. This will be consolidated into the standard
+         * format of one record per user agent string before being sent as a header.
+         * Populated from indexedDB when the controller is instantiated and should
+         * be kept in sync with indexedDB.
+         * Leave public for easier testing.
+         */
+        this._heartbeatsCache = null;
+        const app = this.container.getProvider('app').getImmediate();
+        this._storage = new HeartbeatStorageImpl(app);
+        this._heartbeatsCachePromise = this._storage.read().then(result => {
+            this._heartbeatsCache = result;
+            return result;
+        });
+    }
     /**
-     * Patch the top-level firebase namespace with additional properties.
-     *
-     * firebase.INTERNAL.extendNamespace()
+     * Called to report a heartbeat. The function will generate
+     * a HeartbeatsByUserAgent object, update heartbeatsCache, and persist it
+     * to IndexedDB.
+     * Note that we only store one heartbeat per day. So if a heartbeat for today is
+     * already logged, subsequent calls to this function in the same day will be ignored.
      */
-    function extendNamespace(props) {
-        (0,_firebase_util__WEBPACK_IMPORTED_MODULE_0__.deepExtend)(namespace, props);
+    async triggerHeartbeat() {
+        const platformLogger = this.container
+            .getProvider('platform-logger')
+            .getImmediate();
+        // This is the "Firebase user agent" string from the platform logger
+        // service, not the browser user agent.
+        const agent = platformLogger.getPlatformInfoString();
+        const date = getUTCDateString();
+        if (this._heartbeatsCache === null) {
+            this._heartbeatsCache = await this._heartbeatsCachePromise;
+        }
+        // Do not store a heartbeat if one is already stored for this day
+        // or if a header has already been sent today.
+        if (this._heartbeatsCache.lastSentHeartbeatDate === date ||
+            this._heartbeatsCache.heartbeats.some(singleDateHeartbeat => singleDateHeartbeat.date === date)) {
+            return;
+        }
+        else {
+            // There is no entry for this date. Create one.
+            this._heartbeatsCache.heartbeats.push({ date, agent });
+        }
+        // Remove entries older than 30 days.
+        this._heartbeatsCache.heartbeats = this._heartbeatsCache.heartbeats.filter(singleDateHeartbeat => {
+            const hbTimestamp = new Date(singleDateHeartbeat.date).valueOf();
+            const now = Date.now();
+            return now - hbTimestamp <= STORED_HEARTBEAT_RETENTION_MAX_MILLIS;
+        });
+        return this._storage.overwrite(this._heartbeatsCache);
     }
-    return namespace;
+    /**
+     * Returns a base64 encoded string which can be attached to the heartbeat-specific header directly.
+     * It also clears all heartbeats from memory as well as in IndexedDB.
+     *
+     * NOTE: Consuming product SDKs should not send the header if this method
+     * returns an empty string.
+     */
+    async getHeartbeatsHeader() {
+        if (this._heartbeatsCache === null) {
+            await this._heartbeatsCachePromise;
+        }
+        // If it's still null or the array is empty, there is no data to send.
+        if (this._heartbeatsCache === null ||
+            this._heartbeatsCache.heartbeats.length === 0) {
+            return '';
+        }
+        const date = getUTCDateString();
+        // Extract as many heartbeats from the cache as will fit under the size limit.
+        const { heartbeatsToSend, unsentEntries } = extractHeartbeatsForHeader(this._heartbeatsCache.heartbeats);
+        const headerString = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.base64urlEncodeWithoutPadding)(JSON.stringify({ version: 2, heartbeats: heartbeatsToSend }));
+        // Store last sent date to prevent another being logged/sent for the same day.
+        this._heartbeatsCache.lastSentHeartbeatDate = date;
+        if (unsentEntries.length > 0) {
+            // Store any unsent entries if they exist.
+            this._heartbeatsCache.heartbeats = unsentEntries;
+            // This seems more likely than emptying the array (below) to lead to some odd state
+            // since the cache isn't empty and this will be called again on the next request,
+            // and is probably safest if we await it.
+            await this._storage.overwrite(this._heartbeatsCache);
+        }
+        else {
+            this._heartbeatsCache.heartbeats = [];
+            // Do not wait for this, to reduce latency.
+            void this._storage.overwrite(this._heartbeatsCache);
+        }
+        return headerString;
+    }
 }
-const firebase$1 = createFirebaseNamespace();
-
+function getUTCDateString() {
+    const today = new Date();
+    // Returns date format 'YYYY-MM-DD'
+    return today.toISOString().substring(0, 10);
+}
+function extractHeartbeatsForHeader(heartbeatsCache, maxSize = MAX_HEADER_BYTES) {
+    // Heartbeats grouped by user agent in the standard format to be sent in
+    // the header.
+    const heartbeatsToSend = [];
+    // Single date format heartbeats that are not sent.
+    let unsentEntries = heartbeatsCache.slice();
+    for (const singleDateHeartbeat of heartbeatsCache) {
+        // Look for an existing entry with the same user agent.
+        const heartbeatEntry = heartbeatsToSend.find(hb => hb.agent === singleDateHeartbeat.agent);
+        if (!heartbeatEntry) {
+            // If no entry for this user agent exists, create one.
+            heartbeatsToSend.push({
+                agent: singleDateHeartbeat.agent,
+                dates: [singleDateHeartbeat.date]
+            });
+            if (countBytes(heartbeatsToSend) > maxSize) {
+                // If the header would exceed max size, remove the added heartbeat
+                // entry and stop adding to the header.
+                heartbeatsToSend.pop();
+                break;
+            }
+        }
+        else {
+            heartbeatEntry.dates.push(singleDateHeartbeat.date);
+            // If the header would exceed max size, remove the added date
+            // and stop adding to the header.
+            if (countBytes(heartbeatsToSend) > maxSize) {
+                heartbeatEntry.dates.pop();
+                break;
+            }
+        }
+        // Pop unsent entry from queue. (Skipped if adding the entry exceeded
+        // quota and the loop breaks early.)
+        unsentEntries = unsentEntries.slice(1);
+    }
+    return {
+        heartbeatsToSend,
+        unsentEntries
+    };
+}
+class HeartbeatStorageImpl {
+    constructor(app) {
+        this.app = app;
+        this._canUseIndexedDBPromise = this.runIndexedDBEnvironmentCheck();
+    }
+    async runIndexedDBEnvironmentCheck() {
+        if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isIndexedDBAvailable)()) {
+            return false;
+        }
+        else {
+            return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.validateIndexedDBOpenable)()
+                .then(() => true)
+                .catch(() => false);
+        }
+    }
+    /**
+     * Read all heartbeats.
+     */
+    async read() {
+        const canUseIndexedDB = await this._canUseIndexedDBPromise;
+        if (!canUseIndexedDB) {
+            return { heartbeats: [] };
+        }
+        else {
+            const idbHeartbeatObject = await readHeartbeatsFromIndexedDB(this.app);
+            return idbHeartbeatObject || { heartbeats: [] };
+        }
+    }
+    // overwrite the storage with the provided heartbeats
+    async overwrite(heartbeatsObject) {
+        var _a;
+        const canUseIndexedDB = await this._canUseIndexedDBPromise;
+        if (!canUseIndexedDB) {
+            return;
+        }
+        else {
+            const existingHeartbeatsObject = await this.read();
+            return writeHeartbeatsToIndexedDB(this.app, {
+                lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
+                heartbeats: heartbeatsObject.heartbeats
+            });
+        }
+    }
+    // add heartbeats
+    async add(heartbeatsObject) {
+        var _a;
+        const canUseIndexedDB = await this._canUseIndexedDBPromise;
+        if (!canUseIndexedDB) {
+            return;
+        }
+        else {
+            const existingHeartbeatsObject = await this.read();
+            return writeHeartbeatsToIndexedDB(this.app, {
+                lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
+                heartbeats: [
+                    ...existingHeartbeatsObject.heartbeats,
+                    ...heartbeatsObject.heartbeats
+                ]
+            });
+        }
+    }
+}
 /**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Calculate bytes of a HeartbeatsByUserAgent array after being wrapped
+ * in a platform logging header JSON object, stringified, and converted
+ * to base 64.
  */
-const logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_3__.Logger('@firebase/app-compat');
-
-const name = "@firebase/app-compat";
-const version = "0.2.0";
+function countBytes(heartbeatsCache) {
+    // base64 has a restricted set of characters, all of which should be 1 byte.
+    return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.base64urlEncodeWithoutPadding)(
+    // heartbeatsCache wrapper properties
+    JSON.stringify({ version: 2, heartbeats: heartbeatsCache })).length;
+}
 
 /**
  * @license
@@ -438,13 +995,84 @@ const version = "0.2.0";
  * limitations under the License.
  */
 function registerCoreComponents(variant) {
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('platform-logger', container => new PlatformLoggerServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('heartbeat', container => new HeartbeatServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
     // Register `app` package.
-    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_2__.registerVersion)(name, version, variant);
+    registerVersion(name$o, version$1, variant);
+    // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+    registerVersion(name$o, version$1, 'esm2017');
+    // Register platform SDK identifier (no version).
+    registerVersion('fire-js', '');
+}
+
+/**
+ * Firebase App
+ *
+ * @remarks This package coordinates the communication between the different Firebase components
+ * @packageDocumentation
+ */
+registerCoreComponents('');
+
+
+//# sourceMappingURL=index.esm2017.js.map
+
+
+/***/ }),
+/* 3 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Component": () => (/* binding */ Component),
+/* harmony export */   "ComponentContainer": () => (/* binding */ ComponentContainer),
+/* harmony export */   "Provider": () => (/* binding */ Provider)
+/* harmony export */ });
+/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+
+/**
+ * Component for service name T, e.g. `auth`, `auth-internal`
+ */
+class Component {
+    /**
+     *
+     * @param name The public service name, e.g. app, auth, firestore, database
+     * @param instanceFactory Service factory responsible for creating the public interface
+     * @param type whether the service provided by the component is public or private
+     */
+    constructor(name, instanceFactory, type) {
+        this.name = name;
+        this.instanceFactory = instanceFactory;
+        this.type = type;
+        this.multipleInstances = false;
+        /**
+         * Properties to be added to the service namespace
+         */
+        this.serviceProps = {};
+        this.instantiationMode = "LAZY" /* InstantiationMode.LAZY */;
+        this.onInstanceCreated = null;
+    }
+    setInstantiationMode(mode) {
+        this.instantiationMode = mode;
+        return this;
+    }
+    setMultipleInstances(multipleInstances) {
+        this.multipleInstances = multipleInstances;
+        return this;
+    }
+    setServiceProps(props) {
+        this.serviceProps = props;
+        return this;
+    }
+    setInstanceCreatedCallback(callback) {
+        this.onInstanceCreated = callback;
+        return this;
+    }
 }
 
 /**
  * @license
- * Copyright 2020 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -458,31 +1086,361 @@ function registerCoreComponents(variant) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Firebase Lite detection
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_0__.isBrowser)() && self.firebase !== undefined) {
-    logger.warn(`
-    Warning: Firebase is already defined in the global scope. Please make sure
-    Firebase library is only loaded once.
-  `);
-    // eslint-disable-next-line
-    const sdkVersion = self.firebase.SDK_VERSION;
-    if (sdkVersion && sdkVersion.indexOf('LITE') >= 0) {
-        logger.warn(`
-    Warning: You are trying to load Firebase while using Firebase Performance standalone script.
-    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.
-    `);
+const DEFAULT_ENTRY_NAME = '[DEFAULT]';
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Provider for instance for service name T, e.g. 'auth', 'auth-internal'
+ * NameServiceMapping[T] is an alias for the type of the instance
+ */
+class Provider {
+    constructor(name, container) {
+        this.name = name;
+        this.container = container;
+        this.component = null;
+        this.instances = new Map();
+        this.instancesDeferred = new Map();
+        this.instancesOptions = new Map();
+        this.onInitCallbacks = new Map();
+    }
+    /**
+     * @param identifier A provider can provide mulitple instances of a service
+     * if this.component.multipleInstances is true.
+     */
+    get(identifier) {
+        // if multipleInstances is not supported, use the default name
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+        if (!this.instancesDeferred.has(normalizedIdentifier)) {
+            const deferred = new _firebase_util__WEBPACK_IMPORTED_MODULE_0__.Deferred();
+            this.instancesDeferred.set(normalizedIdentifier, deferred);
+            if (this.isInitialized(normalizedIdentifier) ||
+                this.shouldAutoInitialize()) {
+                // initialize the service if it can be auto-initialized
+                try {
+                    const instance = this.getOrInitializeService({
+                        instanceIdentifier: normalizedIdentifier
+                    });
+                    if (instance) {
+                        deferred.resolve(instance);
+                    }
+                }
+                catch (e) {
+                    // when the instance factory throws an exception during get(), it should not cause
+                    // a fatal error. We just return the unresolved promise in this case.
+                }
+            }
+        }
+        return this.instancesDeferred.get(normalizedIdentifier).promise;
+    }
+    getImmediate(options) {
+        var _a;
+        // if multipleInstances is not supported, use the default name
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(options === null || options === void 0 ? void 0 : options.identifier);
+        const optional = (_a = options === null || options === void 0 ? void 0 : options.optional) !== null && _a !== void 0 ? _a : false;
+        if (this.isInitialized(normalizedIdentifier) ||
+            this.shouldAutoInitialize()) {
+            try {
+                return this.getOrInitializeService({
+                    instanceIdentifier: normalizedIdentifier
+                });
+            }
+            catch (e) {
+                if (optional) {
+                    return null;
+                }
+                else {
+                    throw e;
+                }
+            }
+        }
+        else {
+            // In case a component is not initialized and should/can not be auto-initialized at the moment, return null if the optional flag is set, or throw
+            if (optional) {
+                return null;
+            }
+            else {
+                throw Error(`Service ${this.name} is not available`);
+            }
+        }
+    }
+    getComponent() {
+        return this.component;
+    }
+    setComponent(component) {
+        if (component.name !== this.name) {
+            throw Error(`Mismatching Component ${component.name} for Provider ${this.name}.`);
+        }
+        if (this.component) {
+            throw Error(`Component for ${this.name} has already been provided`);
+        }
+        this.component = component;
+        // return early without attempting to initialize the component if the component requires explicit initialization (calling `Provider.initialize()`)
+        if (!this.shouldAutoInitialize()) {
+            return;
+        }
+        // if the service is eager, initialize the default instance
+        if (isComponentEager(component)) {
+            try {
+                this.getOrInitializeService({ instanceIdentifier: DEFAULT_ENTRY_NAME });
+            }
+            catch (e) {
+                // when the instance factory for an eager Component throws an exception during the eager
+                // initialization, it should not cause a fatal error.
+                // TODO: Investigate if we need to make it configurable, because some component may want to cause
+                // a fatal error in this case?
+            }
+        }
+        // Create service instances for the pending promises and resolve them
+        // NOTE: if this.multipleInstances is false, only the default instance will be created
+        // and all promises with resolve with it regardless of the identifier.
+        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+            const normalizedIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+            try {
+                // `getOrInitializeService()` should always return a valid instance since a component is guaranteed. use ! to make typescript happy.
+                const instance = this.getOrInitializeService({
+                    instanceIdentifier: normalizedIdentifier
+                });
+                instanceDeferred.resolve(instance);
+            }
+            catch (e) {
+                // when the instance factory throws an exception, it should not cause
+                // a fatal error. We just leave the promise unresolved.
+            }
+        }
+    }
+    clearInstance(identifier = DEFAULT_ENTRY_NAME) {
+        this.instancesDeferred.delete(identifier);
+        this.instancesOptions.delete(identifier);
+        this.instances.delete(identifier);
+    }
+    // app.delete() will call this method on every provider to delete the services
+    // TODO: should we mark the provider as deleted?
+    async delete() {
+        const services = Array.from(this.instances.values());
+        await Promise.all([
+            ...services
+                .filter(service => 'INTERNAL' in service) // legacy services
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .map(service => service.INTERNAL.delete()),
+            ...services
+                .filter(service => '_delete' in service) // modularized services
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .map(service => service._delete())
+        ]);
+    }
+    isComponentSet() {
+        return this.component != null;
+    }
+    isInitialized(identifier = DEFAULT_ENTRY_NAME) {
+        return this.instances.has(identifier);
+    }
+    getOptions(identifier = DEFAULT_ENTRY_NAME) {
+        return this.instancesOptions.get(identifier) || {};
+    }
+    initialize(opts = {}) {
+        const { options = {} } = opts;
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(opts.instanceIdentifier);
+        if (this.isInitialized(normalizedIdentifier)) {
+            throw Error(`${this.name}(${normalizedIdentifier}) has already been initialized`);
+        }
+        if (!this.isComponentSet()) {
+            throw Error(`Component ${this.name} has not been registered yet`);
+        }
+        const instance = this.getOrInitializeService({
+            instanceIdentifier: normalizedIdentifier,
+            options
+        });
+        // resolve any pending promise waiting for the service instance
+        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+            const normalizedDeferredIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+            if (normalizedIdentifier === normalizedDeferredIdentifier) {
+                instanceDeferred.resolve(instance);
+            }
+        }
+        return instance;
+    }
+    /**
+     *
+     * @param callback - a function that will be invoked  after the provider has been initialized by calling provider.initialize().
+     * The function is invoked SYNCHRONOUSLY, so it should not execute any longrunning tasks in order to not block the program.
+     *
+     * @param identifier An optional instance identifier
+     * @returns a function to unregister the callback
+     */
+    onInit(callback, identifier) {
+        var _a;
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+        const existingCallbacks = (_a = this.onInitCallbacks.get(normalizedIdentifier)) !== null && _a !== void 0 ? _a : new Set();
+        existingCallbacks.add(callback);
+        this.onInitCallbacks.set(normalizedIdentifier, existingCallbacks);
+        const existingInstance = this.instances.get(normalizedIdentifier);
+        if (existingInstance) {
+            callback(existingInstance, normalizedIdentifier);
+        }
+        return () => {
+            existingCallbacks.delete(callback);
+        };
+    }
+    /**
+     * Invoke onInit callbacks synchronously
+     * @param instance the service instance`
+     */
+    invokeOnInitCallbacks(instance, identifier) {
+        const callbacks = this.onInitCallbacks.get(identifier);
+        if (!callbacks) {
+            return;
+        }
+        for (const callback of callbacks) {
+            try {
+                callback(instance, identifier);
+            }
+            catch (_a) {
+                // ignore errors in the onInit callback
+            }
+        }
+    }
+    getOrInitializeService({ instanceIdentifier, options = {} }) {
+        let instance = this.instances.get(instanceIdentifier);
+        if (!instance && this.component) {
+            instance = this.component.instanceFactory(this.container, {
+                instanceIdentifier: normalizeIdentifierForFactory(instanceIdentifier),
+                options
+            });
+            this.instances.set(instanceIdentifier, instance);
+            this.instancesOptions.set(instanceIdentifier, options);
+            /**
+             * Invoke onInit listeners.
+             * Note this.component.onInstanceCreated is different, which is used by the component creator,
+             * while onInit listeners are registered by consumers of the provider.
+             */
+            this.invokeOnInitCallbacks(instance, instanceIdentifier);
+            /**
+             * Order is important
+             * onInstanceCreated() should be called after this.instances.set(instanceIdentifier, instance); which
+             * makes `isInitialized()` return true.
+             */
+            if (this.component.onInstanceCreated) {
+                try {
+                    this.component.onInstanceCreated(this.container, instanceIdentifier, instance);
+                }
+                catch (_a) {
+                    // ignore errors in the onInstanceCreatedCallback
+                }
+            }
+        }
+        return instance || null;
+    }
+    normalizeInstanceIdentifier(identifier = DEFAULT_ENTRY_NAME) {
+        if (this.component) {
+            return this.component.multipleInstances ? identifier : DEFAULT_ENTRY_NAME;
+        }
+        else {
+            return identifier; // assume multiple instances are supported before the component is provided.
+        }
+    }
+    shouldAutoInitialize() {
+        return (!!this.component &&
+            this.component.instantiationMode !== "EXPLICIT" /* InstantiationMode.EXPLICIT */);
     }
 }
-const firebase = firebase$1;
-registerCoreComponents();
+// undefined should be passed to the service factory for the default instance
+function normalizeIdentifierForFactory(identifier) {
+    return identifier === DEFAULT_ENTRY_NAME ? undefined : identifier;
+}
+function isComponentEager(component) {
+    return component.instantiationMode === "EAGER" /* InstantiationMode.EAGER */;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * ComponentContainer that provides Providers for service name T, e.g. `auth`, `auth-internal`
+ */
+class ComponentContainer {
+    constructor(name) {
+        this.name = name;
+        this.providers = new Map();
+    }
+    /**
+     *
+     * @param component Component being added
+     * @param overwrite When a component with the same name has already been registered,
+     * if overwrite is true: overwrite the existing component with the new component and create a new
+     * provider with the new component. It can be useful in tests where you want to use different mocks
+     * for different tests.
+     * if overwrite is false: throw an exception
+     */
+    addComponent(component) {
+        const provider = this.getProvider(component.name);
+        if (provider.isComponentSet()) {
+            throw new Error(`Component ${component.name} has already been registered with ${this.name}`);
+        }
+        provider.setComponent(component);
+    }
+    addOrOverwriteComponent(component) {
+        const provider = this.getProvider(component.name);
+        if (provider.isComponentSet()) {
+            // delete the existing provider from the container, so we can register the new component
+            this.providers.delete(component.name);
+        }
+        this.addComponent(component);
+    }
+    /**
+     * getProvider provides a type safe interface where it can only be called with a field name
+     * present in NameServiceMapping interface.
+     *
+     * Firebase SDKs providing services should extend NameServiceMapping interface to register
+     * themselves.
+     */
+    getProvider(name) {
+        if (this.providers.has(name)) {
+            return this.providers.get(name);
+        }
+        // create a Provider for a service that hasn't registered with Firebase
+        const provider = new Provider(name, this);
+        this.providers.set(name, provider);
+        return provider;
+    }
+    getProviders() {
+        return Array.from(this.providers.values());
+    }
+}
 
 
 //# sourceMappingURL=index.esm2017.js.map
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2628,1393 +3586,7 @@ function getModularInstance(service) {
 
 
 /***/ }),
-/* 4 */
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Component": () => (/* binding */ Component),
-/* harmony export */   "ComponentContainer": () => (/* binding */ ComponentContainer),
-/* harmony export */   "Provider": () => (/* binding */ Provider)
-/* harmony export */ });
-/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-
-
-/**
- * Component for service name T, e.g. `auth`, `auth-internal`
- */
-class Component {
-    /**
-     *
-     * @param name The public service name, e.g. app, auth, firestore, database
-     * @param instanceFactory Service factory responsible for creating the public interface
-     * @param type whether the service provided by the component is public or private
-     */
-    constructor(name, instanceFactory, type) {
-        this.name = name;
-        this.instanceFactory = instanceFactory;
-        this.type = type;
-        this.multipleInstances = false;
-        /**
-         * Properties to be added to the service namespace
-         */
-        this.serviceProps = {};
-        this.instantiationMode = "LAZY" /* InstantiationMode.LAZY */;
-        this.onInstanceCreated = null;
-    }
-    setInstantiationMode(mode) {
-        this.instantiationMode = mode;
-        return this;
-    }
-    setMultipleInstances(multipleInstances) {
-        this.multipleInstances = multipleInstances;
-        return this;
-    }
-    setServiceProps(props) {
-        this.serviceProps = props;
-        return this;
-    }
-    setInstanceCreatedCallback(callback) {
-        this.onInstanceCreated = callback;
-        return this;
-    }
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const DEFAULT_ENTRY_NAME = '[DEFAULT]';
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Provider for instance for service name T, e.g. 'auth', 'auth-internal'
- * NameServiceMapping[T] is an alias for the type of the instance
- */
-class Provider {
-    constructor(name, container) {
-        this.name = name;
-        this.container = container;
-        this.component = null;
-        this.instances = new Map();
-        this.instancesDeferred = new Map();
-        this.instancesOptions = new Map();
-        this.onInitCallbacks = new Map();
-    }
-    /**
-     * @param identifier A provider can provide mulitple instances of a service
-     * if this.component.multipleInstances is true.
-     */
-    get(identifier) {
-        // if multipleInstances is not supported, use the default name
-        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
-        if (!this.instancesDeferred.has(normalizedIdentifier)) {
-            const deferred = new _firebase_util__WEBPACK_IMPORTED_MODULE_0__.Deferred();
-            this.instancesDeferred.set(normalizedIdentifier, deferred);
-            if (this.isInitialized(normalizedIdentifier) ||
-                this.shouldAutoInitialize()) {
-                // initialize the service if it can be auto-initialized
-                try {
-                    const instance = this.getOrInitializeService({
-                        instanceIdentifier: normalizedIdentifier
-                    });
-                    if (instance) {
-                        deferred.resolve(instance);
-                    }
-                }
-                catch (e) {
-                    // when the instance factory throws an exception during get(), it should not cause
-                    // a fatal error. We just return the unresolved promise in this case.
-                }
-            }
-        }
-        return this.instancesDeferred.get(normalizedIdentifier).promise;
-    }
-    getImmediate(options) {
-        var _a;
-        // if multipleInstances is not supported, use the default name
-        const normalizedIdentifier = this.normalizeInstanceIdentifier(options === null || options === void 0 ? void 0 : options.identifier);
-        const optional = (_a = options === null || options === void 0 ? void 0 : options.optional) !== null && _a !== void 0 ? _a : false;
-        if (this.isInitialized(normalizedIdentifier) ||
-            this.shouldAutoInitialize()) {
-            try {
-                return this.getOrInitializeService({
-                    instanceIdentifier: normalizedIdentifier
-                });
-            }
-            catch (e) {
-                if (optional) {
-                    return null;
-                }
-                else {
-                    throw e;
-                }
-            }
-        }
-        else {
-            // In case a component is not initialized and should/can not be auto-initialized at the moment, return null if the optional flag is set, or throw
-            if (optional) {
-                return null;
-            }
-            else {
-                throw Error(`Service ${this.name} is not available`);
-            }
-        }
-    }
-    getComponent() {
-        return this.component;
-    }
-    setComponent(component) {
-        if (component.name !== this.name) {
-            throw Error(`Mismatching Component ${component.name} for Provider ${this.name}.`);
-        }
-        if (this.component) {
-            throw Error(`Component for ${this.name} has already been provided`);
-        }
-        this.component = component;
-        // return early without attempting to initialize the component if the component requires explicit initialization (calling `Provider.initialize()`)
-        if (!this.shouldAutoInitialize()) {
-            return;
-        }
-        // if the service is eager, initialize the default instance
-        if (isComponentEager(component)) {
-            try {
-                this.getOrInitializeService({ instanceIdentifier: DEFAULT_ENTRY_NAME });
-            }
-            catch (e) {
-                // when the instance factory for an eager Component throws an exception during the eager
-                // initialization, it should not cause a fatal error.
-                // TODO: Investigate if we need to make it configurable, because some component may want to cause
-                // a fatal error in this case?
-            }
-        }
-        // Create service instances for the pending promises and resolve them
-        // NOTE: if this.multipleInstances is false, only the default instance will be created
-        // and all promises with resolve with it regardless of the identifier.
-        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
-            const normalizedIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
-            try {
-                // `getOrInitializeService()` should always return a valid instance since a component is guaranteed. use ! to make typescript happy.
-                const instance = this.getOrInitializeService({
-                    instanceIdentifier: normalizedIdentifier
-                });
-                instanceDeferred.resolve(instance);
-            }
-            catch (e) {
-                // when the instance factory throws an exception, it should not cause
-                // a fatal error. We just leave the promise unresolved.
-            }
-        }
-    }
-    clearInstance(identifier = DEFAULT_ENTRY_NAME) {
-        this.instancesDeferred.delete(identifier);
-        this.instancesOptions.delete(identifier);
-        this.instances.delete(identifier);
-    }
-    // app.delete() will call this method on every provider to delete the services
-    // TODO: should we mark the provider as deleted?
-    async delete() {
-        const services = Array.from(this.instances.values());
-        await Promise.all([
-            ...services
-                .filter(service => 'INTERNAL' in service) // legacy services
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                .map(service => service.INTERNAL.delete()),
-            ...services
-                .filter(service => '_delete' in service) // modularized services
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                .map(service => service._delete())
-        ]);
-    }
-    isComponentSet() {
-        return this.component != null;
-    }
-    isInitialized(identifier = DEFAULT_ENTRY_NAME) {
-        return this.instances.has(identifier);
-    }
-    getOptions(identifier = DEFAULT_ENTRY_NAME) {
-        return this.instancesOptions.get(identifier) || {};
-    }
-    initialize(opts = {}) {
-        const { options = {} } = opts;
-        const normalizedIdentifier = this.normalizeInstanceIdentifier(opts.instanceIdentifier);
-        if (this.isInitialized(normalizedIdentifier)) {
-            throw Error(`${this.name}(${normalizedIdentifier}) has already been initialized`);
-        }
-        if (!this.isComponentSet()) {
-            throw Error(`Component ${this.name} has not been registered yet`);
-        }
-        const instance = this.getOrInitializeService({
-            instanceIdentifier: normalizedIdentifier,
-            options
-        });
-        // resolve any pending promise waiting for the service instance
-        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
-            const normalizedDeferredIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
-            if (normalizedIdentifier === normalizedDeferredIdentifier) {
-                instanceDeferred.resolve(instance);
-            }
-        }
-        return instance;
-    }
-    /**
-     *
-     * @param callback - a function that will be invoked  after the provider has been initialized by calling provider.initialize().
-     * The function is invoked SYNCHRONOUSLY, so it should not execute any longrunning tasks in order to not block the program.
-     *
-     * @param identifier An optional instance identifier
-     * @returns a function to unregister the callback
-     */
-    onInit(callback, identifier) {
-        var _a;
-        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
-        const existingCallbacks = (_a = this.onInitCallbacks.get(normalizedIdentifier)) !== null && _a !== void 0 ? _a : new Set();
-        existingCallbacks.add(callback);
-        this.onInitCallbacks.set(normalizedIdentifier, existingCallbacks);
-        const existingInstance = this.instances.get(normalizedIdentifier);
-        if (existingInstance) {
-            callback(existingInstance, normalizedIdentifier);
-        }
-        return () => {
-            existingCallbacks.delete(callback);
-        };
-    }
-    /**
-     * Invoke onInit callbacks synchronously
-     * @param instance the service instance`
-     */
-    invokeOnInitCallbacks(instance, identifier) {
-        const callbacks = this.onInitCallbacks.get(identifier);
-        if (!callbacks) {
-            return;
-        }
-        for (const callback of callbacks) {
-            try {
-                callback(instance, identifier);
-            }
-            catch (_a) {
-                // ignore errors in the onInit callback
-            }
-        }
-    }
-    getOrInitializeService({ instanceIdentifier, options = {} }) {
-        let instance = this.instances.get(instanceIdentifier);
-        if (!instance && this.component) {
-            instance = this.component.instanceFactory(this.container, {
-                instanceIdentifier: normalizeIdentifierForFactory(instanceIdentifier),
-                options
-            });
-            this.instances.set(instanceIdentifier, instance);
-            this.instancesOptions.set(instanceIdentifier, options);
-            /**
-             * Invoke onInit listeners.
-             * Note this.component.onInstanceCreated is different, which is used by the component creator,
-             * while onInit listeners are registered by consumers of the provider.
-             */
-            this.invokeOnInitCallbacks(instance, instanceIdentifier);
-            /**
-             * Order is important
-             * onInstanceCreated() should be called after this.instances.set(instanceIdentifier, instance); which
-             * makes `isInitialized()` return true.
-             */
-            if (this.component.onInstanceCreated) {
-                try {
-                    this.component.onInstanceCreated(this.container, instanceIdentifier, instance);
-                }
-                catch (_a) {
-                    // ignore errors in the onInstanceCreatedCallback
-                }
-            }
-        }
-        return instance || null;
-    }
-    normalizeInstanceIdentifier(identifier = DEFAULT_ENTRY_NAME) {
-        if (this.component) {
-            return this.component.multipleInstances ? identifier : DEFAULT_ENTRY_NAME;
-        }
-        else {
-            return identifier; // assume multiple instances are supported before the component is provided.
-        }
-    }
-    shouldAutoInitialize() {
-        return (!!this.component &&
-            this.component.instantiationMode !== "EXPLICIT" /* InstantiationMode.EXPLICIT */);
-    }
-}
-// undefined should be passed to the service factory for the default instance
-function normalizeIdentifierForFactory(identifier) {
-    return identifier === DEFAULT_ENTRY_NAME ? undefined : identifier;
-}
-function isComponentEager(component) {
-    return component.instantiationMode === "EAGER" /* InstantiationMode.EAGER */;
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * ComponentContainer that provides Providers for service name T, e.g. `auth`, `auth-internal`
- */
-class ComponentContainer {
-    constructor(name) {
-        this.name = name;
-        this.providers = new Map();
-    }
-    /**
-     *
-     * @param component Component being added
-     * @param overwrite When a component with the same name has already been registered,
-     * if overwrite is true: overwrite the existing component with the new component and create a new
-     * provider with the new component. It can be useful in tests where you want to use different mocks
-     * for different tests.
-     * if overwrite is false: throw an exception
-     */
-    addComponent(component) {
-        const provider = this.getProvider(component.name);
-        if (provider.isComponentSet()) {
-            throw new Error(`Component ${component.name} has already been registered with ${this.name}`);
-        }
-        provider.setComponent(component);
-    }
-    addOrOverwriteComponent(component) {
-        const provider = this.getProvider(component.name);
-        if (provider.isComponentSet()) {
-            // delete the existing provider from the container, so we can register the new component
-            this.providers.delete(component.name);
-        }
-        this.addComponent(component);
-    }
-    /**
-     * getProvider provides a type safe interface where it can only be called with a field name
-     * present in NameServiceMapping interface.
-     *
-     * Firebase SDKs providing services should extend NameServiceMapping interface to register
-     * themselves.
-     */
-    getProvider(name) {
-        if (this.providers.has(name)) {
-            return this.providers.get(name);
-        }
-        // create a Provider for a service that hasn't registered with Firebase
-        const provider = new Provider(name, this);
-        this.providers.set(name, provider);
-        return provider;
-    }
-    getProviders() {
-        return Array.from(this.providers.values());
-    }
-}
-
-
-//# sourceMappingURL=index.esm2017.js.map
-
-
-/***/ }),
 /* 5 */
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FirebaseError": () => (/* reexport safe */ _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError),
-/* harmony export */   "SDK_VERSION": () => (/* binding */ SDK_VERSION),
-/* harmony export */   "_DEFAULT_ENTRY_NAME": () => (/* binding */ DEFAULT_ENTRY_NAME),
-/* harmony export */   "_addComponent": () => (/* binding */ _addComponent),
-/* harmony export */   "_addOrOverwriteComponent": () => (/* binding */ _addOrOverwriteComponent),
-/* harmony export */   "_apps": () => (/* binding */ _apps),
-/* harmony export */   "_clearComponents": () => (/* binding */ _clearComponents),
-/* harmony export */   "_components": () => (/* binding */ _components),
-/* harmony export */   "_getProvider": () => (/* binding */ _getProvider),
-/* harmony export */   "_registerComponent": () => (/* binding */ _registerComponent),
-/* harmony export */   "_removeServiceInstance": () => (/* binding */ _removeServiceInstance),
-/* harmony export */   "deleteApp": () => (/* binding */ deleteApp),
-/* harmony export */   "getApp": () => (/* binding */ getApp),
-/* harmony export */   "getApps": () => (/* binding */ getApps),
-/* harmony export */   "initializeApp": () => (/* binding */ initializeApp),
-/* harmony export */   "onLog": () => (/* binding */ onLog),
-/* harmony export */   "registerVersion": () => (/* binding */ registerVersion),
-/* harmony export */   "setLogLevel": () => (/* binding */ setLogLevel)
-/* harmony export */ });
-/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var idb__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
-
-
-
-
-
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-class PlatformLoggerServiceImpl {
-    constructor(container) {
-        this.container = container;
-    }
-    // In initial implementation, this will be called by installations on
-    // auth token refresh, and installations will send this string.
-    getPlatformInfoString() {
-        const providers = this.container.getProviders();
-        // Loop through providers and get library/version pairs from any that are
-        // version components.
-        return providers
-            .map(provider => {
-            if (isVersionServiceProvider(provider)) {
-                const service = provider.getImmediate();
-                return `${service.library}/${service.version}`;
-            }
-            else {
-                return null;
-            }
-        })
-            .filter(logString => logString)
-            .join(' ');
-    }
-}
-/**
- *
- * @param provider check if this provider provides a VersionService
- *
- * NOTE: Using Provider<'app-version'> is a hack to indicate that the provider
- * provides VersionService. The provider is not necessarily a 'app-version'
- * provider.
- */
-function isVersionServiceProvider(provider) {
-    const component = provider.getComponent();
-    return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* ComponentType.VERSION */;
-}
-
-const name$o = "@firebase/app";
-const version$1 = "0.9.0";
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Logger('@firebase/app');
-
-const name$n = "@firebase/app-compat";
-
-const name$m = "@firebase/analytics-compat";
-
-const name$l = "@firebase/analytics";
-
-const name$k = "@firebase/app-check-compat";
-
-const name$j = "@firebase/app-check";
-
-const name$i = "@firebase/auth";
-
-const name$h = "@firebase/auth-compat";
-
-const name$g = "@firebase/database";
-
-const name$f = "@firebase/database-compat";
-
-const name$e = "@firebase/functions";
-
-const name$d = "@firebase/functions-compat";
-
-const name$c = "@firebase/installations";
-
-const name$b = "@firebase/installations-compat";
-
-const name$a = "@firebase/messaging";
-
-const name$9 = "@firebase/messaging-compat";
-
-const name$8 = "@firebase/performance";
-
-const name$7 = "@firebase/performance-compat";
-
-const name$6 = "@firebase/remote-config";
-
-const name$5 = "@firebase/remote-config-compat";
-
-const name$4 = "@firebase/storage";
-
-const name$3 = "@firebase/storage-compat";
-
-const name$2 = "@firebase/firestore";
-
-const name$1 = "@firebase/firestore-compat";
-
-const name = "firebase";
-const version = "9.15.0";
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * The default app name
- *
- * @internal
- */
-const DEFAULT_ENTRY_NAME = '[DEFAULT]';
-const PLATFORM_LOG_STRING = {
-    [name$o]: 'fire-core',
-    [name$n]: 'fire-core-compat',
-    [name$l]: 'fire-analytics',
-    [name$m]: 'fire-analytics-compat',
-    [name$j]: 'fire-app-check',
-    [name$k]: 'fire-app-check-compat',
-    [name$i]: 'fire-auth',
-    [name$h]: 'fire-auth-compat',
-    [name$g]: 'fire-rtdb',
-    [name$f]: 'fire-rtdb-compat',
-    [name$e]: 'fire-fn',
-    [name$d]: 'fire-fn-compat',
-    [name$c]: 'fire-iid',
-    [name$b]: 'fire-iid-compat',
-    [name$a]: 'fire-fcm',
-    [name$9]: 'fire-fcm-compat',
-    [name$8]: 'fire-perf',
-    [name$7]: 'fire-perf-compat',
-    [name$6]: 'fire-rc',
-    [name$5]: 'fire-rc-compat',
-    [name$4]: 'fire-gcs',
-    [name$3]: 'fire-gcs-compat',
-    [name$2]: 'fire-fst',
-    [name$1]: 'fire-fst-compat',
-    'fire-js': 'fire-js',
-    [name]: 'fire-js-all'
-};
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * @internal
- */
-const _apps = new Map();
-/**
- * Registered components.
- *
- * @internal
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const _components = new Map();
-/**
- * @param component - the component being added to this app's container
- *
- * @internal
- */
-function _addComponent(app, component) {
-    try {
-        app.container.addComponent(component);
-    }
-    catch (e) {
-        logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
-    }
-}
-/**
- *
- * @internal
- */
-function _addOrOverwriteComponent(app, component) {
-    app.container.addOrOverwriteComponent(component);
-}
-/**
- *
- * @param component - the component to register
- * @returns whether or not the component is registered successfully
- *
- * @internal
- */
-function _registerComponent(component) {
-    const componentName = component.name;
-    if (_components.has(componentName)) {
-        logger.debug(`There were multiple attempts to register component ${componentName}.`);
-        return false;
-    }
-    _components.set(componentName, component);
-    // add the component to existing app instances
-    for (const app of _apps.values()) {
-        _addComponent(app, component);
-    }
-    return true;
-}
-/**
- *
- * @param app - FirebaseApp instance
- * @param name - service name
- *
- * @returns the provider for the service with the matching name
- *
- * @internal
- */
-function _getProvider(app, name) {
-    const heartbeatController = app.container
-        .getProvider('heartbeat')
-        .getImmediate({ optional: true });
-    if (heartbeatController) {
-        void heartbeatController.triggerHeartbeat();
-    }
-    return app.container.getProvider(name);
-}
-/**
- *
- * @param app - FirebaseApp instance
- * @param name - service name
- * @param instanceIdentifier - service instance identifier in case the service supports multiple instances
- *
- * @internal
- */
-function _removeServiceInstance(app, name, instanceIdentifier = DEFAULT_ENTRY_NAME) {
-    _getProvider(app, name).clearInstance(instanceIdentifier);
-}
-/**
- * Test only
- *
- * @internal
- */
-function _clearComponents() {
-    _components.clear();
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const ERRORS = {
-    ["no-app" /* AppError.NO_APP */]: "No Firebase App '{$appName}' has been created - " +
-        'call Firebase App.initializeApp()',
-    ["bad-app-name" /* AppError.BAD_APP_NAME */]: "Illegal App name: '{$appName}",
-    ["duplicate-app" /* AppError.DUPLICATE_APP */]: "Firebase App named '{$appName}' already exists with different options or config",
-    ["app-deleted" /* AppError.APP_DELETED */]: "Firebase App named '{$appName}' already deleted",
-    ["no-options" /* AppError.NO_OPTIONS */]: 'Need to provide options, when not being deployed to hosting via source.',
-    ["invalid-app-argument" /* AppError.INVALID_APP_ARGUMENT */]: 'firebase.{$appName}() takes either no argument or a ' +
-        'Firebase App instance.',
-    ["invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */]: 'First argument to `onLog` must be null or a function.',
-    ["idb-open" /* AppError.IDB_OPEN */]: 'Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-get" /* AppError.IDB_GET */]: 'Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-set" /* AppError.IDB_WRITE */]: 'Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-delete" /* AppError.IDB_DELETE */]: 'Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.'
-};
-const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.ErrorFactory('app', 'Firebase', ERRORS);
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-class FirebaseAppImpl {
-    constructor(options, config, container) {
-        this._isDeleted = false;
-        this._options = Object.assign({}, options);
-        this._config = Object.assign({}, config);
-        this._name = config.name;
-        this._automaticDataCollectionEnabled =
-            config.automaticDataCollectionEnabled;
-        this._container = container;
-        this.container.addComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('app', () => this, "PUBLIC" /* ComponentType.PUBLIC */));
-    }
-    get automaticDataCollectionEnabled() {
-        this.checkDestroyed();
-        return this._automaticDataCollectionEnabled;
-    }
-    set automaticDataCollectionEnabled(val) {
-        this.checkDestroyed();
-        this._automaticDataCollectionEnabled = val;
-    }
-    get name() {
-        this.checkDestroyed();
-        return this._name;
-    }
-    get options() {
-        this.checkDestroyed();
-        return this._options;
-    }
-    get config() {
-        this.checkDestroyed();
-        return this._config;
-    }
-    get container() {
-        return this._container;
-    }
-    get isDeleted() {
-        return this._isDeleted;
-    }
-    set isDeleted(val) {
-        this._isDeleted = val;
-    }
-    /**
-     * This function will throw an Error if the App has already been deleted -
-     * use before performing API actions on the App.
-     */
-    checkDestroyed() {
-        if (this.isDeleted) {
-            throw ERROR_FACTORY.create("app-deleted" /* AppError.APP_DELETED */, { appName: this._name });
-        }
-    }
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * The current SDK version.
- *
- * @public
- */
-const SDK_VERSION = version;
-function initializeApp(_options, rawConfig = {}) {
-    let options = _options;
-    if (typeof rawConfig !== 'object') {
-        const name = rawConfig;
-        rawConfig = { name };
-    }
-    const config = Object.assign({ name: DEFAULT_ENTRY_NAME, automaticDataCollectionEnabled: false }, rawConfig);
-    const name = config.name;
-    if (typeof name !== 'string' || !name) {
-        throw ERROR_FACTORY.create("bad-app-name" /* AppError.BAD_APP_NAME */, {
-            appName: String(name)
-        });
-    }
-    options || (options = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getDefaultAppConfig)());
-    if (!options) {
-        throw ERROR_FACTORY.create("no-options" /* AppError.NO_OPTIONS */);
-    }
-    const existingApp = _apps.get(name);
-    if (existingApp) {
-        // return the existing app if options and config deep equal the ones in the existing app.
-        if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(options, existingApp.options) &&
-            (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(config, existingApp.config)) {
-            return existingApp;
-        }
-        else {
-            throw ERROR_FACTORY.create("duplicate-app" /* AppError.DUPLICATE_APP */, { appName: name });
-        }
-    }
-    const container = new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.ComponentContainer(name);
-    for (const component of _components.values()) {
-        container.addComponent(component);
-    }
-    const newApp = new FirebaseAppImpl(options, config, container);
-    _apps.set(name, newApp);
-    return newApp;
-}
-/**
- * Retrieves a {@link @firebase/app#FirebaseApp} instance.
- *
- * When called with no arguments, the default app is returned. When an app name
- * is provided, the app corresponding to that name is returned.
- *
- * An exception is thrown if the app being retrieved has not yet been
- * initialized.
- *
- * @example
- * ```javascript
- * // Return the default app
- * const app = getApp();
- * ```
- *
- * @example
- * ```javascript
- * // Return a named app
- * const otherApp = getApp("otherApp");
- * ```
- *
- * @param name - Optional name of the app to return. If no name is
- *   provided, the default is `"[DEFAULT]"`.
- *
- * @returns The app corresponding to the provided app name.
- *   If no app name is provided, the default app is returned.
- *
- * @public
- */
-function getApp(name = DEFAULT_ENTRY_NAME) {
-    const app = _apps.get(name);
-    if (!app && name === DEFAULT_ENTRY_NAME) {
-        return initializeApp();
-    }
-    if (!app) {
-        throw ERROR_FACTORY.create("no-app" /* AppError.NO_APP */, { appName: name });
-    }
-    return app;
-}
-/**
- * A (read-only) array of all initialized apps.
- * @public
- */
-function getApps() {
-    return Array.from(_apps.values());
-}
-/**
- * Renders this app unusable and frees the resources of all associated
- * services.
- *
- * @example
- * ```javascript
- * deleteApp(app)
- *   .then(function() {
- *     console.log("App deleted successfully");
- *   })
- *   .catch(function(error) {
- *     console.log("Error deleting app:", error);
- *   });
- * ```
- *
- * @public
- */
-async function deleteApp(app) {
-    const name = app.name;
-    if (_apps.has(name)) {
-        _apps.delete(name);
-        await Promise.all(app.container
-            .getProviders()
-            .map(provider => provider.delete()));
-        app.isDeleted = true;
-    }
-}
-/**
- * Registers a library's name and version for platform logging purposes.
- * @param library - Name of 1p or 3p library (e.g. firestore, angularfire)
- * @param version - Current version of that library.
- * @param variant - Bundle variant, e.g., node, rn, etc.
- *
- * @public
- */
-function registerVersion(libraryKeyOrName, version, variant) {
-    var _a;
-    // TODO: We can use this check to whitelist strings when/if we set up
-    // a good whitelist system.
-    let library = (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) !== null && _a !== void 0 ? _a : libraryKeyOrName;
-    if (variant) {
-        library += `-${variant}`;
-    }
-    const libraryMismatch = library.match(/\s|\//);
-    const versionMismatch = version.match(/\s|\//);
-    if (libraryMismatch || versionMismatch) {
-        const warning = [
-            `Unable to register library "${library}" with version "${version}":`
-        ];
-        if (libraryMismatch) {
-            warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`);
-        }
-        if (libraryMismatch && versionMismatch) {
-            warning.push('and');
-        }
-        if (versionMismatch) {
-            warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`);
-        }
-        logger.warn(warning.join(' '));
-        return;
-    }
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component(`${library}-version`, () => ({ library, version }), "VERSION" /* ComponentType.VERSION */));
-}
-/**
- * Sets log handler for all Firebase SDKs.
- * @param logCallback - An optional custom log handler that executes user code whenever
- * the Firebase SDK makes a logging call.
- *
- * @public
- */
-function onLog(logCallback, options) {
-    if (logCallback !== null && typeof logCallback !== 'function') {
-        throw ERROR_FACTORY.create("invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */);
-    }
-    (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setUserLogHandler)(logCallback, options);
-}
-/**
- * Sets log level for all Firebase SDKs.
- *
- * All of the log types above the current log level are captured (i.e. if
- * you set the log level to `info`, errors are logged, but `debug` and
- * `verbose` logs are not).
- *
- * @public
- */
-function setLogLevel(logLevel) {
-    (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setLogLevel)(logLevel);
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const DB_NAME = 'firebase-heartbeat-database';
-const DB_VERSION = 1;
-const STORE_NAME = 'firebase-heartbeat-store';
-let dbPromise = null;
-function getDbPromise() {
-    if (!dbPromise) {
-        dbPromise = (0,idb__WEBPACK_IMPORTED_MODULE_3__.openDB)(DB_NAME, DB_VERSION, {
-            upgrade: (db, oldVersion) => {
-                // We don't use 'break' in this switch statement, the fall-through
-                // behavior is what we want, because if there are multiple versions between
-                // the old version and the current version, we want ALL the migrations
-                // that correspond to those versions to run, not only the last one.
-                // eslint-disable-next-line default-case
-                switch (oldVersion) {
-                    case 0:
-                        db.createObjectStore(STORE_NAME);
-                }
-            }
-        }).catch(e => {
-            throw ERROR_FACTORY.create("idb-open" /* AppError.IDB_OPEN */, {
-                originalErrorMessage: e.message
-            });
-        });
-    }
-    return dbPromise;
-}
-async function readHeartbeatsFromIndexedDB(app) {
-    try {
-        const db = await getDbPromise();
-        return db
-            .transaction(STORE_NAME)
-            .objectStore(STORE_NAME)
-            .get(computeKey(app));
-    }
-    catch (e) {
-        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) {
-            logger.warn(e.message);
-        }
-        else {
-            const idbGetError = ERROR_FACTORY.create("idb-get" /* AppError.IDB_GET */, {
-                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
-            });
-            logger.warn(idbGetError.message);
-        }
-    }
-}
-async function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
-    try {
-        const db = await getDbPromise();
-        const tx = db.transaction(STORE_NAME, 'readwrite');
-        const objectStore = tx.objectStore(STORE_NAME);
-        await objectStore.put(heartbeatObject, computeKey(app));
-        return tx.done;
-    }
-    catch (e) {
-        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) {
-            logger.warn(e.message);
-        }
-        else {
-            const idbGetError = ERROR_FACTORY.create("idb-set" /* AppError.IDB_WRITE */, {
-                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
-            });
-            logger.warn(idbGetError.message);
-        }
-    }
-}
-function computeKey(app) {
-    return `${app.name}!${app.options.appId}`;
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const MAX_HEADER_BYTES = 1024;
-// 30 days
-const STORED_HEARTBEAT_RETENTION_MAX_MILLIS = 30 * 24 * 60 * 60 * 1000;
-class HeartbeatServiceImpl {
-    constructor(container) {
-        this.container = container;
-        /**
-         * In-memory cache for heartbeats, used by getHeartbeatsHeader() to generate
-         * the header string.
-         * Stores one record per date. This will be consolidated into the standard
-         * format of one record per user agent string before being sent as a header.
-         * Populated from indexedDB when the controller is instantiated and should
-         * be kept in sync with indexedDB.
-         * Leave public for easier testing.
-         */
-        this._heartbeatsCache = null;
-        const app = this.container.getProvider('app').getImmediate();
-        this._storage = new HeartbeatStorageImpl(app);
-        this._heartbeatsCachePromise = this._storage.read().then(result => {
-            this._heartbeatsCache = result;
-            return result;
-        });
-    }
-    /**
-     * Called to report a heartbeat. The function will generate
-     * a HeartbeatsByUserAgent object, update heartbeatsCache, and persist it
-     * to IndexedDB.
-     * Note that we only store one heartbeat per day. So if a heartbeat for today is
-     * already logged, subsequent calls to this function in the same day will be ignored.
-     */
-    async triggerHeartbeat() {
-        const platformLogger = this.container
-            .getProvider('platform-logger')
-            .getImmediate();
-        // This is the "Firebase user agent" string from the platform logger
-        // service, not the browser user agent.
-        const agent = platformLogger.getPlatformInfoString();
-        const date = getUTCDateString();
-        if (this._heartbeatsCache === null) {
-            this._heartbeatsCache = await this._heartbeatsCachePromise;
-        }
-        // Do not store a heartbeat if one is already stored for this day
-        // or if a header has already been sent today.
-        if (this._heartbeatsCache.lastSentHeartbeatDate === date ||
-            this._heartbeatsCache.heartbeats.some(singleDateHeartbeat => singleDateHeartbeat.date === date)) {
-            return;
-        }
-        else {
-            // There is no entry for this date. Create one.
-            this._heartbeatsCache.heartbeats.push({ date, agent });
-        }
-        // Remove entries older than 30 days.
-        this._heartbeatsCache.heartbeats = this._heartbeatsCache.heartbeats.filter(singleDateHeartbeat => {
-            const hbTimestamp = new Date(singleDateHeartbeat.date).valueOf();
-            const now = Date.now();
-            return now - hbTimestamp <= STORED_HEARTBEAT_RETENTION_MAX_MILLIS;
-        });
-        return this._storage.overwrite(this._heartbeatsCache);
-    }
-    /**
-     * Returns a base64 encoded string which can be attached to the heartbeat-specific header directly.
-     * It also clears all heartbeats from memory as well as in IndexedDB.
-     *
-     * NOTE: Consuming product SDKs should not send the header if this method
-     * returns an empty string.
-     */
-    async getHeartbeatsHeader() {
-        if (this._heartbeatsCache === null) {
-            await this._heartbeatsCachePromise;
-        }
-        // If it's still null or the array is empty, there is no data to send.
-        if (this._heartbeatsCache === null ||
-            this._heartbeatsCache.heartbeats.length === 0) {
-            return '';
-        }
-        const date = getUTCDateString();
-        // Extract as many heartbeats from the cache as will fit under the size limit.
-        const { heartbeatsToSend, unsentEntries } = extractHeartbeatsForHeader(this._heartbeatsCache.heartbeats);
-        const headerString = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.base64urlEncodeWithoutPadding)(JSON.stringify({ version: 2, heartbeats: heartbeatsToSend }));
-        // Store last sent date to prevent another being logged/sent for the same day.
-        this._heartbeatsCache.lastSentHeartbeatDate = date;
-        if (unsentEntries.length > 0) {
-            // Store any unsent entries if they exist.
-            this._heartbeatsCache.heartbeats = unsentEntries;
-            // This seems more likely than emptying the array (below) to lead to some odd state
-            // since the cache isn't empty and this will be called again on the next request,
-            // and is probably safest if we await it.
-            await this._storage.overwrite(this._heartbeatsCache);
-        }
-        else {
-            this._heartbeatsCache.heartbeats = [];
-            // Do not wait for this, to reduce latency.
-            void this._storage.overwrite(this._heartbeatsCache);
-        }
-        return headerString;
-    }
-}
-function getUTCDateString() {
-    const today = new Date();
-    // Returns date format 'YYYY-MM-DD'
-    return today.toISOString().substring(0, 10);
-}
-function extractHeartbeatsForHeader(heartbeatsCache, maxSize = MAX_HEADER_BYTES) {
-    // Heartbeats grouped by user agent in the standard format to be sent in
-    // the header.
-    const heartbeatsToSend = [];
-    // Single date format heartbeats that are not sent.
-    let unsentEntries = heartbeatsCache.slice();
-    for (const singleDateHeartbeat of heartbeatsCache) {
-        // Look for an existing entry with the same user agent.
-        const heartbeatEntry = heartbeatsToSend.find(hb => hb.agent === singleDateHeartbeat.agent);
-        if (!heartbeatEntry) {
-            // If no entry for this user agent exists, create one.
-            heartbeatsToSend.push({
-                agent: singleDateHeartbeat.agent,
-                dates: [singleDateHeartbeat.date]
-            });
-            if (countBytes(heartbeatsToSend) > maxSize) {
-                // If the header would exceed max size, remove the added heartbeat
-                // entry and stop adding to the header.
-                heartbeatsToSend.pop();
-                break;
-            }
-        }
-        else {
-            heartbeatEntry.dates.push(singleDateHeartbeat.date);
-            // If the header would exceed max size, remove the added date
-            // and stop adding to the header.
-            if (countBytes(heartbeatsToSend) > maxSize) {
-                heartbeatEntry.dates.pop();
-                break;
-            }
-        }
-        // Pop unsent entry from queue. (Skipped if adding the entry exceeded
-        // quota and the loop breaks early.)
-        unsentEntries = unsentEntries.slice(1);
-    }
-    return {
-        heartbeatsToSend,
-        unsentEntries
-    };
-}
-class HeartbeatStorageImpl {
-    constructor(app) {
-        this.app = app;
-        this._canUseIndexedDBPromise = this.runIndexedDBEnvironmentCheck();
-    }
-    async runIndexedDBEnvironmentCheck() {
-        if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isIndexedDBAvailable)()) {
-            return false;
-        }
-        else {
-            return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.validateIndexedDBOpenable)()
-                .then(() => true)
-                .catch(() => false);
-        }
-    }
-    /**
-     * Read all heartbeats.
-     */
-    async read() {
-        const canUseIndexedDB = await this._canUseIndexedDBPromise;
-        if (!canUseIndexedDB) {
-            return { heartbeats: [] };
-        }
-        else {
-            const idbHeartbeatObject = await readHeartbeatsFromIndexedDB(this.app);
-            return idbHeartbeatObject || { heartbeats: [] };
-        }
-    }
-    // overwrite the storage with the provided heartbeats
-    async overwrite(heartbeatsObject) {
-        var _a;
-        const canUseIndexedDB = await this._canUseIndexedDBPromise;
-        if (!canUseIndexedDB) {
-            return;
-        }
-        else {
-            const existingHeartbeatsObject = await this.read();
-            return writeHeartbeatsToIndexedDB(this.app, {
-                lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
-                heartbeats: heartbeatsObject.heartbeats
-            });
-        }
-    }
-    // add heartbeats
-    async add(heartbeatsObject) {
-        var _a;
-        const canUseIndexedDB = await this._canUseIndexedDBPromise;
-        if (!canUseIndexedDB) {
-            return;
-        }
-        else {
-            const existingHeartbeatsObject = await this.read();
-            return writeHeartbeatsToIndexedDB(this.app, {
-                lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
-                heartbeats: [
-                    ...existingHeartbeatsObject.heartbeats,
-                    ...heartbeatsObject.heartbeats
-                ]
-            });
-        }
-    }
-}
-/**
- * Calculate bytes of a HeartbeatsByUserAgent array after being wrapped
- * in a platform logging header JSON object, stringified, and converted
- * to base 64.
- */
-function countBytes(heartbeatsCache) {
-    // base64 has a restricted set of characters, all of which should be 1 byte.
-    return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.base64urlEncodeWithoutPadding)(
-    // heartbeatsCache wrapper properties
-    JSON.stringify({ version: 2, heartbeats: heartbeatsCache })).length;
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function registerCoreComponents(variant) {
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('platform-logger', container => new PlatformLoggerServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('heartbeat', container => new HeartbeatServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
-    // Register `app` package.
-    registerVersion(name$o, version$1, variant);
-    // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
-    registerVersion(name$o, version$1, 'esm2017');
-    // Register platform SDK identifier (no version).
-    registerVersion('fire-js', '');
-}
-
-/**
- * Firebase App
- *
- * @remarks This package coordinates the communication between the different Firebase components
- * @packageDocumentation
- */
-registerCoreComponents('');
-
-
-//# sourceMappingURL=index.esm2017.js.map
-
-
-/***/ }),
-/* 6 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -4246,7 +3818,7 @@ function setUserLogHandler(logCallback, options) {
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -4256,7 +3828,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "deleteDB": () => (/* binding */ deleteDB),
 /* harmony export */   "openDB": () => (/* binding */ openDB)
 /* harmony export */ });
-/* harmony import */ var _wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
 
 
 
@@ -4348,7 +3920,7 @@ function getMethod(target, prop) {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -4547,35 +4119,60 @@ const unwrap = (value) => reverseTransformCache.get(value);
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _firebase_auth_compat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getAnalytics": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.getAnalytics),
+/* harmony export */   "initializeAnalytics": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.initializeAnalytics),
+/* harmony export */   "isSupported": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.isSupported),
+/* harmony export */   "logEvent": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.logEvent),
+/* harmony export */   "setAnalyticsCollectionEnabled": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.setAnalyticsCollectionEnabled),
+/* harmony export */   "setConsent": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.setConsent),
+/* harmony export */   "setCurrentScreen": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.setCurrentScreen),
+/* harmony export */   "setDefaultEventParameters": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.setDefaultEventParameters),
+/* harmony export */   "setUserId": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.setUserId),
+/* harmony export */   "setUserProperties": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.setUserProperties),
+/* harmony export */   "settings": () => (/* reexport safe */ _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__.settings)
+/* harmony export */ });
+/* harmony import */ var _firebase_analytics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 
 //# sourceMappingURL=index.esm.js.map
 
 
 /***/ }),
-/* 10 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/* 9 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _firebase_app_compat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getAnalytics": () => (/* binding */ getAnalytics),
+/* harmony export */   "initializeAnalytics": () => (/* binding */ initializeAnalytics),
+/* harmony export */   "isSupported": () => (/* binding */ isSupported),
+/* harmony export */   "logEvent": () => (/* binding */ logEvent),
+/* harmony export */   "setAnalyticsCollectionEnabled": () => (/* binding */ setAnalyticsCollectionEnabled),
+/* harmony export */   "setConsent": () => (/* binding */ setConsent),
+/* harmony export */   "setCurrentScreen": () => (/* binding */ setCurrentScreen),
+/* harmony export */   "setDefaultEventParameters": () => (/* binding */ setDefaultEventParameters),
+/* harmony export */   "setUserId": () => (/* binding */ setUserId),
+/* harmony export */   "setUserProperties": () => (/* binding */ setUserProperties),
+/* harmony export */   "settings": () => (/* binding */ settings)
+/* harmony export */ });
+/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
+/* harmony import */ var _firebase_installations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
 
 
 
 
 
-var name = "@firebase/auth-compat";
-var version = "0.3.0";
 
 /**
  * @license
- * Copyright 2020 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -4589,844 +4186,2213 @@ var version = "0.3.0";
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const CORDOVA_ONDEVICEREADY_TIMEOUT_MS = 1000;
-function _getCurrentScheme() {
-    var _a;
-    return ((_a = self === null || self === void 0 ? void 0 : self.location) === null || _a === void 0 ? void 0 : _a.protocol) || null;
+/**
+ * Type constant for Firebase Analytics.
+ */
+const ANALYTICS_TYPE = 'analytics';
+// Key to attach FID to in gtag params.
+const GA_FID_KEY = 'firebase_id';
+const ORIGIN_KEY = 'origin';
+const FETCH_TIMEOUT_MILLIS = 60 * 1000;
+const DYNAMIC_CONFIG_URL = 'https://firebase.googleapis.com/v1alpha/projects/-/apps/{app-id}/webConfig';
+const GTAG_URL = 'https://www.googletagmanager.com/gtag/js';
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Logger('@firebase/analytics');
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Makeshift polyfill for Promise.allSettled(). Resolves when all promises
+ * have either resolved or rejected.
+ *
+ * @param promises Array of promises to wait for.
+ */
+function promiseAllSettled(promises) {
+    return Promise.all(promises.map(promise => promise.catch(e => e)));
 }
 /**
- * @return {boolean} Whether the current environment is http or https.
+ * Inserts gtag script tag into the page to asynchronously download gtag.
+ * @param dataLayerName Name of datalayer (most often the default, "_dataLayer").
  */
-function _isHttpOrHttps() {
-    return _getCurrentScheme() === 'http:' || _getCurrentScheme() === 'https:';
+function insertScriptTag(dataLayerName, measurementId) {
+    const script = document.createElement('script');
+    // We are not providing an analyticsId in the URL because it would trigger a `page_view`
+    // without fid. We will initialize ga-id using gtag (config) command together with fid.
+    script.src = `${GTAG_URL}?l=${dataLayerName}&id=${measurementId}`;
+    script.async = true;
+    document.head.appendChild(script);
 }
 /**
- * @param {?string=} ua The user agent.
- * @return {boolean} Whether the app is rendered in a mobile iOS or Android
- *     Cordova environment.
+ * Get reference to, or create, global datalayer.
+ * @param dataLayerName Name of datalayer (most often the default, "_dataLayer").
  */
-function _isAndroidOrIosCordovaScheme(ua = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.getUA)()) {
-    return !!((_getCurrentScheme() === 'file:' ||
-        _getCurrentScheme() === 'ionic:' ||
-        _getCurrentScheme() === 'capacitor:') &&
-        ua.toLowerCase().match(/iphone|ipad|ipod|android/));
+function getOrCreateDataLayer(dataLayerName) {
+    // Check for existing dataLayer and create if needed.
+    let dataLayer = [];
+    if (Array.isArray(window[dataLayerName])) {
+        dataLayer = window[dataLayerName];
+    }
+    else {
+        window[dataLayerName] = dataLayer;
+    }
+    return dataLayer;
 }
 /**
- * @return {boolean} Whether the environment is a native environment, where
- *     CORS checks do not apply.
+ * Wrapped gtag logic when gtag is called with 'config' command.
+ *
+ * @param gtagCore Basic gtag function that just appends to dataLayer.
+ * @param initializationPromisesMap Map of appIds to their initialization promises.
+ * @param dynamicConfigPromisesList Array of dynamic config fetch promises.
+ * @param measurementIdToAppId Map of GA measurementIDs to corresponding Firebase appId.
+ * @param measurementId GA Measurement ID to set config for.
+ * @param gtagParams Gtag config params to set.
  */
-function _isNativeEnvironment() {
-    return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isReactNative)() || (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isNode)();
-}
-/**
- * Checks whether the user agent is IE11.
- * @return {boolean} True if it is IE11.
- */
-function _isIe11() {
-    return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isIE)() && (document === null || document === void 0 ? void 0 : document.documentMode) === 11;
-}
-/**
- * Checks whether the user agent is Edge.
- * @param {string} userAgent The browser user agent string.
- * @return {boolean} True if it is Edge.
- */
-function _isEdge(ua = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.getUA)()) {
-    return /Edge\/\d+/.test(ua);
-}
-/**
- * @param {?string=} opt_userAgent The navigator user agent.
- * @return {boolean} Whether local storage is not synchronized between an iframe
- *     and a popup of the same domain.
- */
-function _isLocalStorageNotSynchronized(ua = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.getUA)()) {
-    return _isIe11() || _isEdge(ua);
-}
-/** @return {boolean} Whether web storage is supported. */
-function _isWebStorageSupported() {
+async function gtagOnConfig(gtagCore, initializationPromisesMap, dynamicConfigPromisesList, measurementIdToAppId, measurementId, gtagParams) {
+    // If config is already fetched, we know the appId and can use it to look up what FID promise we
+    /// are waiting for, and wait only on that one.
+    const correspondingAppId = measurementIdToAppId[measurementId];
     try {
-        const storage = self.localStorage;
-        const key = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._generateEventId();
-        if (storage) {
-            // setItem will throw an exception if we cannot access WebStorage (e.g.,
-            // Safari in private mode).
-            storage['setItem'](key, '1');
-            storage['removeItem'](key);
-            // For browsers where iframe web storage does not synchronize with a popup
-            // of the same domain, indexedDB is used for persistent storage. These
-            // browsers include IE11 and Edge.
-            // Make sure it is supported (IE11 and Edge private mode does not support
-            // that).
-            if (_isLocalStorageNotSynchronized()) {
-                // In such browsers, if indexedDB is not supported, an iframe cannot be
-                // notified of the popup sign in result.
-                return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isIndexedDBAvailable)();
+        if (correspondingAppId) {
+            await initializationPromisesMap[correspondingAppId];
+        }
+        else {
+            // If config is not fetched yet, wait for all configs (we don't know which one we need) and
+            // find the appId (if any) corresponding to this measurementId. If there is one, wait on
+            // that appId's initialization promise. If there is none, promise resolves and gtag
+            // call goes through.
+            const dynamicConfigResults = await promiseAllSettled(dynamicConfigPromisesList);
+            const foundConfig = dynamicConfigResults.find(config => config.measurementId === measurementId);
+            if (foundConfig) {
+                await initializationPromisesMap[foundConfig.appId];
             }
-            return true;
         }
     }
     catch (e) {
-        // localStorage is not available from a worker. Test availability of
-        // indexedDB.
-        return _isWorker() && (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isIndexedDBAvailable)();
+        logger.error(e);
     }
-    return false;
+    gtagCore("config" /* GtagCommand.CONFIG */, measurementId, gtagParams);
 }
 /**
- * @param {?Object=} global The optional global scope.
- * @return {boolean} Whether current environment is a worker.
- */
-function _isWorker() {
-    // WorkerGlobalScope only defined in worker environment.
-    return (typeof __webpack_require__.g !== 'undefined' &&
-        'WorkerGlobalScope' in __webpack_require__.g &&
-        'importScripts' in __webpack_require__.g);
-}
-function _isPopupRedirectSupported() {
-    return ((_isHttpOrHttps() ||
-        (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isBrowserExtension)() ||
-        _isAndroidOrIosCordovaScheme()) &&
-        // React Native with remote debugging reports its location.protocol as
-        // http.
-        !_isNativeEnvironment() &&
-        // Local storage has to be supported for browser popup and redirect
-        // operations to work.
-        _isWebStorageSupported() &&
-        // DOM, popups and redirects are not supported within a worker.
-        !_isWorker());
-}
-/** Quick check that indicates the platform *may* be Cordova */
-function _isLikelyCordova() {
-    return _isAndroidOrIosCordovaScheme() && typeof document !== 'undefined';
-}
-async function _isCordova() {
-    if (!_isLikelyCordova()) {
-        return false;
-    }
-    return new Promise(resolve => {
-        const timeoutId = setTimeout(() => {
-            // We've waited long enough; the telltale Cordova event didn't happen
-            resolve(false);
-        }, CORDOVA_ONDEVICEREADY_TIMEOUT_MS);
-        document.addEventListener('deviceready', () => {
-            clearTimeout(timeoutId);
-            resolve(true);
-        });
-    });
-}
-function _getSelfWindow() {
-    return typeof window !== 'undefined' ? window : null;
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
+ * Wrapped gtag logic when gtag is called with 'event' command.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @param gtagCore Basic gtag function that just appends to dataLayer.
+ * @param initializationPromisesMap Map of appIds to their initialization promises.
+ * @param dynamicConfigPromisesList Array of dynamic config fetch promises.
+ * @param measurementId GA Measurement ID to log event to.
+ * @param gtagParams Params to log with this event.
  */
-const Persistence = {
-    LOCAL: 'local',
-    NONE: 'none',
-    SESSION: 'session'
-};
-const _assert$3 = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._assert;
-const PERSISTENCE_KEY = 'persistence';
-/**
- * Validates that an argument is a valid persistence value. If an invalid type
- * is specified, an error is thrown synchronously.
- */
-function _validatePersistenceArgument(auth, persistence) {
-    _assert$3(Object.values(Persistence).includes(persistence), auth, "invalid-persistence-type" /* exp.AuthErrorCode.INVALID_PERSISTENCE */);
-    // Validate if the specified type is supported in the current environment.
-    if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isReactNative)()) {
-        // This is only supported in a browser.
-        _assert$3(persistence !== Persistence.SESSION, auth, "unsupported-persistence-type" /* exp.AuthErrorCode.UNSUPPORTED_PERSISTENCE */);
-        return;
-    }
-    if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isNode)()) {
-        // Only none is supported in Node.js.
-        _assert$3(persistence === Persistence.NONE, auth, "unsupported-persistence-type" /* exp.AuthErrorCode.UNSUPPORTED_PERSISTENCE */);
-        return;
-    }
-    if (_isWorker()) {
-        // In a worker environment, either LOCAL or NONE are supported.
-        // If indexedDB not supported and LOCAL provided, throw an error
-        _assert$3(persistence === Persistence.NONE ||
-            (persistence === Persistence.LOCAL && (0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.isIndexedDBAvailable)()), auth, "unsupported-persistence-type" /* exp.AuthErrorCode.UNSUPPORTED_PERSISTENCE */);
-        return;
-    }
-    // This is restricted by what the browser supports.
-    _assert$3(persistence === Persistence.NONE || _isWebStorageSupported(), auth, "unsupported-persistence-type" /* exp.AuthErrorCode.UNSUPPORTED_PERSISTENCE */);
-}
-async function _savePersistenceForRedirect(auth) {
-    await auth._initializationPromise;
-    const session = getSessionStorageIfAvailable();
-    const key = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._persistenceKeyName(PERSISTENCE_KEY, auth.config.apiKey, auth.name);
-    if (session) {
-        session.setItem(key, auth._getPersistence());
-    }
-}
-function _getPersistencesFromRedirect(apiKey, appName) {
-    const session = getSessionStorageIfAvailable();
-    if (!session) {
-        return [];
-    }
-    const key = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._persistenceKeyName(PERSISTENCE_KEY, apiKey, appName);
-    const persistence = session.getItem(key);
-    switch (persistence) {
-        case Persistence.NONE:
-            return [_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.inMemoryPersistence];
-        case Persistence.LOCAL:
-            return [_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.indexedDBLocalPersistence, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.browserSessionPersistence];
-        case Persistence.SESSION:
-            return [_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.browserSessionPersistence];
-        default:
-            return [];
-    }
-}
-/** Returns session storage, or null if the property access errors */
-function getSessionStorageIfAvailable() {
-    var _a;
+async function gtagOnEvent(gtagCore, initializationPromisesMap, dynamicConfigPromisesList, measurementId, gtagParams) {
     try {
-        return ((_a = _getSelfWindow()) === null || _a === void 0 ? void 0 : _a.sessionStorage) || null;
-    }
-    catch (e) {
-        return null;
-    }
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const _assert$2 = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._assert;
-/** Platform-agnostic popup-redirect resolver */
-class CompatPopupRedirectResolver {
-    constructor() {
-        // Create both resolvers for dynamic resolution later
-        this.browserResolver = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._getInstance(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.browserPopupRedirectResolver);
-        this.cordovaResolver = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._getInstance(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.cordovaPopupRedirectResolver);
-        // The actual resolver in use: either browserResolver or cordovaResolver.
-        this.underlyingResolver = null;
-        this._redirectPersistence = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.browserSessionPersistence;
-        this._completeRedirectFn = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._getRedirectResult;
-        this._overrideRedirectResult = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._overrideRedirectResult;
-    }
-    async _initialize(auth) {
-        await this.selectUnderlyingResolver();
-        return this.assertedUnderlyingResolver._initialize(auth);
-    }
-    async _openPopup(auth, provider, authType, eventId) {
-        await this.selectUnderlyingResolver();
-        return this.assertedUnderlyingResolver._openPopup(auth, provider, authType, eventId);
-    }
-    async _openRedirect(auth, provider, authType, eventId) {
-        await this.selectUnderlyingResolver();
-        return this.assertedUnderlyingResolver._openRedirect(auth, provider, authType, eventId);
-    }
-    _isIframeWebStorageSupported(auth, cb) {
-        this.assertedUnderlyingResolver._isIframeWebStorageSupported(auth, cb);
-    }
-    _originValidation(auth) {
-        return this.assertedUnderlyingResolver._originValidation(auth);
-    }
-    get _shouldInitProactively() {
-        return _isLikelyCordova() || this.browserResolver._shouldInitProactively;
-    }
-    get assertedUnderlyingResolver() {
-        _assert$2(this.underlyingResolver, "internal-error" /* exp.AuthErrorCode.INTERNAL_ERROR */);
-        return this.underlyingResolver;
-    }
-    async selectUnderlyingResolver() {
-        if (this.underlyingResolver) {
-            return;
-        }
-        // We haven't yet determined whether or not we're in Cordova; go ahead
-        // and determine that state now.
-        const isCordova = await _isCordova();
-        this.underlyingResolver = isCordova
-            ? this.cordovaResolver
-            : this.browserResolver;
-    }
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function unwrap(object) {
-    return object.unwrap();
-}
-function wrapped(object) {
-    return object.wrapped();
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function credentialFromResponse(userCredential) {
-    return credentialFromObject(userCredential);
-}
-function attachExtraErrorFields(auth, e) {
-    var _a;
-    // The response contains all fields from the server which may or may not
-    // actually match the underlying type
-    const response = (_a = e.customData) === null || _a === void 0 ? void 0 : _a._tokenResponse;
-    if ((e === null || e === void 0 ? void 0 : e.code) === 'auth/multi-factor-auth-required') {
-        const mfaErr = e;
-        mfaErr.resolver = new MultiFactorResolver(auth, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.getMultiFactorResolver(auth, e));
-    }
-    else if (response) {
-        const credential = credentialFromObject(e);
-        const credErr = e;
-        if (credential) {
-            credErr.credential = credential;
-            credErr.tenantId = response.tenantId || undefined;
-            credErr.email = response.email || undefined;
-            credErr.phoneNumber = response.phoneNumber || undefined;
-        }
-    }
-}
-function credentialFromObject(object) {
-    const { _tokenResponse } = (object instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_3__.FirebaseError ? object.customData : object);
-    if (!_tokenResponse) {
-        return null;
-    }
-    // Handle phone Auth credential responses, as they have a different format
-    // from other backend responses (i.e. no providerId). This is also only the
-    // case for user credentials (does not work for errors).
-    if (!(object instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_3__.FirebaseError)) {
-        if ('temporaryProof' in _tokenResponse && 'phoneNumber' in _tokenResponse) {
-            return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.PhoneAuthProvider.credentialFromResult(object);
-        }
-    }
-    const providerId = _tokenResponse.providerId;
-    // Email and password is not supported as there is no situation where the
-    // server would return the password to the client.
-    if (!providerId || providerId === _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ProviderId.PASSWORD) {
-        return null;
-    }
-    let provider;
-    switch (providerId) {
-        case _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ProviderId.GOOGLE:
-            provider = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvider;
-            break;
-        case _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ProviderId.FACEBOOK:
-            provider = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.FacebookAuthProvider;
-            break;
-        case _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ProviderId.GITHUB:
-            provider = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.GithubAuthProvider;
-            break;
-        case _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ProviderId.TWITTER:
-            provider = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.TwitterAuthProvider;
-            break;
-        default:
-            const { oauthIdToken, oauthAccessToken, oauthTokenSecret, pendingToken, nonce } = _tokenResponse;
-            if (!oauthAccessToken &&
-                !oauthTokenSecret &&
-                !oauthIdToken &&
-                !pendingToken) {
-                return null;
+        let initializationPromisesToWaitFor = [];
+        // If there's a 'send_to' param, check if any ID specified matches
+        // an initializeIds() promise we are waiting for.
+        if (gtagParams && gtagParams['send_to']) {
+            let gaSendToList = gtagParams['send_to'];
+            // Make it an array if is isn't, so it can be dealt with the same way.
+            if (!Array.isArray(gaSendToList)) {
+                gaSendToList = [gaSendToList];
             }
-            // TODO(avolkovi): uncomment this and get it working with SAML & OIDC
-            if (pendingToken) {
-                if (providerId.startsWith('saml.')) {
-                    return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.SAMLAuthCredential._create(providerId, pendingToken);
+            // Checking 'send_to' fields requires having all measurement ID results back from
+            // the dynamic config fetch.
+            const dynamicConfigResults = await promiseAllSettled(dynamicConfigPromisesList);
+            for (const sendToId of gaSendToList) {
+                // Any fetched dynamic measurement ID that matches this 'send_to' ID
+                const foundConfig = dynamicConfigResults.find(config => config.measurementId === sendToId);
+                const initializationPromise = foundConfig && initializationPromisesMap[foundConfig.appId];
+                if (initializationPromise) {
+                    initializationPromisesToWaitFor.push(initializationPromise);
                 }
                 else {
-                    // OIDC and non-default providers excluding Twitter.
-                    return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.OAuthCredential._fromParams({
-                        providerId,
-                        signInMethod: providerId,
-                        pendingToken,
-                        idToken: oauthIdToken,
-                        accessToken: oauthAccessToken
-                    });
+                    // Found an item in 'send_to' that is not associated
+                    // directly with an FID, possibly a group.  Empty this array,
+                    // exit the loop early, and let it get populated below.
+                    initializationPromisesToWaitFor = [];
+                    break;
                 }
             }
-            return new _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.OAuthProvider(providerId).credential({
-                idToken: oauthIdToken,
-                accessToken: oauthAccessToken,
-                rawNonce: nonce
-            });
-    }
-    return object instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_3__.FirebaseError
-        ? provider.credentialFromError(object)
-        : provider.credentialFromResult(object);
-}
-function convertCredential(auth, credentialPromise) {
-    return credentialPromise
-        .catch(e => {
-        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_3__.FirebaseError) {
-            attachExtraErrorFields(auth, e);
         }
-        throw e;
-    })
-        .then(credential => {
-        const operationType = credential.operationType;
-        const user = credential.user;
-        return {
-            operationType,
-            credential: credentialFromResponse(credential),
-            additionalUserInfo: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.getAdditionalUserInfo(credential),
-            user: User.getOrCreate(user)
-        };
+        // This will be unpopulated if there was no 'send_to' field , or
+        // if not all entries in the 'send_to' field could be mapped to
+        // a FID. In these cases, wait on all pending initialization promises.
+        if (initializationPromisesToWaitFor.length === 0) {
+            initializationPromisesToWaitFor = Object.values(initializationPromisesMap);
+        }
+        // Run core gtag function with args after all relevant initialization
+        // promises have been resolved.
+        await Promise.all(initializationPromisesToWaitFor);
+        // Workaround for http://b/141370449 - third argument cannot be undefined.
+        gtagCore("event" /* GtagCommand.EVENT */, measurementId, gtagParams || {});
+    }
+    catch (e) {
+        logger.error(e);
+    }
+}
+/**
+ * Wraps a standard gtag function with extra code to wait for completion of
+ * relevant initialization promises before sending requests.
+ *
+ * @param gtagCore Basic gtag function that just appends to dataLayer.
+ * @param initializationPromisesMap Map of appIds to their initialization promises.
+ * @param dynamicConfigPromisesList Array of dynamic config fetch promises.
+ * @param measurementIdToAppId Map of GA measurementIDs to corresponding Firebase appId.
+ */
+function wrapGtag(gtagCore, 
+/**
+ * Allows wrapped gtag calls to wait on whichever intialization promises are required,
+ * depending on the contents of the gtag params' `send_to` field, if any.
+ */
+initializationPromisesMap, 
+/**
+ * Wrapped gtag calls sometimes require all dynamic config fetches to have returned
+ * before determining what initialization promises (which include FIDs) to wait for.
+ */
+dynamicConfigPromisesList, 
+/**
+ * Wrapped gtag config calls can narrow down which initialization promise (with FID)
+ * to wait for if the measurementId is already fetched, by getting the corresponding appId,
+ * which is the key for the initialization promises map.
+ */
+measurementIdToAppId) {
+    /**
+     * Wrapper around gtag that ensures FID is sent with gtag calls.
+     * @param command Gtag command type.
+     * @param idOrNameOrParams Measurement ID if command is EVENT/CONFIG, params if command is SET.
+     * @param gtagParams Params if event is EVENT/CONFIG.
+     */
+    async function gtagWrapper(command, idOrNameOrParams, gtagParams) {
+        try {
+            // If event, check that relevant initialization promises have completed.
+            if (command === "event" /* GtagCommand.EVENT */) {
+                // If EVENT, second arg must be measurementId.
+                await gtagOnEvent(gtagCore, initializationPromisesMap, dynamicConfigPromisesList, idOrNameOrParams, gtagParams);
+            }
+            else if (command === "config" /* GtagCommand.CONFIG */) {
+                // If CONFIG, second arg must be measurementId.
+                await gtagOnConfig(gtagCore, initializationPromisesMap, dynamicConfigPromisesList, measurementIdToAppId, idOrNameOrParams, gtagParams);
+            }
+            else if (command === "consent" /* GtagCommand.CONSENT */) {
+                // If CONFIG, second arg must be measurementId.
+                gtagCore("consent" /* GtagCommand.CONSENT */, 'update', gtagParams);
+            }
+            else {
+                // If SET, second arg must be params.
+                gtagCore("set" /* GtagCommand.SET */, idOrNameOrParams);
+            }
+        }
+        catch (e) {
+            logger.error(e);
+        }
+    }
+    return gtagWrapper;
+}
+/**
+ * Creates global gtag function or wraps existing one if found.
+ * This wrapped function attaches Firebase instance ID (FID) to gtag 'config' and
+ * 'event' calls that belong to the GAID associated with this Firebase instance.
+ *
+ * @param initializationPromisesMap Map of appIds to their initialization promises.
+ * @param dynamicConfigPromisesList Array of dynamic config fetch promises.
+ * @param measurementIdToAppId Map of GA measurementIDs to corresponding Firebase appId.
+ * @param dataLayerName Name of global GA datalayer array.
+ * @param gtagFunctionName Name of global gtag function ("gtag" if not user-specified).
+ */
+function wrapOrCreateGtag(initializationPromisesMap, dynamicConfigPromisesList, measurementIdToAppId, dataLayerName, gtagFunctionName) {
+    // Create a basic core gtag function
+    let gtagCore = function (..._args) {
+        // Must push IArguments object, not an array.
+        window[dataLayerName].push(arguments);
+    };
+    // Replace it with existing one if found
+    if (window[gtagFunctionName] &&
+        typeof window[gtagFunctionName] === 'function') {
+        // @ts-ignore
+        gtagCore = window[gtagFunctionName];
+    }
+    window[gtagFunctionName] = wrapGtag(gtagCore, initializationPromisesMap, dynamicConfigPromisesList, measurementIdToAppId);
+    return {
+        gtagCore,
+        wrappedGtag: window[gtagFunctionName]
+    };
+}
+/**
+ * Returns the script tag in the DOM matching both the gtag url pattern
+ * and the provided data layer name.
+ */
+function findGtagScriptOnPage(dataLayerName) {
+    const scriptTags = window.document.getElementsByTagName('script');
+    for (const tag of Object.values(scriptTags)) {
+        if (tag.src &&
+            tag.src.includes(GTAG_URL) &&
+            tag.src.includes(dataLayerName)) {
+            return tag;
+        }
+    }
+    return null;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const ERRORS = {
+    ["already-exists" /* AnalyticsError.ALREADY_EXISTS */]: 'A Firebase Analytics instance with the appId {$id} ' +
+        ' already exists. ' +
+        'Only one Firebase Analytics instance can be created for each appId.',
+    ["already-initialized" /* AnalyticsError.ALREADY_INITIALIZED */]: 'initializeAnalytics() cannot be called again with different options than those ' +
+        'it was initially called with. It can be called again with the same options to ' +
+        'return the existing instance, or getAnalytics() can be used ' +
+        'to get a reference to the already-intialized instance.',
+    ["already-initialized-settings" /* AnalyticsError.ALREADY_INITIALIZED_SETTINGS */]: 'Firebase Analytics has already been initialized.' +
+        'settings() must be called before initializing any Analytics instance' +
+        'or it will have no effect.',
+    ["interop-component-reg-failed" /* AnalyticsError.INTEROP_COMPONENT_REG_FAILED */]: 'Firebase Analytics Interop Component failed to instantiate: {$reason}',
+    ["invalid-analytics-context" /* AnalyticsError.INVALID_ANALYTICS_CONTEXT */]: 'Firebase Analytics is not supported in this environment. ' +
+        'Wrap initialization of analytics in analytics.isSupported() ' +
+        'to prevent initialization in unsupported environments. Details: {$errorInfo}',
+    ["indexeddb-unavailable" /* AnalyticsError.INDEXEDDB_UNAVAILABLE */]: 'IndexedDB unavailable or restricted in this environment. ' +
+        'Wrap initialization of analytics in analytics.isSupported() ' +
+        'to prevent initialization in unsupported environments. Details: {$errorInfo}',
+    ["fetch-throttle" /* AnalyticsError.FETCH_THROTTLE */]: 'The config fetch request timed out while in an exponential backoff state.' +
+        ' Unix timestamp in milliseconds when fetch request throttling ends: {$throttleEndTimeMillis}.',
+    ["config-fetch-failed" /* AnalyticsError.CONFIG_FETCH_FAILED */]: 'Dynamic config fetch failed: [{$httpStatus}] {$responseMessage}',
+    ["no-api-key" /* AnalyticsError.NO_API_KEY */]: 'The "apiKey" field is empty in the local Firebase config. Firebase Analytics requires this field to' +
+        'contain a valid API key.',
+    ["no-app-id" /* AnalyticsError.NO_APP_ID */]: 'The "appId" field is empty in the local Firebase config. Firebase Analytics requires this field to' +
+        'contain a valid app ID.'
+};
+const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.ErrorFactory('analytics', 'Analytics', ERRORS);
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Backoff factor for 503 errors, which we want to be conservative about
+ * to avoid overloading servers. Each retry interval will be
+ * BASE_INTERVAL_MILLIS * LONG_RETRY_FACTOR ^ retryCount, so the second one
+ * will be ~30 seconds (with fuzzing).
+ */
+const LONG_RETRY_FACTOR = 30;
+/**
+ * Base wait interval to multiplied by backoffFactor^backoffCount.
+ */
+const BASE_INTERVAL_MILLIS = 1000;
+/**
+ * Stubbable retry data storage class.
+ */
+class RetryData {
+    constructor(throttleMetadata = {}, intervalMillis = BASE_INTERVAL_MILLIS) {
+        this.throttleMetadata = throttleMetadata;
+        this.intervalMillis = intervalMillis;
+    }
+    getThrottleMetadata(appId) {
+        return this.throttleMetadata[appId];
+    }
+    setThrottleMetadata(appId, metadata) {
+        this.throttleMetadata[appId] = metadata;
+    }
+    deleteThrottleMetadata(appId) {
+        delete this.throttleMetadata[appId];
+    }
+}
+const defaultRetryData = new RetryData();
+/**
+ * Set GET request headers.
+ * @param apiKey App API key.
+ */
+function getHeaders(apiKey) {
+    return new Headers({
+        Accept: 'application/json',
+        'x-goog-api-key': apiKey
     });
 }
-async function convertConfirmationResult(auth, confirmationResultPromise) {
-    const confirmationResultExp = await confirmationResultPromise;
-    return {
-        verificationId: confirmationResultExp.verificationId,
-        confirm: (verificationCode) => convertCredential(auth, confirmationResultExp.confirm(verificationCode))
+/**
+ * Fetches dynamic config from backend.
+ * @param app Firebase app to fetch config for.
+ */
+async function fetchDynamicConfig(appFields) {
+    var _a;
+    const { appId, apiKey } = appFields;
+    const request = {
+        method: 'GET',
+        headers: getHeaders(apiKey)
     };
-}
-class MultiFactorResolver {
-    constructor(auth, resolver) {
-        this.resolver = resolver;
-        this.auth = wrapped(auth);
-    }
-    get session() {
-        return this.resolver.session;
-    }
-    get hints() {
-        return this.resolver.hints;
-    }
-    resolveSignIn(assertion) {
-        return convertCredential(unwrap(this.auth), this.resolver.resolveSignIn(assertion));
-    }
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-class User {
-    constructor(_delegate) {
-        this._delegate = _delegate;
-        this.multiFactor = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.multiFactor(_delegate);
-    }
-    static getOrCreate(user) {
-        if (!User.USER_MAP.has(user)) {
-            User.USER_MAP.set(user, new User(user));
-        }
-        return User.USER_MAP.get(user);
-    }
-    delete() {
-        return this._delegate.delete();
-    }
-    reload() {
-        return this._delegate.reload();
-    }
-    toJSON() {
-        return this._delegate.toJSON();
-    }
-    getIdTokenResult(forceRefresh) {
-        return this._delegate.getIdTokenResult(forceRefresh);
-    }
-    getIdToken(forceRefresh) {
-        return this._delegate.getIdToken(forceRefresh);
-    }
-    linkAndRetrieveDataWithCredential(credential) {
-        return this.linkWithCredential(credential);
-    }
-    async linkWithCredential(credential) {
-        return convertCredential(this.auth, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.linkWithCredential(this._delegate, credential));
-    }
-    async linkWithPhoneNumber(phoneNumber, applicationVerifier) {
-        return convertConfirmationResult(this.auth, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.linkWithPhoneNumber(this._delegate, phoneNumber, applicationVerifier));
-    }
-    async linkWithPopup(provider) {
-        return convertCredential(this.auth, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.linkWithPopup(this._delegate, provider, CompatPopupRedirectResolver));
-    }
-    async linkWithRedirect(provider) {
-        await _savePersistenceForRedirect(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._castAuth(this.auth));
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.linkWithRedirect(this._delegate, provider, CompatPopupRedirectResolver);
-    }
-    reauthenticateAndRetrieveDataWithCredential(credential) {
-        return this.reauthenticateWithCredential(credential);
-    }
-    async reauthenticateWithCredential(credential) {
-        return convertCredential(this.auth, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.reauthenticateWithCredential(this._delegate, credential));
-    }
-    reauthenticateWithPhoneNumber(phoneNumber, applicationVerifier) {
-        return convertConfirmationResult(this.auth, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.reauthenticateWithPhoneNumber(this._delegate, phoneNumber, applicationVerifier));
-    }
-    reauthenticateWithPopup(provider) {
-        return convertCredential(this.auth, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.reauthenticateWithPopup(this._delegate, provider, CompatPopupRedirectResolver));
-    }
-    async reauthenticateWithRedirect(provider) {
-        await _savePersistenceForRedirect(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._castAuth(this.auth));
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.reauthenticateWithRedirect(this._delegate, provider, CompatPopupRedirectResolver);
-    }
-    sendEmailVerification(actionCodeSettings) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.sendEmailVerification(this._delegate, actionCodeSettings);
-    }
-    async unlink(providerId) {
-        await _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.unlink(this._delegate, providerId);
-        return this;
-    }
-    updateEmail(newEmail) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.updateEmail(this._delegate, newEmail);
-    }
-    updatePassword(newPassword) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.updatePassword(this._delegate, newPassword);
-    }
-    updatePhoneNumber(phoneCredential) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.updatePhoneNumber(this._delegate, phoneCredential);
-    }
-    updateProfile(profile) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.updateProfile(this._delegate, profile);
-    }
-    verifyBeforeUpdateEmail(newEmail, actionCodeSettings) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.verifyBeforeUpdateEmail(this._delegate, newEmail, actionCodeSettings);
-    }
-    get emailVerified() {
-        return this._delegate.emailVerified;
-    }
-    get isAnonymous() {
-        return this._delegate.isAnonymous;
-    }
-    get metadata() {
-        return this._delegate.metadata;
-    }
-    get phoneNumber() {
-        return this._delegate.phoneNumber;
-    }
-    get providerData() {
-        return this._delegate.providerData;
-    }
-    get refreshToken() {
-        return this._delegate.refreshToken;
-    }
-    get tenantId() {
-        return this._delegate.tenantId;
-    }
-    get displayName() {
-        return this._delegate.displayName;
-    }
-    get email() {
-        return this._delegate.email;
-    }
-    get photoURL() {
-        return this._delegate.photoURL;
-    }
-    get providerId() {
-        return this._delegate.providerId;
-    }
-    get uid() {
-        return this._delegate.uid;
-    }
-    get auth() {
-        return this._delegate.auth;
-    }
-}
-// Maintain a map so that there's always a 1:1 mapping between new User and
-// legacy compat users
-User.USER_MAP = new WeakMap();
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const _assert$1 = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._assert;
-class Auth {
-    constructor(app, provider) {
-        this.app = app;
-        if (provider.isInitialized()) {
-            this._delegate = provider.getImmediate();
-            this.linkUnderlyingAuth();
-            return;
-        }
-        const { apiKey } = app.options;
-        // TODO: platform needs to be determined using heuristics
-        _assert$1(apiKey, "invalid-api-key" /* exp.AuthErrorCode.INVALID_API_KEY */, {
-            appName: app.name
-        });
-        // TODO: platform needs to be determined using heuristics
-        _assert$1(apiKey, "invalid-api-key" /* exp.AuthErrorCode.INVALID_API_KEY */, {
-            appName: app.name
-        });
-        // Only use a popup/redirect resolver in browser environments
-        const resolver = typeof window !== 'undefined' ? CompatPopupRedirectResolver : undefined;
-        this._delegate = provider.initialize({
-            options: {
-                persistence: buildPersistenceHierarchy(apiKey, app.name),
-                popupRedirectResolver: resolver
+    const appUrl = DYNAMIC_CONFIG_URL.replace('{app-id}', appId);
+    const response = await fetch(appUrl, request);
+    if (response.status !== 200 && response.status !== 304) {
+        let errorMessage = '';
+        try {
+            // Try to get any error message text from server response.
+            const jsonResponse = (await response.json());
+            if ((_a = jsonResponse.error) === null || _a === void 0 ? void 0 : _a.message) {
+                errorMessage = jsonResponse.error.message;
             }
-        });
-        this._delegate._updateErrorMap(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.debugErrorMap);
-        this.linkUnderlyingAuth();
-    }
-    get emulatorConfig() {
-        return this._delegate.emulatorConfig;
-    }
-    get currentUser() {
-        if (!this._delegate.currentUser) {
-            return null;
         }
-        return User.getOrCreate(this._delegate.currentUser);
+        catch (_ignored) { }
+        throw ERROR_FACTORY.create("config-fetch-failed" /* AnalyticsError.CONFIG_FETCH_FAILED */, {
+            httpStatus: response.status,
+            responseMessage: errorMessage
+        });
     }
-    get languageCode() {
-        return this._delegate.languageCode;
+    return response.json();
+}
+/**
+ * Fetches dynamic config from backend, retrying if failed.
+ * @param app Firebase app to fetch config for.
+ */
+async function fetchDynamicConfigWithRetry(app, 
+// retryData and timeoutMillis are parameterized to allow passing a different value for testing.
+retryData = defaultRetryData, timeoutMillis) {
+    const { appId, apiKey, measurementId } = app.options;
+    if (!appId) {
+        throw ERROR_FACTORY.create("no-app-id" /* AnalyticsError.NO_APP_ID */);
     }
-    set languageCode(languageCode) {
-        this._delegate.languageCode = languageCode;
-    }
-    get settings() {
-        return this._delegate.settings;
-    }
-    get tenantId() {
-        return this._delegate.tenantId;
-    }
-    set tenantId(tid) {
-        this._delegate.tenantId = tid;
-    }
-    useDeviceLanguage() {
-        this._delegate.useDeviceLanguage();
-    }
-    signOut() {
-        return this._delegate.signOut();
-    }
-    useEmulator(url, options) {
-        _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.connectAuthEmulator(this._delegate, url, options);
-    }
-    applyActionCode(code) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.applyActionCode(this._delegate, code);
-    }
-    checkActionCode(code) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.checkActionCode(this._delegate, code);
-    }
-    confirmPasswordReset(code, newPassword) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.confirmPasswordReset(this._delegate, code, newPassword);
-    }
-    async createUserWithEmailAndPassword(email, password) {
-        return convertCredential(this._delegate, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.createUserWithEmailAndPassword(this._delegate, email, password));
-    }
-    fetchProvidersForEmail(email) {
-        return this.fetchSignInMethodsForEmail(email);
-    }
-    fetchSignInMethodsForEmail(email) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.fetchSignInMethodsForEmail(this._delegate, email);
-    }
-    isSignInWithEmailLink(emailLink) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.isSignInWithEmailLink(this._delegate, emailLink);
-    }
-    async getRedirectResult() {
-        _assert$1(_isPopupRedirectSupported(), this._delegate, "operation-not-supported-in-this-environment" /* exp.AuthErrorCode.OPERATION_NOT_SUPPORTED */);
-        const credential = await _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.getRedirectResult(this._delegate, CompatPopupRedirectResolver);
-        if (!credential) {
+    if (!apiKey) {
+        if (measurementId) {
             return {
-                credential: null,
-                user: null
+                measurementId,
+                appId
             };
         }
-        return convertCredential(this._delegate, Promise.resolve(credential));
+        throw ERROR_FACTORY.create("no-api-key" /* AnalyticsError.NO_API_KEY */);
     }
-    // This function should only be called by frameworks (e.g. FirebaseUI-web) to log their usage.
-    // It is not intended for direct use by developer apps. NO jsdoc here to intentionally leave it
-    // out of autogenerated documentation pages to reduce accidental misuse.
-    addFrameworkForLogging(framework) {
-        _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.addFrameworkForLogging(this._delegate, framework);
+    const throttleMetadata = retryData.getThrottleMetadata(appId) || {
+        backoffCount: 0,
+        throttleEndTimeMillis: Date.now()
+    };
+    const signal = new AnalyticsAbortSignal();
+    setTimeout(async () => {
+        // Note a very low delay, eg < 10ms, can elapse before listeners are initialized.
+        signal.abort();
+    }, timeoutMillis !== undefined ? timeoutMillis : FETCH_TIMEOUT_MILLIS);
+    return attemptFetchDynamicConfigWithRetry({ appId, apiKey, measurementId }, throttleMetadata, signal, retryData);
+}
+/**
+ * Runs one retry attempt.
+ * @param appFields Necessary app config fields.
+ * @param throttleMetadata Ongoing metadata to determine throttling times.
+ * @param signal Abort signal.
+ */
+async function attemptFetchDynamicConfigWithRetry(appFields, { throttleEndTimeMillis, backoffCount }, signal, retryData = defaultRetryData // for testing
+) {
+    var _a;
+    const { appId, measurementId } = appFields;
+    // Starts with a (potentially zero) timeout to support resumption from stored state.
+    // Ensures the throttle end time is honored if the last attempt timed out.
+    // Note the SDK will never make a request if the fetch timeout expires at this point.
+    try {
+        await setAbortableTimeout(signal, throttleEndTimeMillis);
     }
-    onAuthStateChanged(nextOrObserver, errorFn, completed) {
-        const { next, error, complete } = wrapObservers(nextOrObserver, errorFn, completed);
-        return this._delegate.onAuthStateChanged(next, error, complete);
-    }
-    onIdTokenChanged(nextOrObserver, errorFn, completed) {
-        const { next, error, complete } = wrapObservers(nextOrObserver, errorFn, completed);
-        return this._delegate.onIdTokenChanged(next, error, complete);
-    }
-    sendSignInLinkToEmail(email, actionCodeSettings) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.sendSignInLinkToEmail(this._delegate, email, actionCodeSettings);
-    }
-    sendPasswordResetEmail(email, actionCodeSettings) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.sendPasswordResetEmail(this._delegate, email, actionCodeSettings || undefined);
-    }
-    async setPersistence(persistence) {
-        _validatePersistenceArgument(this._delegate, persistence);
-        let converted;
-        switch (persistence) {
-            case Persistence.SESSION:
-                converted = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.browserSessionPersistence;
-                break;
-            case Persistence.LOCAL:
-                // Not using isIndexedDBAvailable() since it only checks if indexedDB is defined.
-                const isIndexedDBFullySupported = await _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._getInstance(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.indexedDBLocalPersistence)
-                    ._isAvailable();
-                converted = isIndexedDBFullySupported
-                    ? _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.indexedDBLocalPersistence
-                    : _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.browserLocalPersistence;
-                break;
-            case Persistence.NONE:
-                converted = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.inMemoryPersistence;
-                break;
-            default:
-                return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._fail("argument-error" /* exp.AuthErrorCode.ARGUMENT_ERROR */, {
-                    appName: this._delegate.name
-                });
+    catch (e) {
+        if (measurementId) {
+            logger.warn(`Timed out fetching this Firebase app's measurement ID from the server.` +
+                ` Falling back to the measurement ID ${measurementId}` +
+                ` provided in the "measurementId" field in the local Firebase config. [${e === null || e === void 0 ? void 0 : e.message}]`);
+            return { appId, measurementId };
         }
-        return this._delegate.setPersistence(converted);
+        throw e;
     }
-    signInAndRetrieveDataWithCredential(credential) {
-        return this.signInWithCredential(credential);
+    try {
+        const response = await fetchDynamicConfig(appFields);
+        // Note the SDK only clears throttle state if response is success or non-retriable.
+        retryData.deleteThrottleMetadata(appId);
+        return response;
     }
-    signInAnonymously() {
-        return convertCredential(this._delegate, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.signInAnonymously(this._delegate));
+    catch (e) {
+        const error = e;
+        if (!isRetriableError(error)) {
+            retryData.deleteThrottleMetadata(appId);
+            if (measurementId) {
+                logger.warn(`Failed to fetch this Firebase app's measurement ID from the server.` +
+                    ` Falling back to the measurement ID ${measurementId}` +
+                    ` provided in the "measurementId" field in the local Firebase config. [${error === null || error === void 0 ? void 0 : error.message}]`);
+                return { appId, measurementId };
+            }
+            else {
+                throw e;
+            }
+        }
+        const backoffMillis = Number((_a = error === null || error === void 0 ? void 0 : error.customData) === null || _a === void 0 ? void 0 : _a.httpStatus) === 503
+            ? (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.calculateBackoffMillis)(backoffCount, retryData.intervalMillis, LONG_RETRY_FACTOR)
+            : (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.calculateBackoffMillis)(backoffCount, retryData.intervalMillis);
+        // Increments backoff state.
+        const throttleMetadata = {
+            throttleEndTimeMillis: Date.now() + backoffMillis,
+            backoffCount: backoffCount + 1
+        };
+        // Persists state.
+        retryData.setThrottleMetadata(appId, throttleMetadata);
+        logger.debug(`Calling attemptFetch again in ${backoffMillis} millis`);
+        return attemptFetchDynamicConfigWithRetry(appFields, throttleMetadata, signal, retryData);
     }
-    signInWithCredential(credential) {
-        return convertCredential(this._delegate, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.signInWithCredential(this._delegate, credential));
+}
+/**
+ * Supports waiting on a backoff by:
+ *
+ * <ul>
+ *   <li>Promisifying setTimeout, so we can set a timeout in our Promise chain</li>
+ *   <li>Listening on a signal bus for abort events, just like the Fetch API</li>
+ *   <li>Failing in the same way the Fetch API fails, so timing out a live request and a throttled
+ *       request appear the same.</li>
+ * </ul>
+ *
+ * <p>Visible for testing.
+ */
+function setAbortableTimeout(signal, throttleEndTimeMillis) {
+    return new Promise((resolve, reject) => {
+        // Derives backoff from given end time, normalizing negative numbers to zero.
+        const backoffMillis = Math.max(throttleEndTimeMillis - Date.now(), 0);
+        const timeout = setTimeout(resolve, backoffMillis);
+        // Adds listener, rather than sets onabort, because signal is a shared object.
+        signal.addEventListener(() => {
+            clearTimeout(timeout);
+            // If the request completes before this timeout, the rejection has no effect.
+            reject(ERROR_FACTORY.create("fetch-throttle" /* AnalyticsError.FETCH_THROTTLE */, {
+                throttleEndTimeMillis
+            }));
+        });
+    });
+}
+/**
+ * Returns true if the {@link Error} indicates a fetch request may succeed later.
+ */
+function isRetriableError(e) {
+    if (!(e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) || !e.customData) {
+        return false;
     }
-    signInWithCustomToken(token) {
-        return convertCredential(this._delegate, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.signInWithCustomToken(this._delegate, token));
+    // Uses string index defined by ErrorData, which FirebaseError implements.
+    const httpStatus = Number(e.customData['httpStatus']);
+    return (httpStatus === 429 ||
+        httpStatus === 500 ||
+        httpStatus === 503 ||
+        httpStatus === 504);
+}
+/**
+ * Shims a minimal AbortSignal (copied from Remote Config).
+ *
+ * <p>AbortController's AbortSignal conveniently decouples fetch timeout logic from other aspects
+ * of networking, such as retries. Firebase doesn't use AbortController enough to justify a
+ * polyfill recommendation, like we do with the Fetch API, but this minimal shim can easily be
+ * swapped out if/when we do.
+ */
+class AnalyticsAbortSignal {
+    constructor() {
+        this.listeners = [];
     }
-    signInWithEmailAndPassword(email, password) {
-        return convertCredential(this._delegate, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.signInWithEmailAndPassword(this._delegate, email, password));
+    addEventListener(listener) {
+        this.listeners.push(listener);
     }
-    signInWithEmailLink(email, emailLink) {
-        return convertCredential(this._delegate, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.signInWithEmailLink(this._delegate, email, emailLink));
+    abort() {
+        this.listeners.forEach(listener => listener());
     }
-    signInWithPhoneNumber(phoneNumber, applicationVerifier) {
-        return convertConfirmationResult(this._delegate, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.signInWithPhoneNumber(this._delegate, phoneNumber, applicationVerifier));
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Event parameters to set on 'gtag' during initialization.
+ */
+let defaultEventParametersForInit;
+/**
+ * Logs an analytics event through the Firebase SDK.
+ *
+ * @param gtagFunction Wrapped gtag function that waits for fid to be set before sending an event
+ * @param eventName Google Analytics event name, choose from standard list or use a custom string.
+ * @param eventParams Analytics event parameters.
+ */
+async function logEvent$1(gtagFunction, initializationPromise, eventName, eventParams, options) {
+    if (options && options.global) {
+        gtagFunction("event" /* GtagCommand.EVENT */, eventName, eventParams);
+        return;
     }
-    async signInWithPopup(provider) {
-        _assert$1(_isPopupRedirectSupported(), this._delegate, "operation-not-supported-in-this-environment" /* exp.AuthErrorCode.OPERATION_NOT_SUPPORTED */);
-        return convertCredential(this._delegate, _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.signInWithPopup(this._delegate, provider, CompatPopupRedirectResolver));
+    else {
+        const measurementId = await initializationPromise;
+        const params = Object.assign(Object.assign({}, eventParams), { 'send_to': measurementId });
+        gtagFunction("event" /* GtagCommand.EVENT */, eventName, params);
     }
-    async signInWithRedirect(provider) {
-        _assert$1(_isPopupRedirectSupported(), this._delegate, "operation-not-supported-in-this-environment" /* exp.AuthErrorCode.OPERATION_NOT_SUPPORTED */);
-        await _savePersistenceForRedirect(this._delegate);
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.signInWithRedirect(this._delegate, provider, CompatPopupRedirectResolver);
+}
+/**
+ * Set screen_name parameter for this Google Analytics ID.
+ *
+ * @deprecated Use {@link logEvent} with `eventName` as 'screen_view' and add relevant `eventParams`.
+ * See {@link https://firebase.google.com/docs/analytics/screenviews | Track Screenviews}.
+ *
+ * @param gtagFunction Wrapped gtag function that waits for fid to be set before sending an event
+ * @param screenName Screen name string to set.
+ */
+async function setCurrentScreen$1(gtagFunction, initializationPromise, screenName, options) {
+    if (options && options.global) {
+        gtagFunction("set" /* GtagCommand.SET */, { 'screen_name': screenName });
+        return Promise.resolve();
     }
-    updateCurrentUser(user) {
-        // remove ts-ignore once overloads are defined for exp functions to accept compat objects
-        // @ts-ignore
-        return this._delegate.updateCurrentUser(user);
+    else {
+        const measurementId = await initializationPromise;
+        gtagFunction("config" /* GtagCommand.CONFIG */, measurementId, {
+            update: true,
+            'screen_name': screenName
+        });
     }
-    verifyPasswordResetCode(code) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.verifyPasswordResetCode(this._delegate, code);
+}
+/**
+ * Set user_id parameter for this Google Analytics ID.
+ *
+ * @param gtagFunction Wrapped gtag function that waits for fid to be set before sending an event
+ * @param id User ID string to set
+ */
+async function setUserId$1(gtagFunction, initializationPromise, id, options) {
+    if (options && options.global) {
+        gtagFunction("set" /* GtagCommand.SET */, { 'user_id': id });
+        return Promise.resolve();
     }
-    unwrap() {
-        return this._delegate;
+    else {
+        const measurementId = await initializationPromise;
+        gtagFunction("config" /* GtagCommand.CONFIG */, measurementId, {
+            update: true,
+            'user_id': id
+        });
+    }
+}
+/**
+ * Set all other user properties other than user_id and screen_name.
+ *
+ * @param gtagFunction Wrapped gtag function that waits for fid to be set before sending an event
+ * @param properties Map of user properties to set
+ */
+async function setUserProperties$1(gtagFunction, initializationPromise, properties, options) {
+    if (options && options.global) {
+        const flatProperties = {};
+        for (const key of Object.keys(properties)) {
+            // use dot notation for merge behavior in gtag.js
+            flatProperties[`user_properties.${key}`] = properties[key];
+        }
+        gtagFunction("set" /* GtagCommand.SET */, flatProperties);
+        return Promise.resolve();
+    }
+    else {
+        const measurementId = await initializationPromise;
+        gtagFunction("config" /* GtagCommand.CONFIG */, measurementId, {
+            update: true,
+            'user_properties': properties
+        });
+    }
+}
+/**
+ * Set whether collection is enabled for this ID.
+ *
+ * @param enabled If true, collection is enabled for this ID.
+ */
+async function setAnalyticsCollectionEnabled$1(initializationPromise, enabled) {
+    const measurementId = await initializationPromise;
+    window[`ga-disable-${measurementId}`] = !enabled;
+}
+/**
+ * Consent parameters to default to during 'gtag' initialization.
+ */
+let defaultConsentSettingsForInit;
+/**
+ * Sets the variable {@link defaultConsentSettingsForInit} for use in the initialization of
+ * analytics.
+ *
+ * @param consentSettings Maps the applicable end user consent state for gtag.js.
+ */
+function _setConsentDefaultForInit(consentSettings) {
+    defaultConsentSettingsForInit = consentSettings;
+}
+/**
+ * Sets the variable `defaultEventParametersForInit` for use in the initialization of
+ * analytics.
+ *
+ * @param customParams Any custom params the user may pass to gtag.js.
+ */
+function _setDefaultEventParametersForInit(customParams) {
+    defaultEventParametersForInit = customParams;
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+async function validateIndexedDB() {
+    if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isIndexedDBAvailable)()) {
+        logger.warn(ERROR_FACTORY.create("indexeddb-unavailable" /* AnalyticsError.INDEXEDDB_UNAVAILABLE */, {
+            errorInfo: 'IndexedDB is not available in this environment.'
+        }).message);
+        return false;
+    }
+    else {
+        try {
+            await (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.validateIndexedDBOpenable)();
+        }
+        catch (e) {
+            logger.warn(ERROR_FACTORY.create("indexeddb-unavailable" /* AnalyticsError.INDEXEDDB_UNAVAILABLE */, {
+                errorInfo: e === null || e === void 0 ? void 0 : e.toString()
+            }).message);
+            return false;
+        }
+    }
+    return true;
+}
+/**
+ * Initialize the analytics instance in gtag.js by calling config command with fid.
+ *
+ * NOTE: We combine analytics initialization and setting fid together because we want fid to be
+ * part of the `page_view` event that's sent during the initialization
+ * @param app Firebase app
+ * @param gtagCore The gtag function that's not wrapped.
+ * @param dynamicConfigPromisesList Array of all dynamic config promises.
+ * @param measurementIdToAppId Maps measurementID to appID.
+ * @param installations _FirebaseInstallationsInternal instance.
+ *
+ * @returns Measurement ID.
+ */
+async function _initializeAnalytics(app, dynamicConfigPromisesList, measurementIdToAppId, installations, gtagCore, dataLayerName, options) {
+    var _a;
+    const dynamicConfigPromise = fetchDynamicConfigWithRetry(app);
+    // Once fetched, map measurementIds to appId, for ease of lookup in wrapped gtag function.
+    dynamicConfigPromise
+        .then(config => {
+        measurementIdToAppId[config.measurementId] = config.appId;
+        if (app.options.measurementId &&
+            config.measurementId !== app.options.measurementId) {
+            logger.warn(`The measurement ID in the local Firebase config (${app.options.measurementId})` +
+                ` does not match the measurement ID fetched from the server (${config.measurementId}).` +
+                ` To ensure analytics events are always sent to the correct Analytics property,` +
+                ` update the` +
+                ` measurement ID field in the local config or remove it from the local config.`);
+        }
+    })
+        .catch(e => logger.error(e));
+    // Add to list to track state of all dynamic config promises.
+    dynamicConfigPromisesList.push(dynamicConfigPromise);
+    const fidPromise = validateIndexedDB().then(envIsValid => {
+        if (envIsValid) {
+            return installations.getId();
+        }
+        else {
+            return undefined;
+        }
+    });
+    const [dynamicConfig, fid] = await Promise.all([
+        dynamicConfigPromise,
+        fidPromise
+    ]);
+    // Detect if user has already put the gtag <script> tag on this page with the passed in
+    // data layer name.
+    if (!findGtagScriptOnPage(dataLayerName)) {
+        insertScriptTag(dataLayerName, dynamicConfig.measurementId);
+    }
+    // Detects if there are consent settings that need to be configured.
+    if (defaultConsentSettingsForInit) {
+        gtagCore("consent" /* GtagCommand.CONSENT */, 'default', defaultConsentSettingsForInit);
+        _setConsentDefaultForInit(undefined);
+    }
+    // This command initializes gtag.js and only needs to be called once for the entire web app,
+    // but since it is idempotent, we can call it multiple times.
+    // We keep it together with other initialization logic for better code structure.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    gtagCore('js', new Date());
+    // User config added first. We don't want users to accidentally overwrite
+    // base Firebase config properties.
+    const configProperties = (_a = options === null || options === void 0 ? void 0 : options.config) !== null && _a !== void 0 ? _a : {};
+    // guard against developers accidentally setting properties with prefix `firebase_`
+    configProperties[ORIGIN_KEY] = 'firebase';
+    configProperties.update = true;
+    if (fid != null) {
+        configProperties[GA_FID_KEY] = fid;
+    }
+    // It should be the first config command called on this GA-ID
+    // Initialize this GA-ID and set FID on it using the gtag config API.
+    // Note: This will trigger a page_view event unless 'send_page_view' is set to false in
+    // `configProperties`.
+    gtagCore("config" /* GtagCommand.CONFIG */, dynamicConfig.measurementId, configProperties);
+    // Detects if there is data that will be set on every event logged from the SDK.
+    if (defaultEventParametersForInit) {
+        gtagCore("set" /* GtagCommand.SET */, defaultEventParametersForInit);
+        _setDefaultEventParametersForInit(undefined);
+    }
+    return dynamicConfig.measurementId;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Analytics Service class.
+ */
+class AnalyticsService {
+    constructor(app) {
+        this.app = app;
     }
     _delete() {
-        return this._delegate._delete();
-    }
-    linkUnderlyingAuth() {
-        this._delegate.wrapped = () => this;
+        delete initializationPromisesMap[this.app.options.appId];
+        return Promise.resolve();
     }
 }
-Auth.Persistence = Persistence;
-function wrapObservers(nextOrObserver, error, complete) {
-    let next = nextOrObserver;
-    if (typeof nextOrObserver !== 'function') {
-        ({ next, error, complete } = nextOrObserver);
+/**
+ * Maps appId to full initialization promise. Wrapped gtag calls must wait on
+ * all or some of these, depending on the call's `send_to` param and the status
+ * of the dynamic config fetches (see below).
+ */
+let initializationPromisesMap = {};
+/**
+ * List of dynamic config fetch promises. In certain cases, wrapped gtag calls
+ * wait on all these to be complete in order to determine if it can selectively
+ * wait for only certain initialization (FID) promises or if it must wait for all.
+ */
+let dynamicConfigPromisesList = [];
+/**
+ * Maps fetched measurementIds to appId. Populated when the app's dynamic config
+ * fetch completes. If already populated, gtag config calls can use this to
+ * selectively wait for only this app's initialization promise (FID) instead of all
+ * initialization promises.
+ */
+const measurementIdToAppId = {};
+/**
+ * Name for window global data layer array used by GA: defaults to 'dataLayer'.
+ */
+let dataLayerName = 'dataLayer';
+/**
+ * Name for window global gtag function used by GA: defaults to 'gtag'.
+ */
+let gtagName = 'gtag';
+/**
+ * Reproduction of standard gtag function or reference to existing
+ * gtag function on window object.
+ */
+let gtagCoreFunction;
+/**
+ * Wrapper around gtag function that ensures FID is sent with all
+ * relevant event and config calls.
+ */
+let wrappedGtagFunction;
+/**
+ * Flag to ensure page initialization steps (creation or wrapping of
+ * dataLayer and gtag script) are only run once per page load.
+ */
+let globalInitDone = false;
+/**
+ * Configures Firebase Analytics to use custom `gtag` or `dataLayer` names.
+ * Intended to be used if `gtag.js` script has been installed on
+ * this page independently of Firebase Analytics, and is using non-default
+ * names for either the `gtag` function or for `dataLayer`.
+ * Must be called before calling `getAnalytics()` or it won't
+ * have any effect.
+ *
+ * @public
+ *
+ * @param options - Custom gtag and dataLayer names.
+ */
+function settings(options) {
+    if (globalInitDone) {
+        throw ERROR_FACTORY.create("already-initialized" /* AnalyticsError.ALREADY_INITIALIZED */);
     }
-    // We know 'next' is now a function
-    const oldNext = next;
-    const newNext = (user) => oldNext(user && User.getOrCreate(user));
+    if (options.dataLayerName) {
+        dataLayerName = options.dataLayerName;
+    }
+    if (options.gtagName) {
+        gtagName = options.gtagName;
+    }
+}
+/**
+ * Returns true if no environment mismatch is found.
+ * If environment mismatches are found, throws an INVALID_ANALYTICS_CONTEXT
+ * error that also lists details for each mismatch found.
+ */
+function warnOnBrowserContextMismatch() {
+    const mismatchedEnvMessages = [];
+    if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isBrowserExtension)()) {
+        mismatchedEnvMessages.push('This is a browser extension environment.');
+    }
+    if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.areCookiesEnabled)()) {
+        mismatchedEnvMessages.push('Cookies are not available.');
+    }
+    if (mismatchedEnvMessages.length > 0) {
+        const details = mismatchedEnvMessages
+            .map((message, index) => `(${index + 1}) ${message}`)
+            .join(' ');
+        const err = ERROR_FACTORY.create("invalid-analytics-context" /* AnalyticsError.INVALID_ANALYTICS_CONTEXT */, {
+            errorInfo: details
+        });
+        logger.warn(err.message);
+    }
+}
+/**
+ * Analytics instance factory.
+ * @internal
+ */
+function factory(app, installations, options) {
+    warnOnBrowserContextMismatch();
+    const appId = app.options.appId;
+    if (!appId) {
+        throw ERROR_FACTORY.create("no-app-id" /* AnalyticsError.NO_APP_ID */);
+    }
+    if (!app.options.apiKey) {
+        if (app.options.measurementId) {
+            logger.warn(`The "apiKey" field is empty in the local Firebase config. This is needed to fetch the latest` +
+                ` measurement ID for this Firebase app. Falling back to the measurement ID ${app.options.measurementId}` +
+                ` provided in the "measurementId" field in the local Firebase config.`);
+        }
+        else {
+            throw ERROR_FACTORY.create("no-api-key" /* AnalyticsError.NO_API_KEY */);
+        }
+    }
+    if (initializationPromisesMap[appId] != null) {
+        throw ERROR_FACTORY.create("already-exists" /* AnalyticsError.ALREADY_EXISTS */, {
+            id: appId
+        });
+    }
+    if (!globalInitDone) {
+        // Steps here should only be done once per page: creation or wrapping
+        // of dataLayer and global gtag function.
+        getOrCreateDataLayer(dataLayerName);
+        const { wrappedGtag, gtagCore } = wrapOrCreateGtag(initializationPromisesMap, dynamicConfigPromisesList, measurementIdToAppId, dataLayerName, gtagName);
+        wrappedGtagFunction = wrappedGtag;
+        gtagCoreFunction = gtagCore;
+        globalInitDone = true;
+    }
+    // Async but non-blocking.
+    // This map reflects the completion state of all promises for each appId.
+    initializationPromisesMap[appId] = _initializeAnalytics(app, dynamicConfigPromisesList, measurementIdToAppId, installations, gtagCoreFunction, dataLayerName, options);
+    const analyticsInstance = new AnalyticsService(app);
+    return analyticsInstance;
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * Returns an {@link Analytics} instance for the given app.
+ *
+ * @public
+ *
+ * @param app - The {@link @firebase/app#FirebaseApp} to use.
+ */
+function getAnalytics(app = (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApp)()) {
+    app = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(app);
+    // Dependencies
+    const analyticsProvider = (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider)(app, ANALYTICS_TYPE);
+    if (analyticsProvider.isInitialized()) {
+        return analyticsProvider.getImmediate();
+    }
+    return initializeAnalytics(app);
+}
+/**
+ * Returns an {@link Analytics} instance for the given app.
+ *
+ * @public
+ *
+ * @param app - The {@link @firebase/app#FirebaseApp} to use.
+ */
+function initializeAnalytics(app, options = {}) {
+    // Dependencies
+    const analyticsProvider = (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider)(app, ANALYTICS_TYPE);
+    if (analyticsProvider.isInitialized()) {
+        const existingInstance = analyticsProvider.getImmediate();
+        if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(options, analyticsProvider.getOptions())) {
+            return existingInstance;
+        }
+        else {
+            throw ERROR_FACTORY.create("already-initialized" /* AnalyticsError.ALREADY_INITIALIZED */);
+        }
+    }
+    const analyticsInstance = analyticsProvider.initialize({ options });
+    return analyticsInstance;
+}
+/**
+ * This is a public static method provided to users that wraps four different checks:
+ *
+ * 1. Check if it's not a browser extension environment.
+ * 2. Check if cookies are enabled in current browser.
+ * 3. Check if IndexedDB is supported by the browser environment.
+ * 4. Check if the current browser context is valid for using `IndexedDB.open()`.
+ *
+ * @public
+ *
+ */
+async function isSupported() {
+    if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isBrowserExtension)()) {
+        return false;
+    }
+    if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.areCookiesEnabled)()) {
+        return false;
+    }
+    if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isIndexedDBAvailable)()) {
+        return false;
+    }
+    try {
+        const isDBOpenable = await (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.validateIndexedDBOpenable)();
+        return isDBOpenable;
+    }
+    catch (error) {
+        return false;
+    }
+}
+/**
+ * Use gtag `config` command to set `screen_name`.
+ *
+ * @public
+ *
+ * @deprecated Use {@link logEvent} with `eventName` as 'screen_view' and add relevant `eventParams`.
+ * See {@link https://firebase.google.com/docs/analytics/screenviews | Track Screenviews}.
+ *
+ * @param analyticsInstance - The {@link Analytics} instance.
+ * @param screenName - Screen name to set.
+ */
+function setCurrentScreen(analyticsInstance, screenName, options) {
+    analyticsInstance = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(analyticsInstance);
+    setCurrentScreen$1(wrappedGtagFunction, initializationPromisesMap[analyticsInstance.app.options.appId], screenName, options).catch(e => logger.error(e));
+}
+/**
+ * Use gtag `config` command to set `user_id`.
+ *
+ * @public
+ *
+ * @param analyticsInstance - The {@link Analytics} instance.
+ * @param id - User ID to set.
+ */
+function setUserId(analyticsInstance, id, options) {
+    analyticsInstance = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(analyticsInstance);
+    setUserId$1(wrappedGtagFunction, initializationPromisesMap[analyticsInstance.app.options.appId], id, options).catch(e => logger.error(e));
+}
+/**
+ * Use gtag `config` command to set all params specified.
+ *
+ * @public
+ */
+function setUserProperties(analyticsInstance, properties, options) {
+    analyticsInstance = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(analyticsInstance);
+    setUserProperties$1(wrappedGtagFunction, initializationPromisesMap[analyticsInstance.app.options.appId], properties, options).catch(e => logger.error(e));
+}
+/**
+ * Sets whether Google Analytics collection is enabled for this app on this device.
+ * Sets global `window['ga-disable-analyticsId'] = true;`
+ *
+ * @public
+ *
+ * @param analyticsInstance - The {@link Analytics} instance.
+ * @param enabled - If true, enables collection, if false, disables it.
+ */
+function setAnalyticsCollectionEnabled(analyticsInstance, enabled) {
+    analyticsInstance = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(analyticsInstance);
+    setAnalyticsCollectionEnabled$1(initializationPromisesMap[analyticsInstance.app.options.appId], enabled).catch(e => logger.error(e));
+}
+/**
+ * Adds data that will be set on every event logged from the SDK, including automatic ones.
+ * With gtag's "set" command, the values passed persist on the current page and are passed with
+ * all subsequent events.
+ * @public
+ * @param customParams - Any custom params the user may pass to gtag.js.
+ */
+function setDefaultEventParameters(customParams) {
+    // Check if reference to existing gtag function on window object exists
+    if (wrappedGtagFunction) {
+        wrappedGtagFunction("set" /* GtagCommand.SET */, customParams);
+    }
+    else {
+        _setDefaultEventParametersForInit(customParams);
+    }
+}
+/**
+ * Sends a Google Analytics event with given `eventParams`. This method
+ * automatically associates this logged event with this Firebase web
+ * app instance on this device.
+ * List of official event parameters can be found in the gtag.js
+ * reference documentation:
+ * {@link https://developers.google.com/gtagjs/reference/ga4-events
+ * | the GA4 reference documentation}.
+ *
+ * @public
+ */
+function logEvent(analyticsInstance, eventName, eventParams, options) {
+    analyticsInstance = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getModularInstance)(analyticsInstance);
+    logEvent$1(wrappedGtagFunction, initializationPromisesMap[analyticsInstance.app.options.appId], eventName, eventParams, options).catch(e => logger.error(e));
+}
+/**
+ * Sets the applicable end user consent state for this web app across all gtag references once
+ * Firebase Analytics is initialized.
+ *
+ * Use the {@link ConsentSettings} to specify individual consent type values. By default consent
+ * types are set to "granted".
+ * @public
+ * @param consentSettings - Maps the applicable end user consent state for gtag.js.
+ */
+function setConsent(consentSettings) {
+    // Check if reference to existing gtag function on window object exists
+    if (wrappedGtagFunction) {
+        wrappedGtagFunction("consent" /* GtagCommand.CONSENT */, 'update', consentSettings);
+    }
+    else {
+        _setConsentDefaultForInit(consentSettings);
+    }
+}
+
+const name = "@firebase/analytics";
+const version = "0.9.0";
+
+/**
+ * Firebase Analytics
+ *
+ * @packageDocumentation
+ */
+function registerAnalytics() {
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_3__.Component(ANALYTICS_TYPE, (container, { options: analyticsOptions }) => {
+        // getImmediate for FirebaseApp will always succeed
+        const app = container.getProvider('app').getImmediate();
+        const installations = container
+            .getProvider('installations-internal')
+            .getImmediate();
+        return factory(app, installations, analyticsOptions);
+    }, "PUBLIC" /* ComponentType.PUBLIC */));
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_3__.Component('analytics-internal', internalFactory, "PRIVATE" /* ComponentType.PRIVATE */));
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version);
+    // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version, 'esm2017');
+    function internalFactory(container) {
+        try {
+            const analytics = container.getProvider(ANALYTICS_TYPE).getImmediate();
+            return {
+                logEvent: (eventName, eventParams, options) => logEvent(analytics, eventName, eventParams, options)
+            };
+        }
+        catch (e) {
+            throw ERROR_FACTORY.create("interop-component-reg-failed" /* AnalyticsError.INTEROP_COMPONENT_REG_FAILED */, {
+                reason: e
+            });
+        }
+    }
+}
+registerAnalytics();
+
+
+//# sourceMappingURL=index.esm2017.js.map
+
+
+/***/ }),
+/* 10 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "deleteInstallations": () => (/* binding */ deleteInstallations),
+/* harmony export */   "getId": () => (/* binding */ getId),
+/* harmony export */   "getInstallations": () => (/* binding */ getInstallations),
+/* harmony export */   "getToken": () => (/* binding */ getToken),
+/* harmony export */   "onIdChange": () => (/* binding */ onIdChange)
+/* harmony export */ });
+/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var idb__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+
+
+
+
+
+const name = "@firebase/installations";
+const version = "0.6.0";
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const PENDING_TIMEOUT_MS = 10000;
+const PACKAGE_VERSION = `w:${version}`;
+const INTERNAL_AUTH_VERSION = 'FIS_v2';
+const INSTALLATIONS_API_URL = 'https://firebaseinstallations.googleapis.com/v1';
+const TOKEN_EXPIRATION_BUFFER = 60 * 60 * 1000; // One hour
+const SERVICE = 'installations';
+const SERVICE_NAME = 'Installations';
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const ERROR_DESCRIPTION_MAP = {
+    ["missing-app-config-values" /* ErrorCode.MISSING_APP_CONFIG_VALUES */]: 'Missing App configuration value: "{$valueName}"',
+    ["not-registered" /* ErrorCode.NOT_REGISTERED */]: 'Firebase Installation is not registered.',
+    ["installation-not-found" /* ErrorCode.INSTALLATION_NOT_FOUND */]: 'Firebase Installation not found.',
+    ["request-failed" /* ErrorCode.REQUEST_FAILED */]: '{$requestName} request failed with error "{$serverCode} {$serverStatus}: {$serverMessage}"',
+    ["app-offline" /* ErrorCode.APP_OFFLINE */]: 'Could not process request. Application offline.',
+    ["delete-pending-registration" /* ErrorCode.DELETE_PENDING_REGISTRATION */]: "Can't delete installation while there is a pending registration request."
+};
+const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.ErrorFactory(SERVICE, SERVICE_NAME, ERROR_DESCRIPTION_MAP);
+/** Returns true if error is a FirebaseError that is based on an error from the server. */
+function isServerError(error) {
+    return (error instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError &&
+        error.code.includes("request-failed" /* ErrorCode.REQUEST_FAILED */));
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function getInstallationsEndpoint({ projectId }) {
+    return `${INSTALLATIONS_API_URL}/projects/${projectId}/installations`;
+}
+function extractAuthTokenInfoFromResponse(response) {
     return {
-        next: newNext,
-        error: error,
-        complete
+        token: response.token,
+        requestStatus: 2 /* RequestStatus.COMPLETED */,
+        expiresIn: getExpiresInFromResponseExpiresIn(response.expiresIn),
+        creationTime: Date.now()
     };
 }
-function buildPersistenceHierarchy(apiKey, appName) {
-    // Note this is slightly different behavior: in this case, the stored
-    // persistence is checked *first* rather than last. This is because we want
-    // to prefer stored persistence type in the hierarchy. This is an empty
-    // array if window is not available or there is no pending redirect
-    const persistences = _getPersistencesFromRedirect(apiKey, appName);
-    // If "self" is available, add indexedDB
-    if (typeof self !== 'undefined' &&
-        !persistences.includes(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.indexedDBLocalPersistence)) {
-        persistences.push(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.indexedDBLocalPersistence);
+async function getErrorFromResponse(requestName, response) {
+    const responseJson = await response.json();
+    const errorData = responseJson.error;
+    return ERROR_FACTORY.create("request-failed" /* ErrorCode.REQUEST_FAILED */, {
+        requestName,
+        serverCode: errorData.code,
+        serverMessage: errorData.message,
+        serverStatus: errorData.status
+    });
+}
+function getHeaders({ apiKey }) {
+    return new Headers({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'x-goog-api-key': apiKey
+    });
+}
+function getHeadersWithAuth(appConfig, { refreshToken }) {
+    const headers = getHeaders(appConfig);
+    headers.append('Authorization', getAuthorizationHeader(refreshToken));
+    return headers;
+}
+/**
+ * Calls the passed in fetch wrapper and returns the response.
+ * If the returned response has a status of 5xx, re-runs the function once and
+ * returns the response.
+ */
+async function retryIfServerError(fn) {
+    const result = await fn();
+    if (result.status >= 500 && result.status < 600) {
+        // Internal Server Error. Retry request.
+        return fn();
     }
-    // If "window" is available, add HTML Storage persistences
-    if (typeof window !== 'undefined') {
-        for (const persistence of [
-            _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.browserLocalPersistence,
-            _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.browserSessionPersistence
-        ]) {
-            if (!persistences.includes(persistence)) {
-                persistences.push(persistence);
+    return result;
+}
+function getExpiresInFromResponseExpiresIn(responseExpiresIn) {
+    // This works because the server will never respond with fractions of a second.
+    return Number(responseExpiresIn.replace('s', '000'));
+}
+function getAuthorizationHeader(refreshToken) {
+    return `${INTERNAL_AUTH_VERSION} ${refreshToken}`;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+async function createInstallationRequest({ appConfig, heartbeatServiceProvider }, { fid }) {
+    const endpoint = getInstallationsEndpoint(appConfig);
+    const headers = getHeaders(appConfig);
+    // If heartbeat service exists, add the heartbeat string to the header.
+    const heartbeatService = heartbeatServiceProvider.getImmediate({
+        optional: true
+    });
+    if (heartbeatService) {
+        const heartbeatsHeader = await heartbeatService.getHeartbeatsHeader();
+        if (heartbeatsHeader) {
+            headers.append('x-firebase-client', heartbeatsHeader);
+        }
+    }
+    const body = {
+        fid,
+        authVersion: INTERNAL_AUTH_VERSION,
+        appId: appConfig.appId,
+        sdkVersion: PACKAGE_VERSION
+    };
+    const request = {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body)
+    };
+    const response = await retryIfServerError(() => fetch(endpoint, request));
+    if (response.ok) {
+        const responseValue = await response.json();
+        const registeredInstallationEntry = {
+            fid: responseValue.fid || fid,
+            registrationStatus: 2 /* RequestStatus.COMPLETED */,
+            refreshToken: responseValue.refreshToken,
+            authToken: extractAuthTokenInfoFromResponse(responseValue.authToken)
+        };
+        return registeredInstallationEntry;
+    }
+    else {
+        throw await getErrorFromResponse('Create Installation', response);
+    }
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/** Returns a promise that resolves after given time passes. */
+function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function bufferToBase64UrlSafe(array) {
+    const b64 = btoa(String.fromCharCode(...array));
+    return b64.replace(/\+/g, '-').replace(/\//g, '_');
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const VALID_FID_PATTERN = /^[cdef][\w-]{21}$/;
+const INVALID_FID = '';
+/**
+ * Generates a new FID using random values from Web Crypto API.
+ * Returns an empty string if FID generation fails for any reason.
+ */
+function generateFid() {
+    try {
+        // A valid FID has exactly 22 base64 characters, which is 132 bits, or 16.5
+        // bytes. our implementation generates a 17 byte array instead.
+        const fidByteArray = new Uint8Array(17);
+        const crypto = self.crypto || self.msCrypto;
+        crypto.getRandomValues(fidByteArray);
+        // Replace the first 4 random bits with the constant FID header of 0b0111.
+        fidByteArray[0] = 0b01110000 + (fidByteArray[0] % 0b00010000);
+        const fid = encode(fidByteArray);
+        return VALID_FID_PATTERN.test(fid) ? fid : INVALID_FID;
+    }
+    catch (_a) {
+        // FID generation errored
+        return INVALID_FID;
+    }
+}
+/** Converts a FID Uint8Array to a base64 string representation. */
+function encode(fidByteArray) {
+    const b64String = bufferToBase64UrlSafe(fidByteArray);
+    // Remove the 23rd character that was added because of the extra 4 bits at the
+    // end of our 17 byte array, and the '=' padding.
+    return b64String.substr(0, 22);
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/** Returns a string key that can be used to identify the app. */
+function getKey(appConfig) {
+    return `${appConfig.appName}!${appConfig.appId}`;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const fidChangeCallbacks = new Map();
+/**
+ * Calls the onIdChange callbacks with the new FID value, and broadcasts the
+ * change to other tabs.
+ */
+function fidChanged(appConfig, fid) {
+    const key = getKey(appConfig);
+    callFidChangeCallbacks(key, fid);
+    broadcastFidChange(key, fid);
+}
+function addCallback(appConfig, callback) {
+    // Open the broadcast channel if it's not already open,
+    // to be able to listen to change events from other tabs.
+    getBroadcastChannel();
+    const key = getKey(appConfig);
+    let callbackSet = fidChangeCallbacks.get(key);
+    if (!callbackSet) {
+        callbackSet = new Set();
+        fidChangeCallbacks.set(key, callbackSet);
+    }
+    callbackSet.add(callback);
+}
+function removeCallback(appConfig, callback) {
+    const key = getKey(appConfig);
+    const callbackSet = fidChangeCallbacks.get(key);
+    if (!callbackSet) {
+        return;
+    }
+    callbackSet.delete(callback);
+    if (callbackSet.size === 0) {
+        fidChangeCallbacks.delete(key);
+    }
+    // Close broadcast channel if there are no more callbacks.
+    closeBroadcastChannel();
+}
+function callFidChangeCallbacks(key, fid) {
+    const callbacks = fidChangeCallbacks.get(key);
+    if (!callbacks) {
+        return;
+    }
+    for (const callback of callbacks) {
+        callback(fid);
+    }
+}
+function broadcastFidChange(key, fid) {
+    const channel = getBroadcastChannel();
+    if (channel) {
+        channel.postMessage({ key, fid });
+    }
+    closeBroadcastChannel();
+}
+let broadcastChannel = null;
+/** Opens and returns a BroadcastChannel if it is supported by the browser. */
+function getBroadcastChannel() {
+    if (!broadcastChannel && 'BroadcastChannel' in self) {
+        broadcastChannel = new BroadcastChannel('[Firebase] FID Change');
+        broadcastChannel.onmessage = e => {
+            callFidChangeCallbacks(e.data.key, e.data.fid);
+        };
+    }
+    return broadcastChannel;
+}
+function closeBroadcastChannel() {
+    if (fidChangeCallbacks.size === 0 && broadcastChannel) {
+        broadcastChannel.close();
+        broadcastChannel = null;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const DATABASE_NAME = 'firebase-installations-database';
+const DATABASE_VERSION = 1;
+const OBJECT_STORE_NAME = 'firebase-installations-store';
+let dbPromise = null;
+function getDbPromise() {
+    if (!dbPromise) {
+        dbPromise = (0,idb__WEBPACK_IMPORTED_MODULE_3__.openDB)(DATABASE_NAME, DATABASE_VERSION, {
+            upgrade: (db, oldVersion) => {
+                // We don't use 'break' in this switch statement, the fall-through
+                // behavior is what we want, because if there are multiple versions between
+                // the old version and the current version, we want ALL the migrations
+                // that correspond to those versions to run, not only the last one.
+                // eslint-disable-next-line default-case
+                switch (oldVersion) {
+                    case 0:
+                        db.createObjectStore(OBJECT_STORE_NAME);
+                }
+            }
+        });
+    }
+    return dbPromise;
+}
+/** Assigns or overwrites the record for the given key with the given value. */
+async function set(appConfig, value) {
+    const key = getKey(appConfig);
+    const db = await getDbPromise();
+    const tx = db.transaction(OBJECT_STORE_NAME, 'readwrite');
+    const objectStore = tx.objectStore(OBJECT_STORE_NAME);
+    const oldValue = (await objectStore.get(key));
+    await objectStore.put(value, key);
+    await tx.done;
+    if (!oldValue || oldValue.fid !== value.fid) {
+        fidChanged(appConfig, value.fid);
+    }
+    return value;
+}
+/** Removes record(s) from the objectStore that match the given key. */
+async function remove(appConfig) {
+    const key = getKey(appConfig);
+    const db = await getDbPromise();
+    const tx = db.transaction(OBJECT_STORE_NAME, 'readwrite');
+    await tx.objectStore(OBJECT_STORE_NAME).delete(key);
+    await tx.done;
+}
+/**
+ * Atomically updates a record with the result of updateFn, which gets
+ * called with the current value. If newValue is undefined, the record is
+ * deleted instead.
+ * @return Updated value
+ */
+async function update(appConfig, updateFn) {
+    const key = getKey(appConfig);
+    const db = await getDbPromise();
+    const tx = db.transaction(OBJECT_STORE_NAME, 'readwrite');
+    const store = tx.objectStore(OBJECT_STORE_NAME);
+    const oldValue = (await store.get(key));
+    const newValue = updateFn(oldValue);
+    if (newValue === undefined) {
+        await store.delete(key);
+    }
+    else {
+        await store.put(newValue, key);
+    }
+    await tx.done;
+    if (newValue && (!oldValue || oldValue.fid !== newValue.fid)) {
+        fidChanged(appConfig, newValue.fid);
+    }
+    return newValue;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Updates and returns the InstallationEntry from the database.
+ * Also triggers a registration request if it is necessary and possible.
+ */
+async function getInstallationEntry(installations) {
+    let registrationPromise;
+    const installationEntry = await update(installations.appConfig, oldEntry => {
+        const installationEntry = updateOrCreateInstallationEntry(oldEntry);
+        const entryWithPromise = triggerRegistrationIfNecessary(installations, installationEntry);
+        registrationPromise = entryWithPromise.registrationPromise;
+        return entryWithPromise.installationEntry;
+    });
+    if (installationEntry.fid === INVALID_FID) {
+        // FID generation failed. Waiting for the FID from the server.
+        return { installationEntry: await registrationPromise };
+    }
+    return {
+        installationEntry,
+        registrationPromise
+    };
+}
+/**
+ * Creates a new Installation Entry if one does not exist.
+ * Also clears timed out pending requests.
+ */
+function updateOrCreateInstallationEntry(oldEntry) {
+    const entry = oldEntry || {
+        fid: generateFid(),
+        registrationStatus: 0 /* RequestStatus.NOT_STARTED */
+    };
+    return clearTimedOutRequest(entry);
+}
+/**
+ * If the Firebase Installation is not registered yet, this will trigger the
+ * registration and return an InProgressInstallationEntry.
+ *
+ * If registrationPromise does not exist, the installationEntry is guaranteed
+ * to be registered.
+ */
+function triggerRegistrationIfNecessary(installations, installationEntry) {
+    if (installationEntry.registrationStatus === 0 /* RequestStatus.NOT_STARTED */) {
+        if (!navigator.onLine) {
+            // Registration required but app is offline.
+            const registrationPromiseWithError = Promise.reject(ERROR_FACTORY.create("app-offline" /* ErrorCode.APP_OFFLINE */));
+            return {
+                installationEntry,
+                registrationPromise: registrationPromiseWithError
+            };
+        }
+        // Try registering. Change status to IN_PROGRESS.
+        const inProgressEntry = {
+            fid: installationEntry.fid,
+            registrationStatus: 1 /* RequestStatus.IN_PROGRESS */,
+            registrationTime: Date.now()
+        };
+        const registrationPromise = registerInstallation(installations, inProgressEntry);
+        return { installationEntry: inProgressEntry, registrationPromise };
+    }
+    else if (installationEntry.registrationStatus === 1 /* RequestStatus.IN_PROGRESS */) {
+        return {
+            installationEntry,
+            registrationPromise: waitUntilFidRegistration(installations)
+        };
+    }
+    else {
+        return { installationEntry };
+    }
+}
+/** This will be executed only once for each new Firebase Installation. */
+async function registerInstallation(installations, installationEntry) {
+    try {
+        const registeredInstallationEntry = await createInstallationRequest(installations, installationEntry);
+        return set(installations.appConfig, registeredInstallationEntry);
+    }
+    catch (e) {
+        if (isServerError(e) && e.customData.serverCode === 409) {
+            // Server returned a "FID can not be used" error.
+            // Generate a new ID next time.
+            await remove(installations.appConfig);
+        }
+        else {
+            // Registration failed. Set FID as not registered.
+            await set(installations.appConfig, {
+                fid: installationEntry.fid,
+                registrationStatus: 0 /* RequestStatus.NOT_STARTED */
+            });
+        }
+        throw e;
+    }
+}
+/** Call if FID registration is pending in another request. */
+async function waitUntilFidRegistration(installations) {
+    // Unfortunately, there is no way of reliably observing when a value in
+    // IndexedDB changes (yet, see https://github.com/WICG/indexed-db-observers),
+    // so we need to poll.
+    let entry = await updateInstallationRequest(installations.appConfig);
+    while (entry.registrationStatus === 1 /* RequestStatus.IN_PROGRESS */) {
+        // createInstallation request still in progress.
+        await sleep(100);
+        entry = await updateInstallationRequest(installations.appConfig);
+    }
+    if (entry.registrationStatus === 0 /* RequestStatus.NOT_STARTED */) {
+        // The request timed out or failed in a different call. Try again.
+        const { installationEntry, registrationPromise } = await getInstallationEntry(installations);
+        if (registrationPromise) {
+            return registrationPromise;
+        }
+        else {
+            // if there is no registrationPromise, entry is registered.
+            return installationEntry;
+        }
+    }
+    return entry;
+}
+/**
+ * Called only if there is a CreateInstallation request in progress.
+ *
+ * Updates the InstallationEntry in the DB based on the status of the
+ * CreateInstallation request.
+ *
+ * Returns the updated InstallationEntry.
+ */
+function updateInstallationRequest(appConfig) {
+    return update(appConfig, oldEntry => {
+        if (!oldEntry) {
+            throw ERROR_FACTORY.create("installation-not-found" /* ErrorCode.INSTALLATION_NOT_FOUND */);
+        }
+        return clearTimedOutRequest(oldEntry);
+    });
+}
+function clearTimedOutRequest(entry) {
+    if (hasInstallationRequestTimedOut(entry)) {
+        return {
+            fid: entry.fid,
+            registrationStatus: 0 /* RequestStatus.NOT_STARTED */
+        };
+    }
+    return entry;
+}
+function hasInstallationRequestTimedOut(installationEntry) {
+    return (installationEntry.registrationStatus === 1 /* RequestStatus.IN_PROGRESS */ &&
+        installationEntry.registrationTime + PENDING_TIMEOUT_MS < Date.now());
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+async function generateAuthTokenRequest({ appConfig, heartbeatServiceProvider }, installationEntry) {
+    const endpoint = getGenerateAuthTokenEndpoint(appConfig, installationEntry);
+    const headers = getHeadersWithAuth(appConfig, installationEntry);
+    // If heartbeat service exists, add the heartbeat string to the header.
+    const heartbeatService = heartbeatServiceProvider.getImmediate({
+        optional: true
+    });
+    if (heartbeatService) {
+        const heartbeatsHeader = await heartbeatService.getHeartbeatsHeader();
+        if (heartbeatsHeader) {
+            headers.append('x-firebase-client', heartbeatsHeader);
+        }
+    }
+    const body = {
+        installation: {
+            sdkVersion: PACKAGE_VERSION,
+            appId: appConfig.appId
+        }
+    };
+    const request = {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body)
+    };
+    const response = await retryIfServerError(() => fetch(endpoint, request));
+    if (response.ok) {
+        const responseValue = await response.json();
+        const completedAuthToken = extractAuthTokenInfoFromResponse(responseValue);
+        return completedAuthToken;
+    }
+    else {
+        throw await getErrorFromResponse('Generate Auth Token', response);
+    }
+}
+function getGenerateAuthTokenEndpoint(appConfig, { fid }) {
+    return `${getInstallationsEndpoint(appConfig)}/${fid}/authTokens:generate`;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Returns a valid authentication token for the installation. Generates a new
+ * token if one doesn't exist, is expired or about to expire.
+ *
+ * Should only be called if the Firebase Installation is registered.
+ */
+async function refreshAuthToken(installations, forceRefresh = false) {
+    let tokenPromise;
+    const entry = await update(installations.appConfig, oldEntry => {
+        if (!isEntryRegistered(oldEntry)) {
+            throw ERROR_FACTORY.create("not-registered" /* ErrorCode.NOT_REGISTERED */);
+        }
+        const oldAuthToken = oldEntry.authToken;
+        if (!forceRefresh && isAuthTokenValid(oldAuthToken)) {
+            // There is a valid token in the DB.
+            return oldEntry;
+        }
+        else if (oldAuthToken.requestStatus === 1 /* RequestStatus.IN_PROGRESS */) {
+            // There already is a token request in progress.
+            tokenPromise = waitUntilAuthTokenRequest(installations, forceRefresh);
+            return oldEntry;
+        }
+        else {
+            // No token or token expired.
+            if (!navigator.onLine) {
+                throw ERROR_FACTORY.create("app-offline" /* ErrorCode.APP_OFFLINE */);
+            }
+            const inProgressEntry = makeAuthTokenRequestInProgressEntry(oldEntry);
+            tokenPromise = fetchAuthTokenFromServer(installations, inProgressEntry);
+            return inProgressEntry;
+        }
+    });
+    const authToken = tokenPromise
+        ? await tokenPromise
+        : entry.authToken;
+    return authToken;
+}
+/**
+ * Call only if FID is registered and Auth Token request is in progress.
+ *
+ * Waits until the current pending request finishes. If the request times out,
+ * tries once in this thread as well.
+ */
+async function waitUntilAuthTokenRequest(installations, forceRefresh) {
+    // Unfortunately, there is no way of reliably observing when a value in
+    // IndexedDB changes (yet, see https://github.com/WICG/indexed-db-observers),
+    // so we need to poll.
+    let entry = await updateAuthTokenRequest(installations.appConfig);
+    while (entry.authToken.requestStatus === 1 /* RequestStatus.IN_PROGRESS */) {
+        // generateAuthToken still in progress.
+        await sleep(100);
+        entry = await updateAuthTokenRequest(installations.appConfig);
+    }
+    const authToken = entry.authToken;
+    if (authToken.requestStatus === 0 /* RequestStatus.NOT_STARTED */) {
+        // The request timed out or failed in a different call. Try again.
+        return refreshAuthToken(installations, forceRefresh);
+    }
+    else {
+        return authToken;
+    }
+}
+/**
+ * Called only if there is a GenerateAuthToken request in progress.
+ *
+ * Updates the InstallationEntry in the DB based on the status of the
+ * GenerateAuthToken request.
+ *
+ * Returns the updated InstallationEntry.
+ */
+function updateAuthTokenRequest(appConfig) {
+    return update(appConfig, oldEntry => {
+        if (!isEntryRegistered(oldEntry)) {
+            throw ERROR_FACTORY.create("not-registered" /* ErrorCode.NOT_REGISTERED */);
+        }
+        const oldAuthToken = oldEntry.authToken;
+        if (hasAuthTokenRequestTimedOut(oldAuthToken)) {
+            return Object.assign(Object.assign({}, oldEntry), { authToken: { requestStatus: 0 /* RequestStatus.NOT_STARTED */ } });
+        }
+        return oldEntry;
+    });
+}
+async function fetchAuthTokenFromServer(installations, installationEntry) {
+    try {
+        const authToken = await generateAuthTokenRequest(installations, installationEntry);
+        const updatedInstallationEntry = Object.assign(Object.assign({}, installationEntry), { authToken });
+        await set(installations.appConfig, updatedInstallationEntry);
+        return authToken;
+    }
+    catch (e) {
+        if (isServerError(e) &&
+            (e.customData.serverCode === 401 || e.customData.serverCode === 404)) {
+            // Server returned a "FID not found" or a "Invalid authentication" error.
+            // Generate a new ID next time.
+            await remove(installations.appConfig);
+        }
+        else {
+            const updatedInstallationEntry = Object.assign(Object.assign({}, installationEntry), { authToken: { requestStatus: 0 /* RequestStatus.NOT_STARTED */ } });
+            await set(installations.appConfig, updatedInstallationEntry);
+        }
+        throw e;
+    }
+}
+function isEntryRegistered(installationEntry) {
+    return (installationEntry !== undefined &&
+        installationEntry.registrationStatus === 2 /* RequestStatus.COMPLETED */);
+}
+function isAuthTokenValid(authToken) {
+    return (authToken.requestStatus === 2 /* RequestStatus.COMPLETED */ &&
+        !isAuthTokenExpired(authToken));
+}
+function isAuthTokenExpired(authToken) {
+    const now = Date.now();
+    return (now < authToken.creationTime ||
+        authToken.creationTime + authToken.expiresIn < now + TOKEN_EXPIRATION_BUFFER);
+}
+/** Returns an updated InstallationEntry with an InProgressAuthToken. */
+function makeAuthTokenRequestInProgressEntry(oldEntry) {
+    const inProgressAuthToken = {
+        requestStatus: 1 /* RequestStatus.IN_PROGRESS */,
+        requestTime: Date.now()
+    };
+    return Object.assign(Object.assign({}, oldEntry), { authToken: inProgressAuthToken });
+}
+function hasAuthTokenRequestTimedOut(authToken) {
+    return (authToken.requestStatus === 1 /* RequestStatus.IN_PROGRESS */ &&
+        authToken.requestTime + PENDING_TIMEOUT_MS < Date.now());
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Creates a Firebase Installation if there isn't one for the app and
+ * returns the Installation ID.
+ * @param installations - The `Installations` instance.
+ *
+ * @public
+ */
+async function getId(installations) {
+    const installationsImpl = installations;
+    const { installationEntry, registrationPromise } = await getInstallationEntry(installationsImpl);
+    if (registrationPromise) {
+        registrationPromise.catch(console.error);
+    }
+    else {
+        // If the installation is already registered, update the authentication
+        // token if needed.
+        refreshAuthToken(installationsImpl).catch(console.error);
+    }
+    return installationEntry.fid;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Returns a Firebase Installations auth token, identifying the current
+ * Firebase Installation.
+ * @param installations - The `Installations` instance.
+ * @param forceRefresh - Force refresh regardless of token expiration.
+ *
+ * @public
+ */
+async function getToken(installations, forceRefresh = false) {
+    const installationsImpl = installations;
+    await completeInstallationRegistration(installationsImpl);
+    // At this point we either have a Registered Installation in the DB, or we've
+    // already thrown an error.
+    const authToken = await refreshAuthToken(installationsImpl, forceRefresh);
+    return authToken.token;
+}
+async function completeInstallationRegistration(installations) {
+    const { registrationPromise } = await getInstallationEntry(installations);
+    if (registrationPromise) {
+        // A createInstallation request is in progress. Wait until it finishes.
+        await registrationPromise;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+async function deleteInstallationRequest(appConfig, installationEntry) {
+    const endpoint = getDeleteEndpoint(appConfig, installationEntry);
+    const headers = getHeadersWithAuth(appConfig, installationEntry);
+    const request = {
+        method: 'DELETE',
+        headers
+    };
+    const response = await retryIfServerError(() => fetch(endpoint, request));
+    if (!response.ok) {
+        throw await getErrorFromResponse('Delete Installation', response);
+    }
+}
+function getDeleteEndpoint(appConfig, { fid }) {
+    return `${getInstallationsEndpoint(appConfig)}/${fid}`;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Deletes the Firebase Installation and all associated data.
+ * @param installations - The `Installations` instance.
+ *
+ * @public
+ */
+async function deleteInstallations(installations) {
+    const { appConfig } = installations;
+    const entry = await update(appConfig, oldEntry => {
+        if (oldEntry && oldEntry.registrationStatus === 0 /* RequestStatus.NOT_STARTED */) {
+            // Delete the unregistered entry without sending a deleteInstallation request.
+            return undefined;
+        }
+        return oldEntry;
+    });
+    if (entry) {
+        if (entry.registrationStatus === 1 /* RequestStatus.IN_PROGRESS */) {
+            // Can't delete while trying to register.
+            throw ERROR_FACTORY.create("delete-pending-registration" /* ErrorCode.DELETE_PENDING_REGISTRATION */);
+        }
+        else if (entry.registrationStatus === 2 /* RequestStatus.COMPLETED */) {
+            if (!navigator.onLine) {
+                throw ERROR_FACTORY.create("app-offline" /* ErrorCode.APP_OFFLINE */);
+            }
+            else {
+                await deleteInstallationRequest(appConfig, entry);
+                await remove(appConfig);
             }
         }
     }
-    // Add in-memory as a final fallback
-    if (!persistences.includes(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.inMemoryPersistence)) {
-        persistences.push(_firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.inMemoryPersistence);
-    }
-    return persistences;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Sets a new callback that will get called when Installation ID changes.
+ * Returns an unsubscribe function that will remove the callback when called.
+ * @param installations - The `Installations` instance.
+ * @param callback - The callback function that is invoked when FID changes.
+ * @returns A function that can be called to unsubscribe.
+ *
+ * @public
+ */
+function onIdChange(installations, callback) {
+    const { appConfig } = installations;
+    addCallback(appConfig, callback);
+    return () => {
+        removeCallback(appConfig, callback);
+    };
 }
 
 /**
@@ -5445,28 +6411,64 @@ function buildPersistenceHierarchy(apiKey, appName) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PhoneAuthProvider {
-    constructor() {
-        this.providerId = 'phone';
-        // TODO: remove ts-ignore when moving types from auth-types to auth-compat
-        // @ts-ignore
-        this._delegate = new _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.PhoneAuthProvider(unwrap(_firebase_app_compat__WEBPACK_IMPORTED_MODULE_0__["default"].auth()));
-    }
-    static credential(verificationId, verificationCode) {
-        return _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.PhoneAuthProvider.credential(verificationId, verificationCode);
-    }
-    verifyPhoneNumber(phoneInfoOptions, applicationVerifier) {
-        return this._delegate.verifyPhoneNumber(
-        // The implementation matches but the types are subtly incompatible
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        phoneInfoOptions, applicationVerifier);
-    }
-    unwrap() {
-        return this._delegate;
-    }
+/**
+ * Returns an instance of {@link Installations} associated with the given
+ * {@link @firebase/app#FirebaseApp} instance.
+ * @param app - The {@link @firebase/app#FirebaseApp} instance.
+ *
+ * @public
+ */
+function getInstallations(app = (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApp)()) {
+    const installationsImpl = (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider)(app, 'installations').getImmediate();
+    return installationsImpl;
 }
-PhoneAuthProvider.PHONE_SIGN_IN_METHOD = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.PhoneAuthProvider.PHONE_SIGN_IN_METHOD;
-PhoneAuthProvider.PROVIDER_ID = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.PhoneAuthProvider.PROVIDER_ID;
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function extractAppConfig(app) {
+    if (!app || !app.options) {
+        throw getMissingValueError('App Configuration');
+    }
+    if (!app.name) {
+        throw getMissingValueError('App Name');
+    }
+    // Required app config keys
+    const configKeys = [
+        'projectId',
+        'apiKey',
+        'appId'
+    ];
+    for (const keyName of configKeys) {
+        if (!app.options[keyName]) {
+            throw getMissingValueError(keyName);
+        }
+    }
+    return {
+        appName: app.name,
+        projectId: app.options.projectId,
+        apiKey: app.options.apiKey,
+        appId: app.options.appId
+    };
+}
+function getMissingValueError(valueName) {
+    return ERROR_FACTORY.create("missing-app-config-values" /* ErrorCode.MISSING_APP_CONFIG_VALUES */, {
+        valueName
+    });
+}
 
 /**
  * @license
@@ -5484,94 +6486,143 @@ PhoneAuthProvider.PROVIDER_ID = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const _assert = _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__._assert;
-class RecaptchaVerifier {
-    constructor(container, parameters, app = _firebase_app_compat__WEBPACK_IMPORTED_MODULE_0__["default"].app()) {
-        var _a;
-        // API key is required for web client RPC calls.
-        _assert((_a = app.options) === null || _a === void 0 ? void 0 : _a.apiKey, "invalid-api-key" /* exp.AuthErrorCode.INVALID_API_KEY */, {
-            appName: app.name
-        });
-        this._delegate = new _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.RecaptchaVerifier(container, 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        parameters, 
-        // TODO: remove ts-ignore when moving types from auth-types to auth-compat
-        // @ts-ignore
-        app.auth());
-        this.type = this._delegate.type;
-    }
-    clear() {
-        this._delegate.clear();
-    }
-    render() {
-        return this._delegate.render();
-    }
-    verify() {
-        return this._delegate.verify();
-    }
+const INSTALLATIONS_NAME = 'installations';
+const INSTALLATIONS_NAME_INTERNAL = 'installations-internal';
+const publicFactory = (container) => {
+    const app = container.getProvider('app').getImmediate();
+    // Throws if app isn't configured properly.
+    const appConfig = extractAppConfig(app);
+    const heartbeatServiceProvider = (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider)(app, 'heartbeat');
+    const installationsImpl = {
+        app,
+        appConfig,
+        heartbeatServiceProvider,
+        _delete: () => Promise.resolve()
+    };
+    return installationsImpl;
+};
+const internalFactory = (container) => {
+    const app = container.getProvider('app').getImmediate();
+    // Internal FIS instance relies on public FIS instance.
+    const installations = (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider)(app, INSTALLATIONS_NAME).getImmediate();
+    const installationsInternal = {
+        getId: () => getId(installations),
+        getToken: (forceRefresh) => getToken(installations, forceRefresh)
+    };
+    return installationsInternal;
+};
+function registerInstallations() {
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component(INSTALLATIONS_NAME, publicFactory, "PUBLIC" /* ComponentType.PUBLIC */));
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component(INSTALLATIONS_NAME_INTERNAL, internalFactory, "PRIVATE" /* ComponentType.PRIVATE */));
 }
 
 /**
- * @license
- * Copyright 2020 Google LLC
+ * Firebase Installations
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @packageDocumentation
  */
-const AUTH_TYPE = 'auth-compat';
-// Create auth components to register with firebase.
-// Provides Auth public APIs.
-function registerAuthCompat(instance) {
-    instance.INTERNAL.registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_2__.Component(AUTH_TYPE, container => {
-        // getImmediate for FirebaseApp will always succeed
-        const app = container.getProvider('app-compat').getImmediate();
-        const authProvider = container.getProvider('auth');
-        return new Auth(app, authProvider);
-    }, "PUBLIC" /* ComponentType.PUBLIC */)
-        .setServiceProps({
-        ActionCodeInfo: {
-            Operation: {
-                EMAIL_SIGNIN: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ActionCodeOperation.EMAIL_SIGNIN,
-                PASSWORD_RESET: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ActionCodeOperation.PASSWORD_RESET,
-                RECOVER_EMAIL: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ActionCodeOperation.RECOVER_EMAIL,
-                REVERT_SECOND_FACTOR_ADDITION: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ActionCodeOperation.REVERT_SECOND_FACTOR_ADDITION,
-                VERIFY_AND_CHANGE_EMAIL: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ActionCodeOperation.VERIFY_AND_CHANGE_EMAIL,
-                VERIFY_EMAIL: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.ActionCodeOperation.VERIFY_EMAIL
-            }
-        },
-        EmailAuthProvider: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.EmailAuthProvider,
-        FacebookAuthProvider: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.FacebookAuthProvider,
-        GithubAuthProvider: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.GithubAuthProvider,
-        GoogleAuthProvider: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvider,
-        OAuthProvider: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.OAuthProvider,
-        SAMLAuthProvider: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.SAMLAuthProvider,
-        PhoneAuthProvider: PhoneAuthProvider,
-        PhoneMultiFactorGenerator: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.PhoneMultiFactorGenerator,
-        RecaptchaVerifier: RecaptchaVerifier,
-        TwitterAuthProvider: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.TwitterAuthProvider,
-        Auth,
-        AuthCredential: _firebase_auth_internal__WEBPACK_IMPORTED_MODULE_1__.AuthCredential,
-        Error: _firebase_util__WEBPACK_IMPORTED_MODULE_3__.FirebaseError
-    })
-        .setInstantiationMode("LAZY" /* InstantiationMode.LAZY */)
-        .setMultipleInstances(false));
-    instance.registerVersion(name, version);
-}
-registerAuthCompat(_firebase_app_compat__WEBPACK_IMPORTED_MODULE_0__["default"]);
+registerInstallations();
+(0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version);
+// BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+(0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version, 'esm2017');
+
+
 //# sourceMappingURL=index.esm2017.js.map
 
 
 /***/ }),
 /* 11 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ActionCodeOperation": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.ActionCodeOperation),
+/* harmony export */   "ActionCodeURL": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.ActionCodeURL),
+/* harmony export */   "AuthCredential": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.AuthCredential),
+/* harmony export */   "AuthErrorCodes": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.AuthErrorCodes),
+/* harmony export */   "EmailAuthCredential": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.EmailAuthCredential),
+/* harmony export */   "EmailAuthProvider": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.EmailAuthProvider),
+/* harmony export */   "FacebookAuthProvider": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.FacebookAuthProvider),
+/* harmony export */   "FactorId": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.FactorId),
+/* harmony export */   "GithubAuthProvider": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.GithubAuthProvider),
+/* harmony export */   "GoogleAuthProvider": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.GoogleAuthProvider),
+/* harmony export */   "OAuthCredential": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.OAuthCredential),
+/* harmony export */   "OAuthProvider": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.OAuthProvider),
+/* harmony export */   "OperationType": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.OperationType),
+/* harmony export */   "PhoneAuthCredential": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.PhoneAuthCredential),
+/* harmony export */   "PhoneAuthProvider": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.PhoneAuthProvider),
+/* harmony export */   "PhoneMultiFactorGenerator": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.PhoneMultiFactorGenerator),
+/* harmony export */   "ProviderId": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.ProviderId),
+/* harmony export */   "RecaptchaVerifier": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.RecaptchaVerifier),
+/* harmony export */   "SAMLAuthProvider": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.SAMLAuthProvider),
+/* harmony export */   "SignInMethod": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.SignInMethod),
+/* harmony export */   "TwitterAuthProvider": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.TwitterAuthProvider),
+/* harmony export */   "applyActionCode": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.applyActionCode),
+/* harmony export */   "beforeAuthStateChanged": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.beforeAuthStateChanged),
+/* harmony export */   "browserLocalPersistence": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.browserLocalPersistence),
+/* harmony export */   "browserPopupRedirectResolver": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.browserPopupRedirectResolver),
+/* harmony export */   "browserSessionPersistence": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.browserSessionPersistence),
+/* harmony export */   "checkActionCode": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.checkActionCode),
+/* harmony export */   "confirmPasswordReset": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.confirmPasswordReset),
+/* harmony export */   "connectAuthEmulator": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.connectAuthEmulator),
+/* harmony export */   "createUserWithEmailAndPassword": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.createUserWithEmailAndPassword),
+/* harmony export */   "debugErrorMap": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.debugErrorMap),
+/* harmony export */   "deleteUser": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.deleteUser),
+/* harmony export */   "fetchSignInMethodsForEmail": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.fetchSignInMethodsForEmail),
+/* harmony export */   "getAdditionalUserInfo": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.getAdditionalUserInfo),
+/* harmony export */   "getAuth": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.getAuth),
+/* harmony export */   "getIdToken": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.getIdToken),
+/* harmony export */   "getIdTokenResult": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.getIdTokenResult),
+/* harmony export */   "getMultiFactorResolver": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.getMultiFactorResolver),
+/* harmony export */   "getRedirectResult": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.getRedirectResult),
+/* harmony export */   "inMemoryPersistence": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.inMemoryPersistence),
+/* harmony export */   "indexedDBLocalPersistence": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.indexedDBLocalPersistence),
+/* harmony export */   "initializeAuth": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.initializeAuth),
+/* harmony export */   "isSignInWithEmailLink": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.isSignInWithEmailLink),
+/* harmony export */   "linkWithCredential": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.linkWithCredential),
+/* harmony export */   "linkWithPhoneNumber": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.linkWithPhoneNumber),
+/* harmony export */   "linkWithPopup": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.linkWithPopup),
+/* harmony export */   "linkWithRedirect": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.linkWithRedirect),
+/* harmony export */   "multiFactor": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.multiFactor),
+/* harmony export */   "onAuthStateChanged": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.onAuthStateChanged),
+/* harmony export */   "onIdTokenChanged": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.onIdTokenChanged),
+/* harmony export */   "parseActionCodeURL": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.parseActionCodeURL),
+/* harmony export */   "prodErrorMap": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.prodErrorMap),
+/* harmony export */   "reauthenticateWithCredential": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.reauthenticateWithCredential),
+/* harmony export */   "reauthenticateWithPhoneNumber": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.reauthenticateWithPhoneNumber),
+/* harmony export */   "reauthenticateWithPopup": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.reauthenticateWithPopup),
+/* harmony export */   "reauthenticateWithRedirect": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.reauthenticateWithRedirect),
+/* harmony export */   "reload": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.reload),
+/* harmony export */   "sendEmailVerification": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.sendEmailVerification),
+/* harmony export */   "sendPasswordResetEmail": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.sendPasswordResetEmail),
+/* harmony export */   "sendSignInLinkToEmail": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.sendSignInLinkToEmail),
+/* harmony export */   "setPersistence": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.setPersistence),
+/* harmony export */   "signInAnonymously": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signInAnonymously),
+/* harmony export */   "signInWithCredential": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signInWithCredential),
+/* harmony export */   "signInWithCustomToken": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signInWithCustomToken),
+/* harmony export */   "signInWithEmailAndPassword": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signInWithEmailAndPassword),
+/* harmony export */   "signInWithEmailLink": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signInWithEmailLink),
+/* harmony export */   "signInWithPhoneNumber": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signInWithPhoneNumber),
+/* harmony export */   "signInWithPopup": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signInWithPopup),
+/* harmony export */   "signInWithRedirect": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signInWithRedirect),
+/* harmony export */   "signOut": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.signOut),
+/* harmony export */   "unlink": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.unlink),
+/* harmony export */   "updateCurrentUser": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.updateCurrentUser),
+/* harmony export */   "updateEmail": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.updateEmail),
+/* harmony export */   "updatePassword": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.updatePassword),
+/* harmony export */   "updatePhoneNumber": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.updatePhoneNumber),
+/* harmony export */   "updateProfile": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.updateProfile),
+/* harmony export */   "useDeviceLanguage": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.useDeviceLanguage),
+/* harmony export */   "verifyBeforeUpdateEmail": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.verifyBeforeUpdateEmail),
+/* harmony export */   "verifyPasswordResetCode": () => (/* reexport safe */ _firebase_auth__WEBPACK_IMPORTED_MODULE_0__.verifyPasswordResetCode)
+/* harmony export */ });
+/* harmony import */ var _firebase_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+
+//# sourceMappingURL=index.esm.js.map
+
+
+/***/ }),
+/* 12 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -5580,13 +6631,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ActionCodeURL": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ad),
 /* harmony export */   "AuthCredential": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.H),
 /* harmony export */   "AuthErrorCodes": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.D),
-/* harmony export */   "AuthImpl": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aG),
-/* harmony export */   "AuthPopup": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aJ),
 /* harmony export */   "EmailAuthCredential": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.I),
 /* harmony export */   "EmailAuthProvider": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.M),
 /* harmony export */   "FacebookAuthProvider": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.N),
 /* harmony export */   "FactorId": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.F),
-/* harmony export */   "FetchProvider": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aK),
 /* harmony export */   "GithubAuthProvider": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.T),
 /* harmony export */   "GoogleAuthProvider": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.Q),
 /* harmony export */   "OAuthCredential": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.J),
@@ -5597,20 +6645,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "PhoneMultiFactorGenerator": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.m),
 /* harmony export */   "ProviderId": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.o),
 /* harmony export */   "RecaptchaVerifier": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.R),
-/* harmony export */   "SAMLAuthCredential": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aL),
 /* harmony export */   "SAMLAuthProvider": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.V),
 /* harmony export */   "SignInMethod": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.S),
 /* harmony export */   "TwitterAuthProvider": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.W),
-/* harmony export */   "UserImpl": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aF),
-/* harmony export */   "_assert": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ax),
-/* harmony export */   "_castAuth": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aE),
-/* harmony export */   "_fail": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.as),
-/* harmony export */   "_generateEventId": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aI),
-/* harmony export */   "_getClientVersion": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aH),
-/* harmony export */   "_getInstance": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.az),
-/* harmony export */   "_getRedirectResult": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aB),
-/* harmony export */   "_overrideRedirectResult": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aC),
-/* harmony export */   "_persistenceKeyName": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aA),
 /* harmony export */   "applyActionCode": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.a2),
 /* harmony export */   "beforeAuthStateChanged": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.t),
 /* harmony export */   "browserLocalPersistence": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.b),
@@ -5668,589 +6705,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "updateProfile": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.af),
 /* harmony export */   "useDeviceLanguage": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.w),
 /* harmony export */   "verifyBeforeUpdateEmail": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ac),
-/* harmony export */   "verifyPasswordResetCode": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.a4),
-/* harmony export */   "addFrameworkForLogging": () => (/* binding */ addFrameworkForLogging),
-/* harmony export */   "cordovaPopupRedirectResolver": () => (/* binding */ cordovaPopupRedirectResolver)
+/* harmony export */   "verifyPasswordResetCode": () => (/* reexport safe */ _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.a4)
 /* harmony export */ });
-/* harmony import */ var _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
-/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4);
+/* harmony import */ var _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
 
 
 
 
 
 
-
-
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function _cordovaWindow() {
-    return window;
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * How long to wait after the app comes back into focus before concluding that
- * the user closed the sign in tab.
- */
-const REDIRECT_TIMEOUT_MS = 2000;
-/**
- * Generates the URL for the OAuth handler.
- */
-async function _generateHandlerUrl(auth, event, provider) {
-    var _a;
-    // Get the cordova plugins
-    const { BuildInfo } = _cordovaWindow();
-    (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ap)(event.sessionId, 'AuthEvent did not contain a session ID');
-    const sessionDigest = await computeSha256(event.sessionId);
-    const additionalParams = {};
-    if ((0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aq)()) {
-        // iOS app identifier
-        additionalParams['ibi'] = BuildInfo.packageName;
-    }
-    else if ((0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ar)()) {
-        // Android app identifier
-        additionalParams['apn'] = BuildInfo.packageName;
-    }
-    else {
-        (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.as)(auth, "operation-not-supported-in-this-environment" /* AuthErrorCode.OPERATION_NOT_SUPPORTED */);
-    }
-    // Add the display name if available
-    if (BuildInfo.displayName) {
-        additionalParams['appDisplayName'] = BuildInfo.displayName;
-    }
-    // Attached the hashed session ID
-    additionalParams['sessionId'] = sessionDigest;
-    return (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.at)(auth, provider, event.type, undefined, (_a = event.eventId) !== null && _a !== void 0 ? _a : undefined, additionalParams);
-}
-/**
- * Validates that this app is valid for this project configuration
- */
-async function _validateOrigin(auth) {
-    const { BuildInfo } = _cordovaWindow();
-    const request = {};
-    if ((0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aq)()) {
-        request.iosBundleId = BuildInfo.packageName;
-    }
-    else if ((0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ar)()) {
-        request.androidPackageName = BuildInfo.packageName;
-    }
-    else {
-        (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.as)(auth, "operation-not-supported-in-this-environment" /* AuthErrorCode.OPERATION_NOT_SUPPORTED */);
-    }
-    // Will fail automatically if package name is not authorized
-    await (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.au)(auth, request);
-}
-function _performRedirect(handlerUrl) {
-    // Get the cordova plugins
-    const { cordova } = _cordovaWindow();
-    return new Promise(resolve => {
-        cordova.plugins.browsertab.isAvailable(browserTabIsAvailable => {
-            let iabRef = null;
-            if (browserTabIsAvailable) {
-                cordova.plugins.browsertab.openUrl(handlerUrl);
-            }
-            else {
-                // TODO: Return the inappbrowser ref that's returned from the open call
-                iabRef = cordova.InAppBrowser.open(handlerUrl, (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.av)() ? '_blank' : '_system', 'location=yes');
-            }
-            resolve(iabRef);
-        });
-    });
-}
-/**
- * This function waits for app activity to be seen before resolving. It does
- * this by attaching listeners to various dom events. Once the app is determined
- * to be visible, this promise resolves. AFTER that resolution, the listeners
- * are detached and any browser tabs left open will be closed.
- */
-async function _waitForAppResume(auth, eventListener, iabRef) {
-    // Get the cordova plugins
-    const { cordova } = _cordovaWindow();
-    let cleanup = () => { };
-    try {
-        await new Promise((resolve, reject) => {
-            let onCloseTimer = null;
-            // DEFINE ALL THE CALLBACKS =====
-            function authEventSeen() {
-                var _a;
-                // Auth event was detected. Resolve this promise and close the extra
-                // window if it's still open.
-                resolve();
-                const closeBrowserTab = (_a = cordova.plugins.browsertab) === null || _a === void 0 ? void 0 : _a.close;
-                if (typeof closeBrowserTab === 'function') {
-                    closeBrowserTab();
-                }
-                // Close inappbrowser emebedded webview in iOS7 and 8 case if still
-                // open.
-                if (typeof (iabRef === null || iabRef === void 0 ? void 0 : iabRef.close) === 'function') {
-                    iabRef.close();
-                }
-            }
-            function resumed() {
-                if (onCloseTimer) {
-                    // This code already ran; do not rerun.
-                    return;
-                }
-                onCloseTimer = window.setTimeout(() => {
-                    // Wait two seeconds after resume then reject.
-                    reject((0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aw)(auth, "redirect-cancelled-by-user" /* AuthErrorCode.REDIRECT_CANCELLED_BY_USER */));
-                }, REDIRECT_TIMEOUT_MS);
-            }
-            function visibilityChanged() {
-                if ((document === null || document === void 0 ? void 0 : document.visibilityState) === 'visible') {
-                    resumed();
-                }
-            }
-            // ATTACH ALL THE LISTENERS =====
-            // Listen for the auth event
-            eventListener.addPassiveListener(authEventSeen);
-            // Listen for resume and visibility events
-            document.addEventListener('resume', resumed, false);
-            if ((0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ar)()) {
-                document.addEventListener('visibilitychange', visibilityChanged, false);
-            }
-            // SETUP THE CLEANUP FUNCTION =====
-            cleanup = () => {
-                eventListener.removePassiveListener(authEventSeen);
-                document.removeEventListener('resume', resumed, false);
-                document.removeEventListener('visibilitychange', visibilityChanged, false);
-                if (onCloseTimer) {
-                    window.clearTimeout(onCloseTimer);
-                }
-            };
-        });
-    }
-    finally {
-        cleanup();
-    }
-}
-/**
- * Checks the configuration of the Cordova environment. This has no side effect
- * if the configuration is correct; otherwise it throws an error with the
- * missing plugin.
- */
-function _checkCordovaConfiguration(auth) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-    const win = _cordovaWindow();
-    // Check all dependencies installed.
-    // https://github.com/nordnet/cordova-universal-links-plugin
-    // Note that cordova-universal-links-plugin has been abandoned.
-    // A fork with latest fixes is available at:
-    // https://www.npmjs.com/package/cordova-universal-links-plugin-fix
-    (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ax)(typeof ((_a = win === null || win === void 0 ? void 0 : win.universalLinks) === null || _a === void 0 ? void 0 : _a.subscribe) === 'function', auth, "invalid-cordova-configuration" /* AuthErrorCode.INVALID_CORDOVA_CONFIGURATION */, {
-        missingPlugin: 'cordova-universal-links-plugin-fix'
-    });
-    // https://www.npmjs.com/package/cordova-plugin-buildinfo
-    (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ax)(typeof ((_b = win === null || win === void 0 ? void 0 : win.BuildInfo) === null || _b === void 0 ? void 0 : _b.packageName) !== 'undefined', auth, "invalid-cordova-configuration" /* AuthErrorCode.INVALID_CORDOVA_CONFIGURATION */, {
-        missingPlugin: 'cordova-plugin-buildInfo'
-    });
-    // https://github.com/google/cordova-plugin-browsertab
-    (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ax)(typeof ((_e = (_d = (_c = win === null || win === void 0 ? void 0 : win.cordova) === null || _c === void 0 ? void 0 : _c.plugins) === null || _d === void 0 ? void 0 : _d.browsertab) === null || _e === void 0 ? void 0 : _e.openUrl) === 'function', auth, "invalid-cordova-configuration" /* AuthErrorCode.INVALID_CORDOVA_CONFIGURATION */, {
-        missingPlugin: 'cordova-plugin-browsertab'
-    });
-    (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ax)(typeof ((_h = (_g = (_f = win === null || win === void 0 ? void 0 : win.cordova) === null || _f === void 0 ? void 0 : _f.plugins) === null || _g === void 0 ? void 0 : _g.browsertab) === null || _h === void 0 ? void 0 : _h.isAvailable) === 'function', auth, "invalid-cordova-configuration" /* AuthErrorCode.INVALID_CORDOVA_CONFIGURATION */, {
-        missingPlugin: 'cordova-plugin-browsertab'
-    });
-    // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/
-    (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ax)(typeof ((_k = (_j = win === null || win === void 0 ? void 0 : win.cordova) === null || _j === void 0 ? void 0 : _j.InAppBrowser) === null || _k === void 0 ? void 0 : _k.open) === 'function', auth, "invalid-cordova-configuration" /* AuthErrorCode.INVALID_CORDOVA_CONFIGURATION */, {
-        missingPlugin: 'cordova-plugin-inappbrowser'
-    });
-}
-/**
- * Computes the SHA-256 of a session ID. The SubtleCrypto interface is only
- * available in "secure" contexts, which covers Cordova (which is served on a file
- * protocol).
- */
-async function computeSha256(sessionId) {
-    const bytes = stringToArrayBuffer(sessionId);
-    // TODO: For IE11 crypto has a different name and this operation comes back
-    //       as an object, not a promise. This is the old proposed standard that
-    //       is used by IE11:
-    // https://www.w3.org/TR/2013/WD-WebCryptoAPI-20130108/#cryptooperation-interface
-    const buf = await crypto.subtle.digest('SHA-256', bytes);
-    const arr = Array.from(new Uint8Array(buf));
-    return arr.map(num => num.toString(16).padStart(2, '0')).join('');
-}
-function stringToArrayBuffer(str) {
-    // This function is only meant to deal with an ASCII charset and makes
-    // certain simplifying assumptions.
-    (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ap)(/[0-9a-zA-Z]+/.test(str), 'Can only convert alpha-numeric strings');
-    if (typeof TextEncoder !== 'undefined') {
-        return new TextEncoder().encode(str);
-    }
-    const buff = new ArrayBuffer(str.length);
-    const view = new Uint8Array(buff);
-    for (let i = 0; i < str.length; i++) {
-        view[i] = str.charCodeAt(i);
-    }
-    return view;
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const SESSION_ID_LENGTH = 20;
-/** Custom AuthEventManager that adds passive listeners to events */
-class CordovaAuthEventManager extends _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.ay {
-    constructor() {
-        super(...arguments);
-        this.passiveListeners = new Set();
-        this.initPromise = new Promise(resolve => {
-            this.resolveInialized = resolve;
-        });
-    }
-    addPassiveListener(cb) {
-        this.passiveListeners.add(cb);
-    }
-    removePassiveListener(cb) {
-        this.passiveListeners.delete(cb);
-    }
-    // In a Cordova environment, this manager can live through multiple redirect
-    // operations
-    resetRedirect() {
-        this.queuedRedirectEvent = null;
-        this.hasHandledPotentialRedirect = false;
-    }
-    /** Override the onEvent method */
-    onEvent(event) {
-        this.resolveInialized();
-        this.passiveListeners.forEach(cb => cb(event));
-        return super.onEvent(event);
-    }
-    async initialized() {
-        await this.initPromise;
-    }
-}
-/**
- * Generates a (partial) {@link AuthEvent}.
- */
-function _generateNewEvent(auth, type, eventId = null) {
-    return {
-        type,
-        eventId,
-        urlResponse: null,
-        sessionId: generateSessionId(),
-        postBody: null,
-        tenantId: auth.tenantId,
-        error: (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aw)(auth, "no-auth-event" /* AuthErrorCode.NO_AUTH_EVENT */)
-    };
-}
-function _savePartialEvent(auth, event) {
-    return storage()._set(persistenceKey(auth), event);
-}
-async function _getAndRemoveEvent(auth) {
-    const event = (await storage()._get(persistenceKey(auth)));
-    if (event) {
-        await storage()._remove(persistenceKey(auth));
-    }
-    return event;
-}
-function _eventFromPartialAndUrl(partialEvent, url) {
-    var _a, _b;
-    // Parse the deep link within the dynamic link URL.
-    const callbackUrl = _getDeepLinkFromCallback(url);
-    // Confirm it is actually a callback URL.
-    // Currently the universal link will be of this format:
-    // https://<AUTH_DOMAIN>/__/auth/callback<OAUTH_RESPONSE>
-    // This is a fake URL but is not intended to take the user anywhere
-    // and just redirect to the app.
-    if (callbackUrl.includes('/__/auth/callback')) {
-        // Check if there is an error in the URL.
-        // This mechanism is also used to pass errors back to the app:
-        // https://<AUTH_DOMAIN>/__/auth/callback?firebaseError=<STRINGIFIED_ERROR>
-        const params = searchParamsOrEmpty(callbackUrl);
-        // Get the error object corresponding to the stringified error if found.
-        const errorObject = params['firebaseError']
-            ? parseJsonOrNull(decodeURIComponent(params['firebaseError']))
-            : null;
-        const code = (_b = (_a = errorObject === null || errorObject === void 0 ? void 0 : errorObject['code']) === null || _a === void 0 ? void 0 : _a.split('auth/')) === null || _b === void 0 ? void 0 : _b[1];
-        const error = code ? (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aw)(code) : null;
-        if (error) {
-            return {
-                type: partialEvent.type,
-                eventId: partialEvent.eventId,
-                tenantId: partialEvent.tenantId,
-                error,
-                urlResponse: null,
-                sessionId: null,
-                postBody: null
-            };
-        }
-        else {
-            return {
-                type: partialEvent.type,
-                eventId: partialEvent.eventId,
-                tenantId: partialEvent.tenantId,
-                sessionId: partialEvent.sessionId,
-                urlResponse: callbackUrl,
-                postBody: null
-            };
-        }
-    }
-    return null;
-}
-function generateSessionId() {
-    const chars = [];
-    const allowedChars = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    for (let i = 0; i < SESSION_ID_LENGTH; i++) {
-        const idx = Math.floor(Math.random() * allowedChars.length);
-        chars.push(allowedChars.charAt(idx));
-    }
-    return chars.join('');
-}
-function storage() {
-    return (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.az)(_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.b);
-}
-function persistenceKey(auth) {
-    return (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aA)("authEvent" /* KeyName.AUTH_EVENT */, auth.config.apiKey, auth.name);
-}
-function parseJsonOrNull(json) {
-    try {
-        return JSON.parse(json);
-    }
-    catch (e) {
-        return null;
-    }
-}
-// Exported for testing
-function _getDeepLinkFromCallback(url) {
-    const params = searchParamsOrEmpty(url);
-    const link = params['link'] ? decodeURIComponent(params['link']) : undefined;
-    // Double link case (automatic redirect)
-    const doubleDeepLink = searchParamsOrEmpty(link)['link'];
-    // iOS custom scheme links.
-    const iOSDeepLink = params['deep_link_id']
-        ? decodeURIComponent(params['deep_link_id'])
-        : undefined;
-    const iOSDoubleDeepLink = searchParamsOrEmpty(iOSDeepLink)['link'];
-    return iOSDoubleDeepLink || iOSDeepLink || doubleDeepLink || link || url;
-}
-/**
- * Optimistically tries to get search params from a string, or else returns an
- * empty search params object.
- */
-function searchParamsOrEmpty(url) {
-    if (!(url === null || url === void 0 ? void 0 : url.includes('?'))) {
-        return {};
-    }
-    const [_, ...rest] = url.split('?');
-    return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_1__.querystringDecode)(rest.join('?'));
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * How long to wait for the initial auth event before concluding no
- * redirect pending
- */
-const INITIAL_EVENT_TIMEOUT_MS = 500;
-class CordovaPopupRedirectResolver {
-    constructor() {
-        this._redirectPersistence = _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.a;
-        this._shouldInitProactively = true; // This is lightweight for Cordova
-        this.eventManagers = new Map();
-        this.originValidationPromises = {};
-        this._completeRedirectFn = _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aB;
-        this._overrideRedirectResult = _index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aC;
-    }
-    async _initialize(auth) {
-        const key = auth._key();
-        let manager = this.eventManagers.get(key);
-        if (!manager) {
-            manager = new CordovaAuthEventManager(auth);
-            this.eventManagers.set(key, manager);
-            this.attachCallbackListeners(auth, manager);
-        }
-        return manager;
-    }
-    _openPopup(auth) {
-        (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.as)(auth, "operation-not-supported-in-this-environment" /* AuthErrorCode.OPERATION_NOT_SUPPORTED */);
-    }
-    async _openRedirect(auth, provider, authType, eventId) {
-        _checkCordovaConfiguration(auth);
-        const manager = await this._initialize(auth);
-        await manager.initialized();
-        // Reset the persisted redirect states. This does not matter on Web where
-        // the redirect always blows away application state entirely. On Cordova,
-        // the app maintains control flow through the redirect.
-        manager.resetRedirect();
-        (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aD)();
-        await this._originValidation(auth);
-        const event = _generateNewEvent(auth, authType, eventId);
-        await _savePartialEvent(auth, event);
-        const url = await _generateHandlerUrl(auth, event, provider);
-        const iabRef = await _performRedirect(url);
-        return _waitForAppResume(auth, manager, iabRef);
-    }
-    _isIframeWebStorageSupported(_auth, _cb) {
-        throw new Error('Method not implemented.');
-    }
-    _originValidation(auth) {
-        const key = auth._key();
-        if (!this.originValidationPromises[key]) {
-            this.originValidationPromises[key] = _validateOrigin(auth);
-        }
-        return this.originValidationPromises[key];
-    }
-    attachCallbackListeners(auth, manager) {
-        // Get the global plugins
-        const { universalLinks, handleOpenURL, BuildInfo } = _cordovaWindow();
-        const noEventTimeout = setTimeout(async () => {
-            // We didn't see that initial event. Clear any pending object and
-            // dispatch no event
-            await _getAndRemoveEvent(auth);
-            manager.onEvent(generateNoEvent());
-        }, INITIAL_EVENT_TIMEOUT_MS);
-        const universalLinksCb = async (eventData) => {
-            // We have an event so we can clear the no event timeout
-            clearTimeout(noEventTimeout);
-            const partialEvent = await _getAndRemoveEvent(auth);
-            let finalEvent = null;
-            if (partialEvent && (eventData === null || eventData === void 0 ? void 0 : eventData['url'])) {
-                finalEvent = _eventFromPartialAndUrl(partialEvent, eventData['url']);
-            }
-            // If finalEvent is never filled, trigger with no event
-            manager.onEvent(finalEvent || generateNoEvent());
-        };
-        // Universal links subscriber doesn't exist for iOS, so we need to check
-        if (typeof universalLinks !== 'undefined' &&
-            typeof universalLinks.subscribe === 'function') {
-            universalLinks.subscribe(null, universalLinksCb);
-        }
-        // iOS 7 or 8 custom URL schemes.
-        // This is also the current default behavior for iOS 9+.
-        // For this to work, cordova-plugin-customurlscheme needs to be installed.
-        // https://github.com/EddyVerbruggen/Custom-URL-scheme
-        // Do not overwrite the existing developer's URL handler.
-        const existingHandleOpenURL = handleOpenURL;
-        const packagePrefix = `${BuildInfo.packageName.toLowerCase()}://`;
-        _cordovaWindow().handleOpenURL = async (url) => {
-            if (url.toLowerCase().startsWith(packagePrefix)) {
-                // We want this intentionally to float
-                // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                universalLinksCb({ url });
-            }
-            // Call the developer's handler if it is present.
-            if (typeof existingHandleOpenURL === 'function') {
-                try {
-                    existingHandleOpenURL(url);
-                }
-                catch (e) {
-                    // This is a developer error. Don't stop the flow of the SDK.
-                    console.error(e);
-                }
-            }
-        };
-    }
-}
-/**
- * An implementation of {@link PopupRedirectResolver} suitable for Cordova
- * based applications.
- *
- * @public
- */
-const cordovaPopupRedirectResolver = CordovaPopupRedirectResolver;
-function generateNoEvent() {
-    return {
-        type: "unknown" /* AuthEventType.UNKNOWN */,
-        eventId: null,
-        sessionId: null,
-        urlResponse: null,
-        postBody: null,
-        tenantId: null,
-        error: (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aw)("no-auth-event" /* AuthErrorCode.NO_AUTH_EVENT */)
-    };
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-// This function should only be called by frameworks (e.g. FirebaseUI-web) to log their usage.
-// It is not intended for direct use by developer apps. NO jsdoc here to intentionally leave it out
-// of autogenerated documentation pages to reduce accidental misuse.
-function addFrameworkForLogging(auth, framework) {
-    (0,_index_c6def6da_js__WEBPACK_IMPORTED_MODULE_0__.aE)(auth)._logFramework(framework);
-}
-
-
-//# sourceMappingURL=internal.js.map
+//# sourceMappingURL=index.js.map
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -6358,11 +6830,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "y": () => (/* binding */ signOut),
 /* harmony export */   "z": () => (/* binding */ deleteUser)
 /* harmony export */ });
-/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
-/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(13);
-/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
+/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
 
 
 
@@ -15884,7 +16356,7 @@ registerAuth("Browser" /* ClientPlatform.BROWSER */);
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -16238,11 +16710,17 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var firebase_compat_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+/* harmony import */ var firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var firebase_analytics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
+/* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
 
 
 console.log("index.js");
+
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/auth";
+
+
 
 
 var firebaseConfig = {
@@ -16255,34 +16733,39 @@ var firebaseConfig = {
   appId: "1:1076201869761:web:b4b81fec24525fead7df40",
   measurementId: "G-CFWX5TT79V"
 };
-firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__["default"].initializeApp(firebaseConfig);
-var auth = firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__["default"].auth();
-auth.onAuthStateChanged(function (user) {
+// firebase.initializeApp(firebaseConfig);
+
+// const auth = firebase.auth();
+
+// auth.onAuthStateChanged((user) => {
+//     if (user) {
+//       const currentUser = firebase.auth().currentUser;
+//       console.log('chat.js currentUser = ' + currentUser);
+
+//       var uid = user.uid;
+//       console.log("chat.js uid = " + uid);
+//       console.log("ログイン中");
+//     //   chageDisplayByIslogin(true);
+//     } else {
+//       console.log("未ログイン");
+//     //   chageDisplayByIslogin(false);
+//     }
+// });
+
+var app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp)(firebaseConfig);
+var auth = (0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.getAuth)();
+(0,firebase_auth__WEBPACK_IMPORTED_MODULE_2__.onAuthStateChanged)(auth, function (user) {
   if (user) {
-    var currentUser = firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__["default"].auth().currentUser;
-    console.log('chat.js currentUser = ' + currentUser);
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
     var uid = user.uid;
-    console.log("chat.js uid = " + uid);
-    console.log("ログイン中");
-    chageDisplayByIslogin(true);
+    console.log(uid);
+    // ...
   } else {
-    console.log("未ログイン");
-    chageDisplayByIslogin(false);
+    // User is signed out
+    // ...
   }
 });
-
-// onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//       // User is signed in, see docs for a list of available properties
-//       // https://firebase.google.com/docs/reference/js/firebase.User
-//       const uid = user.uid;
-//       console.log(uid);
-//       // ...
-//     } else {
-//       // User is signed out
-//       // ...
-//     }
-//   });
 })();
 
 /******/ })()
