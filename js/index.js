@@ -18,15 +18,30 @@ firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 
-onAuthStateChanged(auth, (user) => {
+auth.onAuthStateChanged((user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      console.log(uid);
-      // ...
+      const currentUser = firebase.auth().currentUser;
+      console.log('chat.js currentUser = ' + currentUser);
+  
+      var uid = user.uid;
+      console.log("chat.js uid = " + uid);
+      console.log("ログイン中");
+      chageDisplayByIslogin(true);
     } else {
-      // User is signed out
-      // ...
+      console.log("未ログイン");
+      chageDisplayByIslogin(false);
     }
-  });
+});
+
+// onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       // User is signed in, see docs for a list of available properties
+//       // https://firebase.google.com/docs/reference/js/firebase.User
+//       const uid = user.uid;
+//       console.log(uid);
+//       // ...
+//     } else {
+//       // User is signed out
+//       // ...
+//     }
+//   });

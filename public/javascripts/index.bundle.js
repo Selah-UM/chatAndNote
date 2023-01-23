@@ -16257,18 +16257,32 @@ var firebaseConfig = {
 };
 firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__["default"].initializeApp(firebaseConfig);
 var auth = firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__["default"].auth();
-onAuthStateChanged(auth, function (user) {
+auth.onAuthStateChanged(function (user) {
   if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
+    var currentUser = firebase_compat_app__WEBPACK_IMPORTED_MODULE_0__["default"].auth().currentUser;
+    console.log('chat.js currentUser = ' + currentUser);
     var uid = user.uid;
-    console.log(uid);
-    // ...
+    console.log("chat.js uid = " + uid);
+    console.log("ログイン中");
+    chageDisplayByIslogin(true);
   } else {
-    // User is signed out
-    // ...
+    console.log("未ログイン");
+    chageDisplayByIslogin(false);
   }
 });
+
+// onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       // User is signed in, see docs for a list of available properties
+//       // https://firebase.google.com/docs/reference/js/firebase.User
+//       const uid = user.uid;
+//       console.log(uid);
+//       // ...
+//     } else {
+//       // User is signed out
+//       // ...
+//     }
+//   });
 })();
 
 /******/ })()
