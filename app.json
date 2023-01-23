@@ -1,0 +1,7 @@
+{
+    "name": "chat-and-note",
+    "description": "Chat & Note",
+    "logo": "",
+    "keywords": ["node"],
+    "image": "render/nodejs"
+}

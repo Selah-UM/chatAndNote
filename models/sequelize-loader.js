@@ -1,9 +1,28 @@
 'use strict';
 const {Sequelize, DataTypes} = require('sequelize');
-const sequelize = new Sequelize(
-  'postgres://postgres:postgres@db/chat_and_note'
-);
-
+const dialectOptions = {
+  ssl: {
+    require: true,
+    rejectUnauthorized: false
+  }
+};
+const sequelize = process.env.DATABASE_URL ?
+  // 本番環境
+  new Sequelize(
+    process.env.DATABASE_URL,
+    {
+      logging: false,
+      dialectOptions
+    }
+  )
+  :
+  // 開発環境
+  new Sequelize(
+    'postgres://postgres:postgres@db/chat_and_note',
+    {
+      logging: false
+    }
+  );
 module.exports = {
   sequelize,
   DataTypes
