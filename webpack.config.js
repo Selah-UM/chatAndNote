@@ -8,6 +8,7 @@ module.exports = {
     index: './index.js',
     room:  './room.js',
     login:  './login.js',
+    logout:  './logout.js',
     // firebase: './firebase.js'
   },
   output: {
